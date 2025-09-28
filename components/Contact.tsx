@@ -17,10 +17,10 @@ const Contact = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 200);
+          setTimeout(() => setInView(true), 100);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -91,15 +91,15 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Information */}
-          <div className={`${inView ? 'slide-in-left animate' : 'slide-in-left'}`} style={{ transitionDelay: '0.2s' }}>
+          <div className={`slide-in-left ${inView ? 'animate' : ''}`} style={{ transitionDelay: '0.2s' }}>
             <h3 className="heading-md text-gray-900 mb-8">
               Get In Touch
             </h3>
             
             <div className="space-y-6 mb-12">
               {contactInfo.map((item, index) => (
-                <div key={index} className={`flex items-start gap-4 p-6 bg-gray-50 border border-gray-200 hover-lift ${inView ? 'scale-in animate' : 'scale-in'}`} style={{ transitionDelay: `${0.4 + index * 0.1}s` }}>
-                  <div className="text-accent mt-1">
+                <div key={index} className={`flex items-start gap-4 p-6 bg-gray-50 border border-gray-200 hover:shadow-lg transition-all duration-300 scale-in ${inView ? 'animate' : ''}`} style={{ transitionDelay: `${0.4 + index * 0.1}s` }}>
+                  <div className="text-blue-600 mt-1">
                     {item.icon}
                   </div>
                   <div>
@@ -109,7 +109,7 @@ const Contact = () => {
                         href={item.href}
                         target={item.href.startsWith('http') ? '_blank' : undefined}
                         rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className="text-gray-600 hover:text-accent transition-colors duration-300"
+                        className="text-gray-600 hover:text-blue-600 transition-colors duration-300"
                       >
                         {item.value}
                       </a>
@@ -121,7 +121,7 @@ const Contact = () => {
               ))}
             </div>
 
-            <div className={`p-6 bg-green-50 border border-green-200 hover-lift ${inView ? 'scale-in animate' : 'scale-in'}`} style={{ transitionDelay: '0.8s' }}>
+            <div className={`p-6 bg-green-50 border border-green-200 hover:shadow-lg transition-all duration-300 scale-in ${inView ? 'animate' : ''}`} style={{ transitionDelay: '0.8s' }}>
               <h4 className="font-semibold text-gray-900 mb-3">Availability</h4>
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -135,7 +135,7 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <div className={`${inView ? 'slide-in-right animate' : 'slide-in-right'}`} style={{ transitionDelay: '0.4s' }}>
+          <div className={`slide-in-right ${inView ? 'animate' : ''}`} style={{ transitionDelay: '0.4s' }}>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
@@ -149,7 +149,7 @@ const Contact = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full p-4 border border-gray-300 focus:border-accent focus:ring-1 focus:ring-accent transition-colors duration-300"
+                    className="w-full p-4 border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors duration-300"
                     placeholder="Your full name"
                   />
                 </div>
@@ -164,7 +164,7 @@ const Contact = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full p-4 border border-gray-300 focus:border-accent focus:ring-1 focus:ring-accent transition-colors duration-300"
+                    className="w-full p-4 border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors duration-300"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -181,7 +181,7 @@ const Contact = () => {
                   required
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full p-4 border border-gray-300 focus:border-accent focus:ring-1 focus:ring-accent transition-colors duration-300"
+                  className="w-full p-4 border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors duration-300"
                   placeholder="What would you like to discuss?"
                 />
               </div>
@@ -197,14 +197,14 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={6}
-                  className="w-full p-4 border border-gray-300 focus:border-accent focus:ring-1 focus:ring-accent resize-none transition-colors duration-300"
+                  className="w-full p-4 border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 resize-none transition-colors duration-300"
                   placeholder="Tell me about your project, requirements, or just say hello!"
                 />
               </div>
 
               <button
                 type="submit"
-                className="button-primary w-full flex items-center justify-center gap-3"
+                className="bg-gray-900 text-white px-8 py-4 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 w-full flex items-center justify-center gap-3"
               >
                 <Send size={20} />
                 Send Message
@@ -214,7 +214,7 @@ const Contact = () => {
         </div>
 
         {/* Footer */}
-        <div className={`${inView ? 'fade-in-up animate' : 'fade-in-up'} text-center mt-24 pt-12 border-t border-gray-200`} style={{ transitionDelay: '1s' }}>
+        <div className={`fade-in-up ${inView ? 'animate' : ''} text-center mt-24 pt-12 border-t border-gray-200`} style={{ transitionDelay: '1s' }}>
           <p className="text-gray-500 mb-2">
             Built with Next.js, Tailwind CSS, and lots of ☕
           </p>

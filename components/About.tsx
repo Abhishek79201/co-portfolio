@@ -12,10 +12,10 @@ const About = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 200);
+          setTimeout(() => setInView(true), 100);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -132,27 +132,80 @@ const About = () => {
         </div>
 
         {/* Team Section */}
-        <div className={`stagger-4 ${inView ? 'fade-in-up animate' : 'fade-in-up'}`}>
-          <div className="text-center mb-12">
-            <h3 className="heading-md text-gray-900 mb-4 flex items-center justify-center gap-3">
-              <Users className="text-accent" size={32} />
-              The Team
-            </h3>
-            <p className="text-body text-gray-600">
-              Meet the dynamic duo behind the magic
-            </p>
-          </div>
+        <div className={`fade-in-up ${inView ? 'animate' : ''}`} style={{ transitionDelay: '0.8s' }}>
+          <h3 className="text-3xl font-bold text-gray-900 mb-16 text-center">
+            The Team
+          </h3>
 
           {!showTeamReveal ? (
             <>
-              <div className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12 mb-16 max-w-5xl mx-auto">
                 {teamMembers.map((member, index) => (
                   <div
                     key={member.name}
-                    className={`text-center bg-white p-8 border border-gray-200 hover-lift ${inView ? 'scale-in animate' : 'scale-in'}`}
-                    style={{ transitionDelay: `${0.6 + index * 0.2}s` }}
+                    className={`bg-white p-8 border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 scale-in ${inView ? 'animate' : ''}`}
+                    style={{ transitionDelay: `${1.0 + index * 0.2}s` }}
                   >
-                    <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-4 border-accent">
+                    <div className="flex items-start gap-6">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 flex-shrink-0">
+                        <img
+                          src={member.avatar}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <h4 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h4>
+                        <p className="text-blue-600 font-medium mb-3">{member.role}</p>
+                        <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="text-center">
+                <button
+                  onClick={() => setShowTeamReveal(true)}
+                  className="border-2 border-gray-300 text-gray-900 px-8 py-4 font-medium hover:border-gray-900 transition-all duration-300 hover:transform hover:-translate-y-1 inline-flex items-center gap-3"
+                >
+                  <Coffee size={20} />
+                  Wait... something's not quite right here 🤔
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center scale-in animate">
+              <div className="bg-white p-12 border border-gray-200 max-w-4xl mx-auto hover:shadow-lg transition-all duration-300">
+                <h4 className="text-3xl font-bold text-blue-600 mb-6">
+                  Plot Twist! 🎭
+                </h4>
+                <p className="text-xl text-gray-600 mb-6">
+                  Okay okay, it's actually just me and my homie <strong>Vatsal</strong> 😅
+                </p>
+                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                  We're the dynamic duo crushing full-stack applications, debugging at 3AM with energy drinks, 
+                  and somehow making it look easy. No corporate BS, no endless meetings – just two devs 
+                  who actually know what they're doing and have fun doing it.
+                </p>
+                <div className="flex items-center justify-center gap-4 text-blue-600 mb-4">
+                  <Coffee size={24} />
+                  <span className="text-xl font-semibold">Dynamic Duo Since 2021</span>
+                  <Coffee size={24} />
+                </div>
+                <p className="text-gray-500">
+                  (We're basically the Avengers of web development, but cooler 😎)
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
                       <img
                         src={member.avatar}
                         alt={member.name}

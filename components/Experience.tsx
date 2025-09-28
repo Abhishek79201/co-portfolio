@@ -11,10 +11,10 @@ const Experience = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 200);
+          setTimeout(() => setInView(true), 100);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -89,10 +89,10 @@ const Experience = () => {
           {experiences.map((exp, index) => (
             <div
               key={index}
-              className={`${inView ? 'slide-in-left animate' : 'slide-in-left'}`}
+              className={`slide-in-left ${inView ? 'animate' : ''}`}
               style={{ transitionDelay: `${0.2 + index * 0.1}s` }}
             >
-              <div className="bg-white p-8 border border-gray-200 hover-lift">
+              <div className="bg-white p-8 border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
                   <div>
                     <h3 className="heading-md text-gray-900 mb-2">
@@ -122,7 +122,7 @@ const Experience = () => {
                 <div className="space-y-3">
                   {exp.description.map((point, pointIndex) => (
                     <div key={pointIndex} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-accent rounded-full mt-3 flex-shrink-0" />
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mt-3 flex-shrink-0" />
                       <p className="text-body text-gray-600">
                         {point}
                       </p>
@@ -134,13 +134,13 @@ const Experience = () => {
           ))}
         </div>
 
-        <div className={`${inView ? 'scale-in animate' : 'scale-in'} mt-16 text-center`} style={{ transitionDelay: '0.8s' }}>
+        <div className={`scale-in ${inView ? 'animate' : ''} mt-16 text-center`} style={{ transitionDelay: '0.8s' }}>
           <p className="text-body text-gray-600 mb-6">
             Ready to discuss your next project?
           </p>
           <a
             href="#contact"
-            className="button-primary inline-flex items-center gap-2"
+            className="bg-gray-900 text-white px-8 py-4 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 inline-flex items-center gap-2"
           >
             Let's Work Together
             <ExternalLink size={20} />

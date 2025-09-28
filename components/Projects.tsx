@@ -11,10 +11,10 @@ const Projects = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 200);
+          setTimeout(() => setInView(true), 100);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -80,16 +80,16 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div
               key={index}
-              className={`${inView ? 'scale-in animate' : 'scale-in'}`}
+              className={`scale-in ${inView ? 'animate' : ''}`}
               style={{ transitionDelay: `${0.2 + index * 0.2}s` }}
             >
-              <div className="bg-white border border-gray-200 hover-lift overflow-hidden">
+              <div className="bg-white border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 overflow-hidden">
                 {/* Project Image */}
                 <div className="aspect-video overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover hover-scale"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
@@ -150,14 +150,14 @@ const Projects = () => {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <a
                       href={project.links.demo}
-                      className="button-primary flex items-center justify-center gap-2"
+                      className="bg-gray-900 text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 flex items-center justify-center gap-2"
                     >
                       <ExternalLink size={18} />
                       View Demo
                     </a>
                     <a
                       href={project.links.github}
-                      className="button-secondary flex items-center justify-center gap-2"
+                      className="border-2 border-gray-300 text-gray-900 px-6 py-3 font-medium hover:border-gray-900 transition-all duration-300 hover:transform hover:-translate-y-1 flex items-center justify-center gap-2"
                     >
                       <Github size={18} />
                       Source Code
@@ -170,8 +170,8 @@ const Projects = () => {
         </div>
 
         {/* Call to Action */}
-        <div className={`${inView ? 'fade-in-up animate' : 'fade-in-up'} text-center mt-16`} style={{ transitionDelay: '0.6s' }}>
-          <div className="bg-white p-8 border border-gray-200 hover-lift">
+        <div className={`fade-in-up ${inView ? 'animate' : ''} text-center mt-16`} style={{ transitionDelay: '0.6s' }}>
+          <div className="bg-white p-8 border border-gray-200 hover:shadow-lg transition-all duration-300">
             <h3 className="heading-md text-gray-900 mb-4">
               Want to See More?
             </h3>
@@ -182,7 +182,7 @@ const Projects = () => {
               href="https://github.com/abhishekvaghela"
               target="_blank"
               rel="noopener noreferrer"
-              className="button-primary inline-flex items-center gap-2"
+              className="bg-gray-900 text-white px-8 py-4 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 inline-flex items-center gap-2"
             >
               <Github size={20} />
               View All Projects
