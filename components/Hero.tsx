@@ -9,12 +9,21 @@ if (typeof window !== 'undefined') {
 }
 
 const STACK = ['REACT', 'NEXT.JS', 'NODE.JS', 'TYPESCRIPT', 'MONGODB', 'AWS', 'DOCKER', 'REDIS'];
-const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*<>{}[]';
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&';
+
+// Pre-render characters in JSX so text is visible without JS (good LCP)
+const CharLine = ({ text, className, innerRef }: { text: string; className: string; innerRef: React.Ref<HTMLSpanElement> }) => (
+  <span ref={innerRef} className={className} aria-hidden="true">
+    {text.split('').map((c, i) => (
+      <span key={i} className="hero-char inline-block">{c}</span>
+    ))}
+  </span>
+);
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const name1Ref = useRef<HTMLDivElement>(null);
-  const name2Ref = useRef<HTMLDivElement>(null);
+  const name1Ref = useRef<HTMLSpanElement>(null);
+  const name2Ref = useRef<HTMLSpanElement>(null);
   const roleRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -27,126 +36,111 @@ const Hero = () => {
   const [freeCount, setFreeCount] = useState(0);
   const [projCount, setProjCount] = useState(0);
 
-  // Text scramble effect
-  const scramble = useCallback((el: HTMLElement, finalText: string, delay: number = 0) => {
-    setTimeout(() => {
-      let iteration = 0;
-      const interval = setInterval(() => {
-        el.innerText = finalText.split('').map((char, i) => {
-          if (i < iteration) return char;
-          if (char === ' ') return ' ';
-          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-        }).join('');
-        if (iteration >= finalText.length) clearInterval(interval);
-        iteration += 0.4;
-      }, 25);
-    }, delay);
+  const scramble = useCallback((el: HTMLElement, finalText: string) => {
+    let iteration = 0;
+    const interval = setInterval(() => {
+      el.innerText = finalText.split('').map((char, i) => {
+        if (i < iteration) return char;
+        if (char === ' ') return ' ';
+        return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      }).join('');
+      if (iteration >= finalText.length) clearInterval(interval);
+      iteration += 0.5;
+    }, 22);
   }, []);
 
-  // Mouse parallax for blobs
+  // Mouse parallax for blobs (passive, debounced)
   const onMouseMove = useCallback((e: MouseEvent) => {
     const x = (e.clientX / window.innerWidth - 0.5) * 2;
     const y = (e.clientY / window.innerHeight - 0.5) * 2;
-    if (blob1.current) gsap.to(blob1.current, { x: x * 40, y: y * 30, duration: 1.2, ease: 'power2.out' });
-    if (blob2.current) gsap.to(blob2.current, { x: x * -30, y: y * -20, duration: 1.2, ease: 'power2.out' });
+    if (blob1.current) gsap.to(blob1.current, { x: x * 35, y: y * 25, duration: 1.5, ease: 'power2.out', overwrite: 'auto' });
+    if (blob2.current) gsap.to(blob2.current, { x: x * -25, y: y * -18, duration: 1.5, ease: 'power2.out', overwrite: 'auto' });
   }, []);
 
   useEffect(() => {
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
 
     const ctx = gsap.context(() => {
-      const master = gsap.timeline({ delay: 0.1 });
+      const tl = gsap.timeline({ delay: 0.05 });
 
-      // Blobs — scale in
+      // Blobs — fade in (no blur, just opacity + scale)
       [blob1, blob2].forEach((b, i) => {
-        if (b.current) {
-          gsap.set(b.current, { scale: 0, opacity: 0 });
-          master.to(b.current, { scale: 1, opacity: 1, duration: 2, ease: 'power2.out' }, i * 0.15);
-        }
+        if (!b.current) return;
+        tl.from(b.current, { scale: 0.6, opacity: 0, duration: 1.8, ease: 'power2.out' }, i * 0.1);
       });
 
-      // Name lines — chars fly in with EXTREME spring + rotation
+      // Name chars — gsap.from() so text is visible by default (great for LCP)
+      // Characters animate FROM hidden TO their natural visible state
       [name1Ref, name2Ref].forEach((ref, lineIdx) => {
         if (!ref.current) return;
-        const text = ref.current.dataset.text || '';
-        ref.current.innerHTML = text.split('').map((c: string) =>
-          `<span class="inline-block will-change-transform" style="opacity:0;transform:translateY(140%) rotate(${(Math.random()-0.5)*30}deg) scale(0.5)">${c === ' ' ? '&nbsp;' : c}</span>`
-        ).join('');
-        master.to(ref.current.querySelectorAll('span'), {
-          opacity: 1, y: '0%', rotation: 0, scale: 1,
-          duration: 1.2, stagger: 0.025, ease: 'elastic.out(1, 0.5)'
-        }, 0.15 + lineIdx * 0.12);
+        const chars = ref.current.querySelectorAll('.hero-char');
+        tl.from(chars, {
+          opacity: 0, y: '140%',
+          rotation: () => (Math.random() - 0.5) * 30,
+          scale: 0.5,
+          duration: 1.2, stagger: 0.025,
+          ease: 'elastic.out(1, 0.55)',
+        }, 0.1 + lineIdx * 0.1);
       });
 
       // Role — scramble decode
       if (roleRef.current) {
-        gsap.set(roleRef.current, { opacity: 0 });
-        master.to(roleRef.current, { opacity: 1, duration: 0.01 }, 0.6);
-        master.call(() => {
-          if (roleRef.current) scramble(roleRef.current, 'FULL STACK DEVELOPER', 0);
-        }, [], 0.6);
+        tl.from(roleRef.current, { opacity: 0, duration: 0.01 }, 0.5);
+        tl.call(() => { if (roleRef.current) scramble(roleRef.current, 'FULL STACK DEVELOPER'); }, [], 0.5);
       }
 
       // Description — clip reveal from left
       if (descRef.current) {
-        gsap.set(descRef.current, { clipPath: 'inset(0 100% 0 0)', opacity: 1 });
-        master.to(descRef.current, {
-          clipPath: 'inset(0 0% 0 0)', duration: 1.2, ease: 'power3.inOut'
-        }, 1.0);
+        tl.from(descRef.current, {
+          clipPath: 'inset(0 100% 0 0)',
+          duration: 1, ease: 'power3.inOut',
+        }, 0.85);
       }
 
-      // CTA — slide + scale with bounce
+      // CTA — bounce in
       if (ctaRef.current?.children) {
-        gsap.set(ctaRef.current.children, { opacity: 0, y: 30, scale: 0.8 });
-        master.to(ctaRef.current.children, {
-          opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: 'back.out(2.5)'
-        }, 1.3);
+        tl.from(ctaRef.current.children, {
+          opacity: 0, y: 25, scale: 0.85,
+          duration: 0.7, stagger: 0.08, ease: 'back.out(2.5)',
+        }, 1.1);
       }
 
       // Marquee
       if (marqueeRef.current) {
-        gsap.set(marqueeRef.current, { opacity: 0, x: 60 });
-        master.to(marqueeRef.current, { opacity: 1, x: 0, duration: 1, ease: 'power3.out' }, 1.1);
+        tl.from(marqueeRef.current, { opacity: 0, x: 50, duration: 0.8, ease: 'power3.out' }, 1.0);
       }
 
-      // Stats — counter bounce
+      // Stats
       if (statsRef.current?.children) {
-        gsap.set(statsRef.current.children, { opacity: 0, y: 40, scale: 0.8 });
-        master.to(statsRef.current.children, {
-          opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.12, ease: 'back.out(3)'
-        }, 1.5);
+        tl.from(statsRef.current.children, {
+          opacity: 0, y: 30, scale: 0.85,
+          duration: 0.6, stagger: 0.1, ease: 'back.out(3)',
+        }, 1.3);
       }
 
-      // SCROLL-LINKED: Name parallaxes up 1.5x faster + slight scale
+      // SCROLL-LINKED: Name parallaxes up faster + fades
       [name1Ref, name2Ref].forEach((ref) => {
         if (!ref.current) return;
         gsap.to(ref.current, {
-          y: -200, scale: 0.95, opacity: 0.3, ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current, start: 'top top',
-            end: 'bottom top', scrub: 0.8,
-          }
+          y: -180, opacity: 0.2, ease: 'none',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 0.6 },
         });
       });
 
-      // Blobs parallax
+      // Blob scroll parallax
       [blob1, blob2].forEach((b, i) => {
         if (!b.current) return;
         gsap.to(b.current, {
-          y: -300 - i * 100, ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current, start: 'top top',
-            end: 'bottom top', scrub: 1,
-          }
+          y: -250 - i * 80, ease: 'none',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 1 },
         });
       });
-
     }, sectionRef);
 
-    // Counters with bounce finish
-    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setCorpCount(Math.min(c,2.5));if(c>=2.5)clearInterval(iv)},22); }, 1800);
-    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setFreeCount(Math.min(c,2));if(c>=2)clearInterval(iv)},30); }, 2000);
-    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setProjCount(Math.min(c,18));if(c>=18)clearInterval(iv)},40); }, 2200);
+    // Counters
+    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setCorpCount(Math.min(c,2.5));if(c>=2.5)clearInterval(iv)},22); }, 1600);
+    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setFreeCount(Math.min(c,2));if(c>=2)clearInterval(iv)},28); }, 1800);
+    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setProjCount(Math.min(c,18));if(c>=18)clearInterval(iv)},38); }, 2000);
 
     return () => { ctx.revert(); window.removeEventListener('mousemove', onMouseMove); };
   }, [scramble, onMouseMove]);
@@ -156,39 +150,38 @@ const Hero = () => {
   return (
     <section ref={sectionRef} aria-label="Introduction" className="min-h-[100dvh] flex flex-col relative overflow-hidden">
 
-      {/* Blobs with mouse-follow parallax */}
-      <div ref={blob1} className="absolute -top-40 right-[-10%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] rounded-full animate-blob pointer-events-none"
-           style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.13), transparent 65%)' }} aria-hidden="true" />
-      <div ref={blob2} className="absolute bottom-[-10%] left-[-10%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px] rounded-full animate-blob pointer-events-none"
-           style={{ background: 'radial-gradient(circle, rgba(236,72,153,0.09), transparent 65%)', animationDelay: '-4s' }} aria-hidden="true" />
+      {/* Ambient blobs — NO blur (expensive paint), just radial gradient with opacity */}
+      <div ref={blob1} className="absolute -top-32 right-[-8%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full animate-blob pointer-events-none opacity-60"
+           style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.14), transparent 65%)' }} aria-hidden="true" />
+      <div ref={blob2} className="absolute bottom-[-8%] left-[-8%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full animate-blob pointer-events-none opacity-50"
+           style={{ background: 'radial-gradient(circle, rgba(236,72,153,0.1), transparent 65%)', animationDelay: '-4s' }} aria-hidden="true" />
 
-      {/* Content */}
       <div className="flex-1 flex flex-col justify-center px-6 lg:px-16 xl:px-24 pt-24 pb-6 relative z-10">
         <div className="max-w-[1400px] mx-auto w-full">
 
-          {/* Availability tag */}
-          <div className="flex items-center gap-3 mb-6 lg:mb-10">
+          {/* Availability */}
+          <div className="flex items-center gap-3 mb-6 lg:mb-8">
             <span className="relative flex h-2 w-2" aria-hidden="true">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--lime)] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--lime)]" />
             </span>
-            <span className="dev-mono text-[11px] text-[var(--text-muted)] tracking-[0.25em] uppercase">Available for work</span>
+            <span className="dev-mono text-[11px] text-[var(--text-muted)] tracking-[0.2em] uppercase">Available for work</span>
           </div>
 
-          {/* Name — BRUTAL, fills viewport width */}
-          <h1 className="mb-2 lg:mb-0">
+          {/* Name — pre-rendered chars, visible by default */}
+          <h1 className="mb-3">
             <span className="sr-only">Abhishek Vaghela — Full Stack Developer</span>
-            <span ref={name1Ref} data-text="Abhishek" className="heading-brutal block text-white" aria-hidden="true" />
-            <span ref={name2Ref} data-text="Vaghela" className="heading-brutal block gradient-text" aria-hidden="true" />
+            <CharLine text="Abhishek" className="heading-brutal block text-white" innerRef={name1Ref} />
+            <CharLine text="Vaghela" className="heading-brutal block text-outline" innerRef={name2Ref} />
           </h1>
 
-          {/* Role — scramble decode */}
-          <div ref={roleRef} className="dev-mono text-sm sm:text-base lg:text-lg text-[var(--text-muted)] tracking-[0.15em] mt-4 mb-8 opacity-0" aria-hidden="true">
+          {/* Role — scramble effect */}
+          <div ref={roleRef} className="dev-mono text-sm sm:text-base text-[var(--text-muted)] tracking-[0.15em] mt-3 mb-7" aria-hidden="true">
             FULL STACK DEVELOPER
           </div>
 
           {/* Description — clip reveal */}
-          <p ref={descRef} className="text-body max-w-lg mb-8 opacity-0" style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.1rem)' }}>
+          <p ref={descRef} className="text-body max-w-lg mb-7" style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.1rem)' }}>
             Building scalable products for 4.5+ years across corporate and freelance.
             Turning complex problems into clean, performant code that users love.
           </p>
@@ -211,9 +204,9 @@ const Hero = () => {
       </div>
 
       {/* Marquee */}
-      <div ref={marqueeRef} className="border-y border-[var(--line)] py-3 opacity-0" aria-hidden="true">
+      <div ref={marqueeRef} className="border-y border-[var(--line)] py-3" aria-hidden="true">
         <div className="animate-marquee whitespace-nowrap">
-          <span className="dev-mono text-[10px] text-[var(--text-muted)]/60 tracking-[0.3em]">{marqueeText}{marqueeText}</span>
+          <span className="dev-mono text-[10px] text-[var(--text-muted)] tracking-[0.3em]">{marqueeText}{marqueeText}</span>
         </div>
       </div>
 

@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 :root {
   --bg: #050505;
@@ -93,11 +92,24 @@
 
 /* ===== BRUTALIST TYPOGRAPHY ===== */
 .heading-brutal {
-  font-size: clamp(4rem, 16vw, 14rem);
+  font-size: clamp(3.5rem, 14vw, 12rem);
   font-weight: 900;
-  line-height: 0.85;
+  line-height: 0.88;
   letter-spacing: -0.05em;
   text-transform: uppercase;
+}
+
+/* Outlined / stroke text — brutalist accent */
+.text-outline {
+  -webkit-text-stroke: 1.5px var(--violet);
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+@media (min-width: 768px) {
+  .text-outline { -webkit-text-stroke-width: 2px; }
+}
+@media (min-width: 1280px) {
+  .text-outline { -webkit-text-stroke-width: 2.5px; }
 }
 .heading-xl {
   font-size: clamp(3rem, 8vw, 7rem);

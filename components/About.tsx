@@ -29,16 +29,11 @@ const About = () => {
         );
       }
 
-      // Heading — chars fly in
+      // Heading — slide up
       const heading = section.querySelector('.section-heading');
       if (heading) {
-        const text = heading.textContent || '';
-        heading.innerHTML = text.split('').map((c: string) =>
-          `<span class="inline-block" style="opacity:0;transform:translateY(80%) rotate(${(Math.random()-0.5)*10}deg)">${c === ' ' ? '&nbsp;' : c}</span>`
-        ).join('');
-        gsap.to(heading.querySelectorAll('span'), {
-          opacity: 1, y: '0%', rotation: 0, duration: 0.8,
-          stagger: 0.02, ease: 'back.out(1.7)',
+        gsap.from(heading, {
+          y: 60, opacity: 0, duration: 1, ease: 'power3.out',
           scrollTrigger: { trigger: heading, start: 'top 85%' },
         });
       }

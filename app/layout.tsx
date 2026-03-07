@@ -1,5 +1,5 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import { AnalyticsProvider } from '@/components/Analytics';
@@ -27,8 +27,11 @@ const flagfies = localFont({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
+export const viewport: Viewport = {
   themeColor: '#050505',
+};
+
+export const metadata: Metadata = {
   title: 'Abhishek Vaghela — Full Stack Developer | React, Node.js, TypeScript',
   description: 'Full Stack MERN Developer with 4.5+ years of experience building scalable web apps. Expertise in React, Next.js, Node.js, TypeScript, MongoDB, AWS. Open for freelance & collaboration.',
   keywords: [
@@ -89,7 +92,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${inter.className} ${jetbrainsMono.variable} ${flagfies.variable} antialiased`}>
         <a href="#main-content" className="skip-to-content">Skip to content</a>
-        <div className="noise-overlay" aria-hidden="true" />
         <SmoothScrollProvider>
           <AnalyticsProvider>
             {children}
