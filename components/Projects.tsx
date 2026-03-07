@@ -1,193 +1,172 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { ExternalLink, Github, Calendar, Code } from 'lucide-react';
+import { useEffect, useRef, useCallback } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowUpRight } from 'lucide-react';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
+
+const projects = [
+  {
+    title: 'CareerBox', subtitle: 'Career & Job Platform',
+    url: 'https://careerbox.in', accent: 'violet',
+    tech: ['Next.js', 'Node.js', 'MongoDB', 'AWS'],
+    description: 'End-to-end career platform connecting job seekers with opportunities. SSR for SEO, real-time notifications, scalable cloud infrastructure.',
+  },
+  {
+    title: 'Gleemeet', subtitle: 'Dating Application',
+    url: 'https://gleemet.com', accent: 'pink',
+    tech: ['Next.js', 'Redux', 'Tailwind CSS', 'AWS'],
+    description: 'Full-stack dating app with advanced matching algorithms, responsive design, and SSR-powered user experience.',
+  },
+  {
+    title: 'Huslemad', subtitle: 'Productivity Platform',
+    url: 'https://huslemad.com', accent: 'cyan',
+    tech: ['React.js', 'Node.js', 'Express', 'MongoDB'],
+    description: 'Productivity platform for creators and entrepreneurs. Goal tracking, analytics dashboards, collaborative workspaces.',
+  },
+  {
+    title: 'Impactoverse', subtitle: 'Social Impact Platform',
+    url: 'https://impactoverse.com', accent: 'lime',
+    tech: ['React.js', 'GSAP', 'Tailwind CSS'],
+    description: 'Visually captivating social impact platform with complex animations, interactive features, and optimized performance.',
+  },
+];
 
 const Projects = () => {
-  const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 100);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
+  // Text scramble on hover
+  const handleRowHover = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const titleEl = e.currentTarget.querySelector('.project-title') as HTMLElement;
+    if (!titleEl) return;
+    const finalText = titleEl.dataset.text || '';
+    let iteration = 0;
+    const interval = setInterval(() => {
+      titleEl.innerText = finalText.split('').map((char, i) => {
+        if (i < iteration) return char;
+        return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      }).join('');
+      if (iteration >= finalText.length) clearInterval(interval);
+      iteration += 0.6;
+    }, 20);
   }, []);
 
-  const projects = [
-    {
-      title: 'Gleemeet',
-      subtitle: 'Dating Application',
-      image: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      description: 'Full-stack dating application built with Next.js and modern web technologies. Features server-side rendering, responsive design, and seamless user experience with advanced matching algorithms.',
-      technologies: ['Next.js', 'Tailwind CSS', 'AWS', 'Node.js', 'Redux'],
-      highlights: [
-        'Leveraged Next.js for server-side rendering and static site generation',
-        'Used Tailwind CSS for responsive UI design',
-        'Implemented Redux for centralized state management',
-        'Deployed on AWS for scalable performance'
-      ],
-      links: {
-        demo: '#',
-        github: '#'
-      },
-      year: '2024'
-    },
-    {
-      title: 'Screenplay Scriptwriter',
-      subtitle: 'Creative Writing Platform',
-      image: 'https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      description: 'Advanced scriptwriting platform for writers and producers with real-time collaboration features, rich text editing, and cloud synchronization capabilities.',
-      technologies: ['React.js', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'Redux'],
-      highlights: [
-        'Built with React.js and AWS CloudFront for global reach',
-        'Responsive and visually appealing design with Tailwind CSS',
-        'Efficient centralized state management using Redux',
-        'Real-time collaboration features for writing teams'
-      ],
-      links: {
-        demo: '#',
-        github: '#'
-      },
-      year: '2024'
-    }
-  ];
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      // Label — clip
+      const label = section.querySelector('.section-label');
+      if (label) {
+        gsap.fromTo(label,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+            scrollTrigger: { trigger: label, start: 'top 90%' } }
+        );
+      }
+
+      // Heading — chars fly in
+      const heading = section.querySelector('.section-heading');
+      if (heading) {
+        const text = heading.textContent || '';
+        heading.innerHTML = text.split('').map((c: string) =>
+          `<span class="inline-block" style="opacity:0;transform:translateY(60%) rotate(${(Math.random()-0.5)*8}deg)">${c === ' ' ? '&nbsp;' : c}</span>`
+        ).join('');
+        gsap.to(heading.querySelectorAll('span'), {
+          opacity: 1, y: '0%', rotation: 0, duration: 0.7,
+          stagger: 0.02, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: heading, start: 'top 85%' },
+        });
+      }
+
+      // Project rows — scale + slight rotate from bottom
+      section.querySelectorAll('.project-row').forEach((row, i) => {
+        gsap.fromTo(row,
+          { y: 60, opacity: 0, scale: 0.97, rotate: 0.5 },
+          {
+            y: 0, opacity: 1, scale: 1, rotate: 0, duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: row, start: 'top 92%' },
+            delay: i * 0.06,
+          }
+        );
+      });
+
+      // CTA
+      const cta = section.querySelector('.cta-row');
+      if (cta) {
+        gsap.fromTo(cta,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
+            scrollTrigger: { trigger: cta, start: 'top 90%' } }
+        );
+      }
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className={`${inView ? 'fade-in-up animate' : 'fade-in-up'}`}>
-          <h2 className="heading-lg text-gray-900 mb-4">
-            Featured Projects
-          </h2>
-          <p className="text-body text-gray-600 mb-16 max-w-3xl">
-            A selection of projects that showcase my expertise in full-stack development, 
-            from dating applications to creative writing platforms.
-          </p>
-        </div>
+    <section id="projects" ref={sectionRef} aria-label="Featured projects" className="py-32 lg:py-44 content-auto">
+      <div className="section-line" aria-hidden="true" />
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className={`scale-in ${inView ? 'animate' : ''}`}
-              style={{ transitionDelay: `${0.2 + index * 0.2}s` }}
-            >
-              <div className="bg-white border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                {/* Project Image */}
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
+        <span className="section-label dev-mono text-xs text-[var(--cyan)] tracking-[0.25em] uppercase block mb-8">03 / Projects</span>
+        <h2 className="section-heading heading-lg text-white mb-20" aria-label="Selected work">
+          Selected work.
+        </h2>
+
+        <div role="list" aria-label="Featured projects">
+          <div className="border-t border-[var(--line)]" aria-hidden="true" />
+          {projects.map((project, i) => (
+            <a key={i} href={project.url} target="_blank" rel="noopener noreferrer"
+               className="project-row block group" data-accent={project.accent} role="listitem"
+               aria-label={`${project.title} — ${project.subtitle}. Visit ${project.url}`}
+               onMouseEnter={handleRowHover}>
+
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                <div className="flex items-baseline gap-4 lg:gap-6">
+                  <span className="dev-mono text-xs text-[var(--text-muted)] tabular-nums" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
+                  <h3 className="project-title text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white"
+                      data-text={project.title}>
+                    {project.title}
+                  </h3>
                 </div>
-
-                {/* Project Content */}
-                <div className="p-8">
-                  {/* Project Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="heading-md text-gray-900 mb-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-accent font-semibold text-lg">
-                        {project.subtitle}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Calendar size={16} />
-                      <span className="font-medium">{project.year}</span>
-                    </div>
+                <div className="flex items-center gap-5 lg:gap-8 ml-8 lg:ml-0">
+                  <span className="text-xs text-[var(--text-muted)] hidden sm:block">{project.subtitle}</span>
+                  <div className="hidden md:flex gap-1.5">
+                    {project.tech.slice(0,3).map((t) => (
+                      <span key={t} className={`pill pill-${project.accent} dev-mono text-[9px]`}>{t}</span>
+                    ))}
+                    {project.tech.length > 3 && <span className={`pill pill-${project.accent} dev-mono text-[9px]`}>+{project.tech.length-3}</span>}
                   </div>
-
-                  <p className="text-body text-gray-600 mb-6">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="mb-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Code size={20} className="text-accent" />
-                      <h4 className="font-semibold text-gray-900">Technologies</h4>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="bg-gray-100 text-gray-700 px-3 py-1 text-sm font-medium border border-gray-200"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Highlights */}
-                  <div className="mb-8">
-                    <h4 className="font-semibold text-gray-900 mb-4">Key Highlights</h4>
-                    <div className="space-y-3">
-                      {project.highlights.map((highlight, highlightIndex) => (
-                        <div key={highlightIndex} className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-accent rounded-full mt-3 flex-shrink-0" />
-                          <p className="text-gray-600">{highlight}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <a
-                      href={project.links.demo}
-                      className="bg-gray-900 text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 flex items-center justify-center gap-2"
-                    >
-                      <ExternalLink size={18} />
-                      View Demo
-                    </a>
-                    <a
-                      href={project.links.github}
-                      className="border-2 border-gray-300 text-gray-900 px-6 py-3 font-medium hover:border-gray-900 transition-all duration-300 hover:transform hover:-translate-y-1 flex items-center justify-center gap-2"
-                    >
-                      <Github size={18} />
-                      Source Code
-                    </a>
-                  </div>
+                  <ArrowUpRight size={18} className="project-arrow text-[var(--text-muted)] group-hover:text-white flex-shrink-0" aria-hidden="true" />
                 </div>
               </div>
-            </div>
+
+              <div className="project-details ml-8 lg:ml-[3.25rem]">
+                <p className="text-[var(--text-secondary)] max-w-2xl leading-relaxed text-sm">{project.description}</p>
+                <div className="flex flex-wrap gap-1.5 mt-3 sm:hidden">
+                  {project.tech.map((t) => <span key={t} className={`pill pill-${project.accent} dev-mono text-[9px]`}>{t}</span>)}
+                </div>
+              </div>
+            </a>
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className={`fade-in-up ${inView ? 'animate' : ''} text-center mt-16`} style={{ transitionDelay: '0.6s' }}>
-          <div className="bg-white p-8 border border-gray-200 hover:shadow-lg transition-all duration-300">
-            <h3 className="heading-md text-gray-900 mb-4">
-              Want to See More?
-            </h3>
-            <p className="text-body text-gray-600 mb-6">
-              Check out my GitHub for more projects and open-source contributions.
-            </p>
-            <a
-              href="https://github.com/abhishekvaghela"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gray-900 text-white px-8 py-4 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 inline-flex items-center gap-2"
-            >
-              <Github size={20} />
-              View All Projects
-            </a>
-          </div>
+        <div className="cta-row mt-16 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between">
+          <p className="text-[var(--text-muted)] text-xs dev-mono">More on GitHub</p>
+          <a href="https://github.com/abhishekvaghela" target="_blank" rel="noopener noreferrer"
+             className="magnetic-btn inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-black bg-white hover:bg-[var(--violet)] hover:text-white transition-colors duration-300">
+            View GitHub <ArrowUpRight size={13} aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>

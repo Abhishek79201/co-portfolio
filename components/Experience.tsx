@@ -1,150 +1,119 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Calendar, MapPin, ExternalLink } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const experiences = [
+  {
+    company: 'Screenplay', role: 'Full Stack Developer',
+    location: 'Remote', duration: 'Nov 2024 — Present', current: true, accent: 'violet',
+    description: 'Spearheading backend development for a creative platform empowering writers and producers. Built rich editor experience with Prose Mirror & Tiptap, designed scalable real-time collaboration architectures.',
+  },
+  {
+    company: 'Xbyte Solutions', role: 'Full Stack Developer',
+    location: 'Ahmedabad', duration: 'Aug 2023 — Nov 2024', current: false, accent: 'pink',
+    description: 'Owned full-stack development for internal products end-to-end. Built scalable MERN applications, managed AWS infrastructure and DevOps pipelines across multiple project lifecycles.',
+  },
+  {
+    company: 'Simform Solutions', role: 'Full Stack Developer',
+    location: 'Ahmedabad', duration: 'Feb 2023 — Jul 2023', current: false, accent: 'cyan',
+    description: 'Developed 18+ responsive web apps optimized for SEO & performance. Built secure API dashboards, integrated analytics tools, maintained rigorous documentation and testing standards.',
+  },
+  {
+    company: 'Impactoverse', role: 'Frontend Developer',
+    location: 'Remote', duration: 'Jul 2021 — Dec 2022', current: false, accent: 'lime',
+    description: 'Designed and built visually engaging React.js applications with complex animations. Optimized rendering performance through careful state management and lifecycle optimization.',
+  },
+];
 
 const Experience = () => {
-  const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 100);
-        }
-      },
-      { threshold: 0.1 }
-    );
+    const section = sectionRef.current;
+    if (!section) return;
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    const ctx = gsap.context(() => {
+      // Label — clip reveal
+      const label = section.querySelector('.section-label');
+      if (label) {
+        gsap.fromTo(label,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+            scrollTrigger: { trigger: label, start: 'top 90%' } }
+        );
+      }
 
-    return () => observer.disconnect();
+      // Heading — chars fly in
+      const heading = section.querySelector('.section-heading');
+      if (heading) {
+        const text = heading.textContent || '';
+        heading.innerHTML = text.split('').map((c: string) =>
+          `<span class="inline-block" style="opacity:0;transform:translateY(60%) rotate(${(Math.random()-0.5)*8}deg)">${c === ' ' ? '&nbsp;' : c}</span>`
+        ).join('');
+        gsap.to(heading.querySelectorAll('span'), {
+          opacity: 1, y: '0%', rotation: 0, duration: 0.7,
+          stagger: 0.02, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: heading, start: 'top 85%' },
+        });
+      }
+
+      // Experience rows — alternating slide direction + slight rotate
+      section.querySelectorAll('.exp-row').forEach((row, i) => {
+        const fromX = i % 2 === 0 ? -80 : 80;
+        gsap.fromTo(row,
+          { x: fromX, opacity: 0, rotate: i % 2 === 0 ? -1.5 : 1.5 },
+          {
+            x: 0, opacity: 1, rotate: 0, duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: row, start: 'top 88%' },
+          }
+        );
+      });
+    }, section);
+
+    return () => ctx.revert();
   }, []);
 
-  const experiences = [
-    {
-      company: 'Screenplay',
-      role: 'Full Stack Developer',
-      location: 'Remote',
-      duration: 'Nov 2024 – Present',
-      current: true,
-      description: [
-        'Spearheaded backend development for a cutting-edge platform empowering writers and producers to create screenplays with ease',
-        'Leveraged Prose Mirror and Tiptap APIs for a rich, intuitive editor experience',
-        'Designed and optimized scalable backend architectures to support real-time collaboration',
-        'Collaborated closely with cross-functional teams to enhance platform features'
-      ]
-    },
-    {
-      company: 'Xbyte Solutions',
-      role: 'Full Stack Developer',
-      location: 'Ahmedabad, India',
-      duration: 'Aug 2023 – Nov 2024',
-      description: [
-        'Gained extensive expertise in building scalable architectures',
-        'Successfully implemented and deployed MERN stack projects on AWS',
-        'Took ownership of full-stack development for internal projects',
-        'Managed entire lifecycle including design, development, testing, and DevOps tasks'
-      ]
-    },
-    {
-      company: 'Simform Solutions',
-      role: 'Full Stack Developer',
-      location: 'Ahmedabad, India',
-      duration: 'Feb 2023 – July 2023',
-      description: [
-        'Built user-friendly API dashboards with emphasis on security and scalability',
-        'Demonstrated expertise in documentation, testing, and version control',
-        'Developed 18+ responsive web applications optimized for SEO',
-        'Integrated tools like Google Analytics and SEMrush to enhance performance'
-      ]
-    },
-    {
-      company: 'Impactoverse',
-      role: 'Frontend Developer',
-      location: 'Remote',
-      duration: 'July 2021 – Dec 2022',
-      description: [
-        'Designed and developed visually captivating static pages using React.js',
-        'Incorporated complex animations and interactive features for engaging UX',
-        'Collaborated with a global team of over 100 developers',
-        'Optimized performance through React state and lifecycle methods'
-      ]
-    }
-  ];
-
   return (
-    <section id="experience" ref={sectionRef} className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className={`${inView ? 'fade-in-up animate' : 'fade-in-up'}`}>
-          <h2 className="heading-lg text-gray-900 mb-16">
-            Work Experience
-          </h2>
-        </div>
+    <section id="experience" ref={sectionRef} aria-label="Work experience" className="py-32 lg:py-44 content-auto">
+      <div className="section-line" aria-hidden="true" />
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
 
-        <div className="space-y-8">
-          {experiences.map((exp, index) => (
-            <div
-              key={index}
-              className={`slide-in-left ${inView ? 'animate' : ''}`}
-              style={{ transitionDelay: `${0.2 + index * 0.1}s` }}
-            >
-              <div className="bg-white p-8 border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
-                  <div>
-                    <h3 className="heading-md text-gray-900 mb-2">
-                      {exp.role}
-                    </h3>
-                    <h4 className="text-xl font-semibold text-accent mb-4">
-                      {exp.company}
-                      {exp.current && (
-                        <span className="ml-3 bg-green-100 text-green-800 px-3 py-1 text-sm font-medium rounded-full">
-                          Current
-                        </span>
-                      )}
-                    </h4>
-                  </div>
-                  <div className="flex flex-col md:items-end space-y-2">
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Calendar size={16} />
-                      <span className="font-medium">{exp.duration}</span>
+        <span className="section-label dev-mono text-xs text-[var(--pink)] tracking-[0.25em] uppercase block mb-8">02 / Experience</span>
+        <h2 className="section-heading heading-lg text-white mb-20" aria-label="Where I've worked">
+          Where I've worked.
+        </h2>
+
+        <div role="list" aria-label="Work experience">
+          {experiences.map((exp, i) => (
+            <article key={i} className="exp-row border-t border-[var(--line)] py-10 lg:py-14" role="listitem">
+              <div className="grid lg:grid-cols-12 gap-6 lg:gap-12">
+                <div className="lg:col-span-4">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: `var(--${exp.accent})` }} aria-hidden="true">
+                      {exp.current && <span className="block w-2 h-2 rounded-full animate-ping" style={{ backgroundColor: `var(--${exp.accent})`, opacity: 0.5 }} />}
                     </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <MapPin size={16} />
-                      <span className="font-medium">{exp.location}</span>
-                    </div>
+                    <h3 className="text-white text-xl lg:text-2xl font-semibold">{exp.role}</h3>
                   </div>
+                  <div className="ml-5 flex items-center gap-3 text-sm">
+                    <span style={{ color: `var(--${exp.accent})` }} className="font-medium">{exp.company}</span>
+                    {exp.current && <span className={`pill pill-${exp.accent} text-[9px] uppercase font-bold tracking-wider`}>Now</span>}
+                  </div>
+                  <div className="ml-5 dev-mono text-[10px] text-[var(--text-muted)] mt-1.5">{exp.duration} / {exp.location}</div>
                 </div>
-
-                <div className="space-y-3">
-                  {exp.description.map((point, pointIndex) => (
-                    <div key={pointIndex} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full mt-3 flex-shrink-0" />
-                      <p className="text-body text-gray-600">
-                        {point}
-                      </p>
-                    </div>
-                  ))}
+                <div className="lg:col-span-8">
+                  <p className="text-[var(--text-secondary)] leading-relaxed">{exp.description}</p>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
-        </div>
-
-        <div className={`scale-in ${inView ? 'animate' : ''} mt-16 text-center`} style={{ transitionDelay: '0.8s' }}>
-          <p className="text-body text-gray-600 mb-6">
-            Ready to discuss your next project?
-          </p>
-          <a
-            href="#contact"
-            className="bg-gray-900 text-white px-8 py-4 font-medium hover:bg-gray-800 transition-all duration-300 hover:transform hover:-translate-y-1 inline-flex items-center gap-2"
-          >
-            Let's Work Together
-            <ExternalLink size={20} />
-          </a>
+          <div className="border-t border-[var(--line)]" aria-hidden="true" />
         </div>
       </div>
     </section>

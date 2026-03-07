@@ -1,204 +1,198 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Code, Database, Server, Smartphone, Users, Coffee } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const About = () => {
-  const [inView, setInView] = useState(false);
-  const [showTeamReveal, setShowTeamReveal] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const introRef = useRef<HTMLParagraphElement>(null);
+  const [expCount, setExpCount] = useState(0);
+  const [techCount, setTechCount] = useState(0);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setInView(true), 100);
-        }
-      },
-      { threshold: 0.1 }
-    );
+    const section = sectionRef.current;
+    if (!section) return;
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    const ctx = gsap.context(() => {
+      // Section label — clip reveal
+      const label = section.querySelector('.section-label');
+      if (label) {
+        gsap.fromTo(label,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+            scrollTrigger: { trigger: label, start: 'top 90%' } }
+        );
+      }
 
-    return () => observer.disconnect();
+      // Heading — chars fly in
+      const heading = section.querySelector('.section-heading');
+      if (heading) {
+        const text = heading.textContent || '';
+        heading.innerHTML = text.split('').map((c: string) =>
+          `<span class="inline-block" style="opacity:0;transform:translateY(80%) rotate(${(Math.random()-0.5)*10}deg)">${c === ' ' ? '&nbsp;' : c}</span>`
+        ).join('');
+        gsap.to(heading.querySelectorAll('span'), {
+          opacity: 1, y: '0%', rotation: 0, duration: 0.8,
+          stagger: 0.02, ease: 'back.out(1.7)',
+          scrollTrigger: { trigger: heading, start: 'top 85%' },
+        });
+      }
+
+      // WORD-BY-WORD SCROLL REVEAL — the waabi.ai effect
+      if (introRef.current) {
+        const text = introRef.current.textContent || '';
+        introRef.current.innerHTML = text.split(' ').map((word: string) =>
+          `<span class="word-reveal-dim inline">${word}</span>`
+        ).join(' ');
+
+        const words = introRef.current.querySelectorAll('span');
+        gsap.to(words, {
+          className: 'word-reveal-lit inline',
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: introRef.current,
+            start: 'top 75%',
+            end: 'bottom 40%',
+            scrub: 1,
+          }
+        });
+      }
+
+      // Stats — scale bounce in
+      section.querySelectorAll('.stat-num').forEach((el, i) => {
+        gsap.fromTo(el,
+          { scale: 0.3, opacity: 0, y: 40 },
+          {
+            scale: 1, opacity: 1, y: 0, duration: 0.8,
+            ease: 'elastic.out(1, 0.5)',
+            scrollTrigger: { trigger: el, start: 'top 90%' },
+            delay: i * 0.1,
+          }
+        );
+      });
+
+      // Education — slide from left
+      const edu = section.querySelector('.edu-block');
+      if (edu) {
+        gsap.fromTo(edu,
+          { x: -80, opacity: 0 },
+          { x: 0, opacity: 1, duration: 1, ease: 'power3.out',
+            scrollTrigger: { trigger: edu, start: 'top 85%' } }
+        );
+      }
+
+      // Skill groups — stagger slide from right
+      section.querySelectorAll('.skill-group').forEach((el, i) => {
+        gsap.fromTo(el,
+          { x: 60, opacity: 0, rotate: 2 },
+          {
+            x: 0, opacity: 1, rotate: 0, duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 90%' },
+            delay: i * 0.08,
+          }
+        );
+      });
+
+      // Skill pills — pop in
+      section.querySelectorAll('.skill-pill').forEach((el, i) => {
+        gsap.fromTo(el,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1, opacity: 1, duration: 0.35,
+            ease: 'back.out(3)',
+            scrollTrigger: { trigger: el, start: 'top 95%' },
+            delay: i * 0.025,
+          }
+        );
+      });
+    }, section);
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setExpCount(Math.min(c,4.5));if(c>=4.5)clearInterval(iv)},30); }, 300);
+        setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setTechCount(Math.min(c,15));if(c>=15)clearInterval(iv)},45); }, 500);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(section);
+
+    return () => { ctx.revert(); observer.disconnect(); };
   }, []);
 
-  const skills = [
-    {
-      category: 'Frontend',
-      icon: <Smartphone size={24} />,
-      technologies: ['JavaScript', 'React.js', 'Redux', 'Next.js 14', 'TypeScript', 'GSAP'],
-    },
-    {
-      category: 'Backend',
-      icon: <Server size={24} />,
-      technologies: ['Node.js', 'Express.js', 'TypeScript'],
-    },
-    {
-      category: 'Database',
-      icon: <Database size={24} />,
-      technologies: ['MySQL', 'MongoDB', 'Firebase', 'DynamoDB', 'OpenSearch', 'Redis'],
-    },
-    {
-      category: 'DevOps',
-      icon: <Code size={24} />,
-      technologies: ['Docker', 'AWS'],
-    },
-  ];
-
-  const teamMembers = [
-    {
-      name: "Abhishek Vaghela",
-      role: "Full Stack MERN Developer",
-      avatar: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-      description: "Turns coffee into code and builds digital experiences that actually work"
-    },
-    {
-      name: "Vatsal Zinzuvadiya",
-      role: "Backend Developer",
-      avatar: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-      description: "Backend wizard who makes databases dance and APIs sing"
-    }
+  const skillGroups = [
+    { label: 'Frontend', color: 'violet', items: ['JavaScript', 'React.js', 'Next.js 14', 'TypeScript', 'Redux', 'GSAP', 'Tailwind CSS'] },
+    { label: 'Backend', color: 'cyan', items: ['Node.js', 'Express.js', 'TypeScript'] },
+    { label: 'Database', color: 'pink', items: ['MongoDB', 'MySQL', 'Firebase', 'DynamoDB', 'Redis', 'OpenSearch'] },
+    { label: 'DevOps', color: 'lime', items: ['Docker', 'AWS', 'CI/CD'] },
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className={`${inView ? 'fade-in-up animate' : 'fade-in-up'}`}>
-          <h2 className="heading-lg text-gray-900 mb-16">
-            About Me
-          </h2>
-        </div>
+    <section id="about" ref={sectionRef} aria-label="About me" className="py-32 lg:py-44 content-auto">
+      <div className="section-line" aria-hidden="true" />
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start mb-24">
-          <div className={`stagger-2 ${inView ? 'slide-in-left animate' : 'slide-in-left'}`}>
-            <div className="space-y-6">
-              <p className="text-body text-gray-600">
-                I'm a passionate Full Stack Developer with a strong foundation in MERN stack development. 
-                As a computer engineer with a deep enthusiasm for creating functional software and stunning websites, 
-                I've been building and designing web applications since my third semester of college.
-              </p>
-              
-              <p className="text-body text-gray-600">
-                My professional journey includes <strong>2.5+ years of corporate experience</strong> coupled with 
-                <strong> 2+ years of freelancing work</strong> since 2021. I'm committed to continuous learning 
-                and staying updated with the latest technologies and best practices in the industry.
-              </p>
+        <span className="section-label dev-mono text-xs text-[var(--violet)] tracking-[0.25em] uppercase block mb-8">01 / About</span>
 
-              <p className="text-body text-gray-600">
-                Currently working remotely at <strong>Screenplay</strong>, where I'm spearheading backend development 
-                for a cutting-edge platform that empowers writers and producers to create screenplays with ease.
-              </p>
+        <h2 className="section-heading heading-lg text-white mb-12" aria-label="I build things for the web">
+          I build things for the web.
+        </h2>
 
-              <div className="bg-white p-6 border border-gray-200 hover-lift">
-                <h3 className="heading-md text-gray-900 mb-4">Education</h3>
-                <div className="border-l-4 border-accent pl-6">
-                  <p className="font-semibold text-gray-900">Government Engineering College, Modasa</p>
-                  <p className="text-gray-600">Bachelor's Degree in Computer Engineering</p>
-                  <p className="text-small text-gray-500">NAAC A++ | Aug 2019 - May 2023</p>
+        {/* Word-by-word scroll reveal paragraph */}
+        <p ref={introRef} className="text-2xl sm:text-3xl lg:text-4xl font-light leading-snug text-white max-w-4xl mb-20" style={{ letterSpacing: '-0.02em' }}>
+          Full Stack Developer with a strong MERN stack foundation. Started freelancing during college, went corporate to sharpen the craft, and now I bring startup speed with enterprise discipline to every product I ship.
+        </p>
+
+        <div className="grid lg:grid-cols-12 gap-x-16 gap-y-20">
+          {/* Left — stats + education */}
+          <div className="lg:col-span-5">
+            <div className="flex gap-14 mb-16">
+              <div className="stat-num">
+                <div className="dev-mono text-5xl lg:text-7xl font-bold text-white leading-none">
+                  {expCount.toFixed(1)}<span className="text-[var(--violet)]">+</span>
                 </div>
+                <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Years building</div>
               </div>
+              <div className="stat-num">
+                <div className="dev-mono text-5xl lg:text-7xl font-bold text-white leading-none">
+                  {techCount}<span className="text-[var(--pink)]">+</span>
+                </div>
+                <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Technologies</div>
+              </div>
+            </div>
+
+            <div className="edu-block border-l-2 border-[var(--line-light)] pl-6">
+              <div className="dev-mono text-[10px] text-[var(--text-muted)] tracking-[0.2em] uppercase mb-2">Education / 2019 — 2023</div>
+              <h3 className="text-white text-xl font-semibold mb-1">B.E. Computer Engineering</h3>
+              <p className="text-[var(--text-secondary)] text-sm">Government Engineering College, Modasa</p>
+              <span className="text-[var(--violet)] text-xs dev-mono mt-1 inline-block">NAAC A++</span>
             </div>
           </div>
 
-          <div className={`stagger-3 ${inView ? 'slide-in-right animate' : 'slide-in-right'}`}>
-            <h3 className="heading-md text-gray-900 mb-8">Technical Skills</h3>
-            
-            <div className="space-y-6">
-              {skills.map((skill, index) => (
-                <div key={skill.category} className={`bg-white p-6 border border-gray-200 hover-lift ${inView ? 'scale-in animate' : 'scale-in'}`} style={{ transitionDelay: `${0.4 + index * 0.1}s` }}>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="text-accent">
-                      {skill.icon}
-                    </div>
-                    <h4 className="font-semibold text-lg text-gray-900">{skill.category}</h4>
+          {/* Right — skills */}
+          <div className="lg:col-span-7">
+            <div className="lg:sticky lg:top-32 space-y-8">
+              <h3 className="dev-mono text-[10px] text-[var(--text-muted)] tracking-[0.25em] uppercase mb-6">Stack</h3>
+              {skillGroups.map((group) => (
+                <div key={group.label} className="skill-group">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `var(--${group.color})` }} aria-hidden="true" />
+                    <span className="text-white text-xs font-bold uppercase tracking-[0.15em]">{group.label}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {skill.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="bg-gray-100 text-gray-700 px-3 py-1 text-sm font-medium border border-gray-200 hover:border-gray-300 transition-colors duration-200"
-                      >
-                        {tech}
-                      </span>
+                    {group.items.map((tech) => (
+                      <span key={tech} className={`skill-pill pill pill-${group.color} dev-mono`}>{tech}</span>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Team Section */}
-        <div className={`fade-in-up ${inView ? 'animate' : ''}`} style={{ transitionDelay: '0.8s' }}>
-          <h3 className="text-3xl font-bold text-gray-900 mb-16 text-center">
-            The Team
-          </h3>
-
-          {!showTeamReveal ? (
-            <>
-              <div className="grid md:grid-cols-2 gap-12 mb-16 max-w-5xl mx-auto">
-                {teamMembers.map((member, index) => (
-                  <div
-                    key={member.name}
-                    className={`bg-white p-8 border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 scale-in ${inView ? 'animate' : ''}`}
-                    style={{ transitionDelay: `${1.0 + index * 0.2}s` }}
-                  >
-                    <div className="flex items-start gap-6">
-                      <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 flex-shrink-0">
-                        <img
-                          src={member.avatar}
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <h4 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h4>
-                        <p className="text-blue-600 font-medium mb-3">{member.role}</p>
-                        <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="text-center">
-                <button
-                  onClick={() => setShowTeamReveal(true)}
-                  className="border-2 border-gray-300 text-gray-900 px-8 py-4 font-medium hover:border-gray-900 transition-all duration-300 hover:transform hover:-translate-y-1 inline-flex items-center gap-3"
-                >
-                  <Coffee size={20} />
-                  Wait... something's not quite right here 🤔
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="text-center scale-in animate">
-              <div className="bg-white p-12 border border-gray-200 max-w-4xl mx-auto hover:shadow-lg transition-all duration-300">
-                <h4 className="text-3xl font-bold text-blue-600 mb-6">
-                  Plot Twist! 🎭
-                </h4>
-                <p className="text-xl text-gray-600 mb-6">
-                  Okay okay, it's actually just me and my homie <strong>Vatsal</strong> 😅
-                </p>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  We're the dynamic duo crushing full-stack applications, debugging at 3AM with energy drinks, 
-                  and somehow making it look easy. No corporate BS, no endless meetings – just two devs 
-                  who actually know what they're doing and have fun doing it.
-                </p>
-                <div className="flex items-center justify-center gap-4 text-blue-600 mb-4">
-                  <Coffee size={24} />
-                  <span className="text-xl font-semibold">Dynamic Duo Since 2021</span>
-                  <Coffee size={24} />
-                </div>
-                <p className="text-gray-500">
-                  (We're basically the Avengers of web development, but cooler 😎)
-                </p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>
