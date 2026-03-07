@@ -4,7 +4,8 @@
       "Bash(npx next:*)",
       "Bash(npx npm-check-updates:*)",
       "Bash(rm:*)",
-      "Bash(npx update-browserslist-db@latest:*)"
+      "Bash(npx update-browserslist-db@latest:*)",
+      "Bash(npm install:*)"
     ]
   }
 }
