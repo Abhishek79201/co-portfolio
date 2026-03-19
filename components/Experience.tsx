@@ -10,8 +10,13 @@ if (typeof window !== 'undefined') {
 
 const experiences = [
   {
+    company: 'CareerBox.in', role: 'Full Stack Developer',
+    location: 'Remote', duration: 'Mar 2025 — Present', current: true, accent: 'cyan',
+    description: 'Building and scaling a modern career platform connecting job seekers with opportunities. Developing end-to-end features with a focus on performance, SEO, and seamless user experience.',
+  },
+  {
     company: 'Screenplay', role: 'Full Stack Developer',
-    location: 'Remote', duration: 'Nov 2024 — Present', current: true, accent: 'violet',
+    location: 'Remote', duration: 'Nov 2024 — Mar 2025', current: false, accent: 'violet',
     description: 'Spearheading backend development for a creative platform empowering writers and producers. Built rich editor experience with Prose Mirror & Tiptap, designed scalable real-time collaboration architectures.',
   },
   {

@@ -110,7 +110,7 @@ const About = () => {
 
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setExpCount(Math.min(c,4.5));if(c>=4.5)clearInterval(iv)},30); }, 300);
+        setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setExpCount(Math.min(c,5));if(c>=5)clearInterval(iv)},30); }, 300);
         setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setTechCount(Math.min(c,15));if(c>=15)clearInterval(iv)},45); }, 500);
         observer.disconnect();
       }
