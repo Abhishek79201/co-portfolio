@@ -102,10 +102,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | Feature | Reason |
 |---------|--------|
 | Pricing page | Limits negotiation; qualify leads through conversation |
-| Services page | The case studies ARE the services page — let the work demonstrate capabilities |
+| Services page | The case studies ARE the services page -- let the work demonstrate capabilities |
 | Individual team member portfolio pages | Splits the brand; the studio is the entity prospects hire |
 | Dark/light mode toggle | Dark aesthetic IS the brand identity; doubles design surface for zero benefit |
-| CMS / admin panel | 6 projects, 2 team members — hardcoded TypeScript is manageable; revisit at 20+ |
+| CMS / admin panel | 6 projects, 2 team members -- hardcoded TypeScript is manageable; revisit at 20+ |
 | Live chat widget | Two people can't staff it; unanswered chats hurt more than no chat |
 | Loading/splash screen | Anti-pattern that hides slow sites; make the site fast instead |
 | Complex contact form | Long forms kill conversion; 3 fields max, qualify in email |
@@ -167,10 +167,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-07 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 42 total
-- Mapped to phases: 42
-- Unmapped: 0 ✓
+- v1 requirements: 49 total
+- Mapped to phases: 49
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-01*
-*Last updated: 2026-04-01 after initial definition*
+*Last updated: 2026-04-01 after roadmap creation*
