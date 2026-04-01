@@ -45,13 +45,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **CASE-01**: Case study index page with filterable/browsable project cards
 - [ ] **CASE-02**: Case study detail page template with sections: Hero → Challenge → Architecture → Tech Rationale → Implementation → Results → Team → CTA
-- [ ] **CASE-03**: GleeMeet case study — dating app, Redis + OpenSearch + DynamoDB, BERT vector matching, real-time features
-- [ ] **CASE-04**: CareerBox case study — career platform, MongoDB + Redis + OpenSearch, MVP-to-scale methodology
-- [ ] **CASE-05**: Zorova case study — home spa service (client project), MERN + Redis + OpenSearch, marketplace architecture
+- [x] **CASE-03**: GleeMeet case study — dating app, Redis + OpenSearch + DynamoDB, BERT vector matching, real-time features
+- [x] **CASE-04**: CareerBox case study — career platform, MongoDB + Redis + OpenSearch, MVP-to-scale methodology
+- [x] **CASE-05**: Zorova case study — home spa service (client project), MERN + Redis + OpenSearch, marketplace architecture
 - [ ] **CASE-06**: Architecture SVG diagrams per case study showing system design (services, databases, caching layers, data flow)
-- [ ] **CASE-07**: Metric callout cards with qualitative impact descriptions (since exact numbers not available yet)
-- [ ] **CASE-08**: Shared Redis + OpenSearch pattern narrative woven across case studies
-- [ ] **CASE-09**: Team attribution per case study (who worked on what)
+- [x] **CASE-07**: Metric callout cards with qualitative impact descriptions (since exact numbers not available yet)
+- [x] **CASE-08**: Shared Redis + OpenSearch pattern narrative woven across case studies
+- [x] **CASE-09**: Team attribution per case study (who worked on what)
 - [ ] **CASE-10**: "Want similar results? Let's talk" CTA at the bottom of each case study
 
 ### Animation
@@ -143,13 +143,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STUD-09 | Phase 2 | Complete |
 | CASE-01 | Phase 3 | Pending |
 | CASE-02 | Phase 3 | Pending |
-| CASE-03 | Phase 3 | Pending |
-| CASE-04 | Phase 3 | Pending |
-| CASE-05 | Phase 3 | Pending |
+| CASE-03 | Phase 3 | Complete |
+| CASE-04 | Phase 3 | Complete |
+| CASE-05 | Phase 3 | Complete |
 | CASE-06 | Phase 3 | Pending |
-| CASE-07 | Phase 3 | Pending |
-| CASE-08 | Phase 3 | Pending |
-| CASE-09 | Phase 3 | Pending |
+| CASE-07 | Phase 3 | Complete |
+| CASE-08 | Phase 3 | Complete |
+| CASE-09 | Phase 3 | Complete |
 | CASE-10 | Phase 3 | Pending |
 | ANIM-01 | Phase 4 | Pending |
 | ANIM-02 | Phase 4 | Pending |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 3 context gathered
-last_updated: "2026-04-01T14:45:13.430Z"
+status: executing
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-04-01T17:04:49.005Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 5
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 8
+  completed_plans: 5
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Two developers who've shipped together prove they can ship for you -- the case studies are the proof, the site is the pitch.
-**Current focus:** Phase 02 — landing-page-rebrand
+**Current focus:** Phase 03 — case-study-pages
 
 ## Current Position
 
-Phase: 3
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 03 (case-study-pages) — EXECUTING
+Plan: 2 of 4
+Status: Ready to execute
 Last activity: 2026-04-01
 
 Progress: [..........] 0%
@@ -56,6 +56,7 @@ Progress: [..........] 0%
 | Phase 01-infrastructure-foundation P02 | 25 | 3 tasks | 8 files |
 | Phase 01-infrastructure-foundation P03 | 25 | 2 tasks | 8 files |
 | Phase 02-landing-page-rebrand P01 | 12 | 3 tasks | 3 files |
+| Phase 03-case-study-pages P01 | 6 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [Phase 02-landing-page-rebrand]: Use 'Dev Studio' as two-word placeholder matching CharLine two-line display; TODO comments mark all occurrences for find-and-replace when final name decided
 - [Phase 02-landing-page-rebrand]: Navigation uses usePathname for Case Studies route-aware active state; handleNavClick for cross-page hash navigation
 - [Phase 02-landing-page-rebrand]: JSON-LD @type stays Person in Phase 2 — Organization schema migration deferred to Phase 5 (SEO-01)
+- [Phase 03-case-study-pages]: CaseStudySection removed; CaseStudy uses structured typed fields (TechRationaleItem, ImplementationHighlight, ResultMetric, TeamContribution, PatternSpotlight)
+- [Phase 03-case-study-pages]: techStack field removed from CaseStudy; tech pills sourced from projects.ts via projectSlug to avoid data duplication
 
 ### Pending Todos
 
@@ -91,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T14:45:13.425Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-case-study-pages/03-CONTEXT.md
+Last session: 2026-04-01T17:04:48.999Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None

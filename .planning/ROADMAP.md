@@ -67,7 +67,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 03-01-PLAN.md -- Expand CaseStudy types + author all 3 case study content (CASE-03, CASE-04, CASE-05, CASE-07, CASE-08, CASE-09)
+- [x] 03-01-PLAN.md -- Expand CaseStudy types + author all 3 case study content (CASE-03, CASE-04, CASE-05, CASE-07, CASE-08, CASE-09)
 - [ ] 03-02-PLAN.md -- Index page redesign with pattern intro + rich cards (CASE-01, CASE-08)
 - [ ] 03-03-PLAN.md -- Architecture SVG diagrams for GleeMeet, CareerBox, Zorova (CASE-06)
 - [ ] 03-04-PLAN.md -- Detail page 8-section template + PatternSpotlight component (CASE-02, CASE-07, CASE-08, CASE-09, CASE-10)
