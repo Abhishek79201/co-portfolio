@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 import { AnalyticsProvider } from '@/components/Analytics';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 
@@ -31,33 +32,34 @@ export const viewport: Viewport = {
   themeColor: '#050505',
 };
 
+// TODO: Replace "Dev Studio" with final studio name when decided
 export const metadata: Metadata = {
-  title: 'Abhishek Vaghela — Full Stack Developer | React, Node.js, TypeScript',
-  description: 'Full Stack MERN Developer with 4.5+ years of experience building scalable web apps. Expertise in React, Next.js, Node.js, TypeScript, MongoDB, AWS. Open for freelance & collaboration.',
+  title: 'Dev Studio — Full Stack Development Team | React, Node.js, TypeScript',
+  description: 'Two full-stack developers building scalable web applications. Expertise in React, Next.js, Node.js, TypeScript, MongoDB, AWS. Available for projects and collaboration.',
   keywords: [
-    'Full Stack Developer', 'MERN Stack Developer', 'React Developer India',
-    'Node.js Developer', 'TypeScript Expert', 'Next.js Developer',
-    'Freelance Web Developer', 'Abhishek Vaghela Portfolio',
-    'JavaScript Developer', 'MongoDB', 'AWS', 'Docker',
+    'Dev Studio', 'Full Stack Development Team', 'React Developers',
+    'Node.js Development', 'TypeScript Experts', 'Next.js Development',
+    'MVP Development', 'Web Application Development', 'Scalable Products',
+    'MongoDB', 'AWS', 'Docker',
   ],
-  authors: [{ name: 'Abhishek Vaghela', url: 'https://abhishekvaghela.dev' }],
-  creator: 'Abhishek Vaghela',
-  publisher: 'Abhishek Vaghela',
+  authors: [{ name: 'Dev Studio', url: 'https://abhishekvaghela.dev' }],
+  creator: 'Dev Studio',
+  publisher: 'Dev Studio',
   metadataBase: new URL('https://abhishekvaghela.dev'),
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://abhishekvaghela.dev',
-    title: 'Abhishek Vaghela — Full Stack Developer',
-    description: 'Full Stack MERN Developer with 4.5+ years experience. Building scalable web apps with React, Node.js, and modern technologies.',
-    siteName: 'Abhishek Vaghela',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Abhishek Vaghela - Full Stack Developer' }],
+    title: 'Dev Studio — Full Stack Development Team',
+    description: 'Two full-stack developers building scalable web apps with React, Node.js, and modern technologies.',
+    siteName: 'Dev Studio',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Dev Studio - Full Stack Development Team' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Abhishek Vaghela — Full Stack Developer',
-    description: 'Full Stack MERN Developer. React, Node.js, TypeScript, AWS.',
+    title: 'Dev Studio — Full Stack Development Team',
+    description: 'Two full-stack developers. React, Node.js, TypeScript, AWS.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -70,8 +72,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Abhishek Vaghela',
-  jobTitle: 'Full Stack MERN Developer',
+  name: 'Dev Studio',
+  jobTitle: 'Full Stack Development Studio',
   url: 'https://abhishekvaghela.dev',
   email: 'vaghelaabhishek2580@gmail.com',
   telephone: '+91 8200394360',
@@ -79,7 +81,6 @@ const jsonLd = {
     'https://github.com/abhishekvaghela',
     'https://linkedin.com/in/abhishekvaghela',
   ],
-  worksFor: { '@type': 'Organization', name: 'Screenplay' },
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Government Engineering College, Modasa' },
   knowsAbout: ['JavaScript','React','Node.js','TypeScript','MongoDB','Express.js','Next.js','AWS','Docker'],
 };
@@ -88,6 +89,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" dir="ltr">
       <head>
+        <Script id="gtm" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-KGZJ7TMT');`}
+        </Script>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={`${inter.className} ${jetbrainsMono.variable} ${flagfies.variable} antialiased`}>
