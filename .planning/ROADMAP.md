@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. `/case-studies` renders a page with project cards and `/case-studies/[slug]` renders placeholder content for each of the 3 case study slugs
   4. Navigation links work correctly from any route -- hash links on non-homepage routes navigate back to the landing page sections
   5. The sitemap contains real routes (no hash fragments) and `@supabase/supabase-js` is removed from dependencies
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01: Data layer extraction + dependency cleanup (INFRA-01, INFRA-02, INFRA-03, INFRA-04, INFRA-09)
+- [ ] 01-02: GSAP centralization + scroll/Lenis fixes (INFRA-05, INFRA-06, INFRA-07, INFRA-08)
+- [ ] 01-03: Case studies routing skeleton + navigation + sitemap (ROUT-01 through ROUT-07)
 
 ### Phase 2: Landing Page Rebrand
 **Goal**: Visitors landing on the homepage see a professional dev studio with two named founders, a clear methodology, and a 6-project portfolio -- not a personal portfolio
@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure Foundation | 0/3 | Not started | - |
+| 1. Infrastructure Foundation | 0/3 | Planning complete | - |
 | 2. Landing Page Rebrand | 0/2 | Not started | - |
 | 3. Case Study Pages | 0/3 | Not started | - |
 | 4. Animation & Polish | 0/2 | Not started | - |
