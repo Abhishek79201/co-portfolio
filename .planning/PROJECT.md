@@ -29,6 +29,14 @@ Two developers who've shipped together prove they can ship for you — the case 
 - ✓ Shared Footer component — Validated in Phase 1
 - ✓ Clean sitemap with real routes (no hash fragments) — Validated in Phase 1
 - ✓ @supabase/supabase-js removed — Validated in Phase 1
+- ✓ Case studies index page with browsable project cards — Validated in Phase 3: Case Study Pages
+- ✓ Case study detail page template (8 sections: Hero, Challenge, Architecture, Tech Rationale, Implementation, Results, Team, CTA) — Validated in Phase 3
+- ✓ Deep case studies for GleeMeet, CareerBox, Zorova with full written content — Validated in Phase 3
+- ✓ Architecture SVG diagrams for all 3 case studies — Validated in Phase 3
+- ✓ Redis + OpenSearch pattern narrative woven across case studies — Validated in Phase 3
+- ✓ Team attribution per case study for both founders — Validated in Phase 3
+- ✓ "Want similar results?" CTA on every case study — Validated in Phase 3
+- ✓ PatternSpotlight shared component for Redis+OpenSearch+DB callouts — Validated in Phase 3
 
 ### Active
 
@@ -37,12 +45,6 @@ Two developers who've shipped together prove they can ship for you — the case 
 - [x] Rebrand from personal portfolio to startup studio identity (placeholder name) — Hero, metadata, and Navigation rebranded in Phase 2 Plan 01
 - [ ] Add team section showcasing both Abhishek and Vatsal with roles/skills
 - [ ] Update hero/about to reflect "two devs, one studio" positioning
-- [x] Add case studies page (`/case-studies`) with individual case study views (`/case-studies/[slug]`) — routing skeleton done in Phase 1, content in Phase 3
-- [ ] Case study format: Problem → Architecture diagram → Tech stack → Implementation highlights → Results/metrics
-- [x] Showcase 6 projects: GleeMeet, CareerBox, Zorova (client), EmpireInvestmentBank, Huslemad, Impactoverse — data layer complete in Phase 1
-- [x] Add Zorova.in as new project — home spa service, MERN + Redis + OpenSearch (client project) — added in Phase 1 data layer
-- [x] Add EmpireInvestmentBank.com — banking broker, 4 regions, investment banking services — added in Phase 1 data layer
-- [ ] Deep case studies for key projects (GleeMeet, CareerBox, Zorova) highlighting Redis/OpenSearch/DynamoDB architecture
 - [ ] Improve animation fluidity across all sections — smoother transitions, better scroll-linked effects
 - [ ] URL validation — verify all project URLs (gleemeet.com, careerbox.in, zorova.in, empireinvestmentbank.com, huslemad.com, impactoverse.com) are live before linking
 - [x] Update metadata/SEO from personal branding to startup studio branding — Validated in Phase 2
@@ -114,4 +116,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 after Phase 2 completion*
+*Last updated: 2026-04-02 after Phase 3 completion*
