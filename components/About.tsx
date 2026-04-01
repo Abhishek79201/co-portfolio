@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { gsap, SplitText, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -13,92 +13,113 @@ const About = () => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Section label — clip reveal
-    const label = section.querySelector('.section-label');
-    if (label) {
-      gsap.fromTo(label,
-        { clipPath: 'inset(0 100% 0 0)' },
-        { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
-          scrollTrigger: { trigger: label, start: 'top 90%' } }
-      );
-    }
+    const mm = gsap.matchMedia();
 
-    // Heading — slide up
-    const heading = section.querySelector('.section-heading');
-    if (heading) {
-      gsap.from(heading, {
-        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: heading, start: 'top 85%' },
+    mm.add({
+      isDesktop: '(min-width: 768px)',
+      isMobile: '(max-width: 767px)',
+      reduceMotion: '(prefers-reduced-motion: reduce)',
+    }, (context) => {
+      const { isDesktop, isMobile, reduceMotion } = context.conditions!;
+
+      if (reduceMotion) {
+        // Instant final state for all animated elements (per D-15)
+        const allAnimatedEls = section.querySelectorAll('.section-label, .section-heading, .stat-num, .edu-block, .skill-group, .skill-pill');
+        gsap.set(allAnimatedEls, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'all' });
+        if (introRef.current) gsap.set(introRef.current, { opacity: 1, clearProps: 'all' });
+        return;
+      }
+
+      // Section label clip reveal
+      const label = section.querySelector('.section-label');
+      if (label) {
+        gsap.fromTo(label,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+            scrollTrigger: { trigger: label, start: 'top 90%' } }
+        );
+      }
+
+      // Heading slide up
+      const heading = section.querySelector('.section-heading');
+      if (heading) {
+        gsap.from(heading, {
+          y: isMobile ? 30 : 60, opacity: 0,
+          duration: isMobile ? 0.4 : 1, ease: 'power3.out',
+          scrollTrigger: { trigger: heading, start: 'top 85%' },
+        });
+      }
+
+      // Word-by-word scroll reveal (SplitText -- per D-01)
+      if (introRef.current) {
+        SplitText.create(introRef.current, {
+          type: 'words',
+          autoSplit: true,
+          onSplit(self) {
+            return gsap.fromTo(self.words,
+              { opacity: 0.15, color: 'var(--text-muted)' },
+              {
+                opacity: 1, color: 'var(--text)',
+                stagger: 0.04,
+                scrollTrigger: {
+                  trigger: introRef.current,
+                  start: 'top 75%',
+                  end: 'bottom 40%',
+                  scrub: 1,
+                }
+              }
+            );
+          }
+        });
+      }
+
+      // Stats -- power3.out, subtler scale (per UI-SPEC easing overhaul)
+      section.querySelectorAll('.stat-num').forEach((el, i) => {
+        gsap.fromTo(el,
+          { scale: 0.85, opacity: 0, y: 20 },
+          {
+            scale: 1, opacity: 1, y: 0,
+            duration: isMobile ? 0.3 : 0.6,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 90%' },
+            delay: i * 0.1,
+          }
+        );
       });
-    }
 
-    // WORD-BY-WORD SCROLL REVEAL — the waabi.ai effect
-    if (introRef.current) {
-      const text = introRef.current.textContent || '';
-      introRef.current.innerHTML = text.split(' ').map((word: string) =>
-        `<span class="word-reveal-dim inline">${word}</span>`
-      ).join(' ');
+      // Education slide from left
+      const edu = section.querySelector('.edu-block');
+      if (edu) {
+        gsap.fromTo(edu,
+          { x: isMobile ? -40 : -80, opacity: 0 },
+          { x: 0, opacity: 1, duration: isMobile ? 0.4 : 1, ease: 'power3.out',
+            scrollTrigger: { trigger: edu, start: 'top 85%' } }
+        );
+      }
 
-      const words = introRef.current.querySelectorAll('span');
-      gsap.to(words, {
-        className: 'word-reveal-lit inline',
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: introRef.current,
-          start: 'top 75%',
-          end: 'bottom 40%',
-          scrub: 1,
-        }
+      // Skill groups slide from right
+      section.querySelectorAll('.skill-group').forEach((el, i) => {
+        gsap.fromTo(el,
+          { x: isMobile ? 40 : 80, opacity: 0 },
+          { x: 0, opacity: 1, duration: isMobile ? 0.4 : 1, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' },
+            delay: i * 0.08 }
+        );
       });
-    }
 
-    // Stats — scale bounce in
-    section.querySelectorAll('.stat-num').forEach((el, i) => {
-      gsap.fromTo(el,
-        { scale: 0.3, opacity: 0, y: 40 },
-        {
-          scale: 1, opacity: 1, y: 0, duration: 0.8,
-          ease: 'elastic.out(1, 0.5)',
-          scrollTrigger: { trigger: el, start: 'top 90%' },
-          delay: i * 0.1,
-        }
-      );
-    });
-
-    // Education — slide from left
-    const edu = section.querySelector('.edu-block');
-    if (edu) {
-      gsap.fromTo(edu,
-        { x: -80, opacity: 0 },
-        { x: 0, opacity: 1, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: edu, start: 'top 85%' } }
-      );
-    }
-
-    // Skill groups — stagger slide from right
-    section.querySelectorAll('.skill-group').forEach((el, i) => {
-      gsap.fromTo(el,
-        { x: 60, opacity: 0, rotate: 2 },
-        {
-          x: 0, opacity: 1, rotate: 0, duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 90%' },
-          delay: i * 0.08,
-        }
-      );
-    });
-
-    // Skill pills — pop in
-    section.querySelectorAll('.skill-pill').forEach((el, i) => {
-      gsap.fromTo(el,
-        { scale: 0, opacity: 0 },
-        {
-          scale: 1, opacity: 1, duration: 0.35,
-          ease: 'back.out(3)',
-          scrollTrigger: { trigger: el, start: 'top 95%' },
-          delay: i * 0.025,
-        }
-      );
+      // Skill pills pop (reduced stagger per UI-SPEC)
+      section.querySelectorAll('.skill-pill').forEach((el, i) => {
+        gsap.fromTo(el,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1, opacity: 1,
+            duration: isMobile ? 0.2 : 0.35,
+            ease: isMobile ? 'power2.out' : 'back.out(3)',
+            scrollTrigger: { trigger: el, start: 'top 95%' },
+            delay: Math.min(i, 8) * 0.015,
+          }
+        );
+      });
     });
   }, { scope: sectionRef });
 
