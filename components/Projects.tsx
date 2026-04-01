@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useCallback } from 'react';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { ArrowUpRight } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
 
@@ -41,7 +36,7 @@ const projects = [
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Text scramble on hover
+  // Text scramble on hover (uses setInterval, not GSAP -- no contextSafe needed)
   const handleRowHover = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     const titleEl = e.currentTarget.querySelector('.project-title') as HTMLElement;
     if (!titleEl) return;
@@ -57,56 +52,52 @@ const Projects = () => {
     }, 20);
   }, []);
 
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
-      // Label — clip
-      const label = section.querySelector('.section-label');
-      if (label) {
-        gsap.fromTo(label,
-          { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
-            scrollTrigger: { trigger: label, start: 'top 90%' } }
-        );
-      }
+    // Label — clip
+    const label = section.querySelector('.section-label');
+    if (label) {
+      gsap.fromTo(label,
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+          scrollTrigger: { trigger: label, start: 'top 90%' } }
+      );
+    }
 
-      // Heading — slide up
-      const heading = section.querySelector('.section-heading');
-      if (heading) {
-        gsap.from(heading, {
-          y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: heading, start: 'top 85%' },
-        });
-      }
-
-      // Project rows — scale + slight rotate from bottom
-      section.querySelectorAll('.project-row').forEach((row, i) => {
-        gsap.fromTo(row,
-          { y: 60, opacity: 0, scale: 0.97, rotate: 0.5 },
-          {
-            y: 0, opacity: 1, scale: 1, rotate: 0, duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: row, start: 'top 92%' },
-            delay: i * 0.06,
-          }
-        );
+    // Heading — slide up
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      gsap.from(heading, {
+        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: heading, start: 'top 85%' },
       });
+    }
 
-      // CTA
-      const cta = section.querySelector('.cta-row');
-      if (cta) {
-        gsap.fromTo(cta,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
-            scrollTrigger: { trigger: cta, start: 'top 90%' } }
-        );
-      }
-    }, section);
+    // Project rows — scale + slight rotate from bottom
+    section.querySelectorAll('.project-row').forEach((row, i) => {
+      gsap.fromTo(row,
+        { y: 60, opacity: 0, scale: 0.97, rotate: 0.5 },
+        {
+          y: 0, opacity: 1, scale: 1, rotate: 0, duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: row, start: 'top 92%' },
+          delay: i * 0.06,
+        }
+      );
+    });
 
-    return () => ctx.revert();
-  }, []);
+    // CTA
+    const cta = section.querySelector('.cta-row');
+    if (cta) {
+      gsap.fromTo(cta,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
+          scrollTrigger: { trigger: cta, start: 'top 90%' } }
+      );
+    }
+  }, { scope: sectionRef });
 
   return (
     <section id="projects" ref={sectionRef} aria-label="Featured projects" className="py-32 lg:py-44 content-auto">
