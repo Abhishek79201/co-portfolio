@@ -63,13 +63,14 @@ Plans:
   2. Each case study detail page follows the full template: Hero, Challenge, Architecture diagram, Tech Rationale, Implementation highlights, Results/metrics, Team attribution, and CTA
   3. All 3 priority case studies (GleeMeet, CareerBox, Zorova) have complete written content with architecture SVG diagrams showing system design
   4. The shared Redis + OpenSearch pattern is a visible narrative thread woven across case studies, and each case study ends with a "Want similar results? Let's talk" CTA
-**Plans**: TBD
+**Plans**: 4 plans in 3 waves
 **UI hint**: yes
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01-PLAN.md -- Expand CaseStudy types + author all 3 case study content (CASE-03, CASE-04, CASE-05, CASE-07, CASE-08, CASE-09)
+- [ ] 03-02-PLAN.md -- Index page redesign with pattern intro + rich cards (CASE-01, CASE-08)
+- [ ] 03-03-PLAN.md -- Architecture SVG diagrams for GleeMeet, CareerBox, Zorova (CASE-06)
+- [ ] 03-04-PLAN.md -- Detail page 8-section template + PatternSpotlight component (CASE-02, CASE-07, CASE-08, CASE-09, CASE-10)
 
 ### Phase 4: Animation & Polish
 **Goal**: The site feels premium and fluid -- animations enhance comprehension of case study content and perform well on mobile devices with reduced-motion support
@@ -110,6 +111,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Infrastructure Foundation | 2/3 | In Progress|  |
 | 2. Landing Page Rebrand | 1/1 | Complete   | 2026-04-01 |
-| 3. Case Study Pages | 0/3 | Not started | - |
+| 3. Case Study Pages | 0/4 | Not started | - |
 | 4. Animation & Polish | 0/2 | Not started | - |
 | 5. SEO & Verification | 0/1 | Not started | - |
