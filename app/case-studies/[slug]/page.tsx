@@ -6,6 +6,7 @@ import PatternSpotlight from '@/components/PatternSpotlight';
 import GleeMeetDiagram from '@/components/diagrams/GleeMeetDiagram';
 import CareerBoxDiagram from '@/components/diagrams/CareerBoxDiagram';
 import ZorovaDiagram from '@/components/diagrams/ZorovaDiagram';
+import CaseStudyAnimations from '@/components/case-studies/CaseStudyAnimations';
 import { ArrowRight } from 'lucide-react';
 
 const diagramMap: Record<string, React.ComponentType> = {
@@ -63,9 +64,10 @@ export default async function CaseStudyDetailPage({
   return (
     <div className="min-h-screen bg-[var(--bg)]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32 pb-20">
+        <CaseStudyAnimations accentRgb={accentRgb || '168,85,247'}>
         <article>
           {/* Section 01 — Hero */}
-          <section className="mb-20 relative">
+          <section className="cs-section mb-20 relative">
             {accentRgb && (
               <div
                 className="absolute inset-0 pointer-events-none"
@@ -98,7 +100,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 02 — Challenge */}
           <section
-            className="mb-20 border-t border-[var(--line)] pt-12"
+            className="cs-section mb-20 border-t border-[var(--line)] pt-12"
             aria-labelledby="section-02-heading"
           >
             <span
@@ -117,7 +119,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 03 — Architecture */}
           <section
-            className="mb-20 border-t border-[var(--line)] pt-12"
+            className="cs-section mb-20 border-t border-[var(--line)] pt-12"
             aria-labelledby="section-03-heading"
           >
             <span
@@ -143,7 +145,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 04 — Tech Rationale */}
           <section
-            className="mb-20 border-t border-[var(--line)] pt-12"
+            className="cs-section mb-20 border-t border-[var(--line)] pt-12"
             aria-labelledby="section-04-heading"
           >
             <span
@@ -177,7 +179,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 05 — Implementation Highlights */}
           <section
-            className="mb-20 border-t border-[var(--line)] pt-12"
+            className="cs-section mb-20 border-t border-[var(--line)] pt-12"
             aria-labelledby="section-05-heading"
           >
             <span
@@ -209,7 +211,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 06 — Results & Impact */}
           <section
-            className="mb-20 border-t border-[var(--line)] pt-12"
+            className="cs-section mb-20 border-t border-[var(--line)] pt-12"
             aria-labelledby="section-06-heading"
           >
             <span
@@ -228,7 +230,7 @@ export default async function CaseStudyDetailPage({
               {caseStudy.results.map((item) => (
                 <div
                   key={item.metric}
-                  className="bg-[var(--bg-elevated)] border border-[var(--line)] rounded-[var(--radius)] p-6"
+                  className="metric-card bg-[var(--bg-elevated)] border border-[var(--line)] rounded-[var(--radius)] p-6"
                 >
                   <span className="dev-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-muted)] block mb-3">
                     {item.metric}
@@ -241,7 +243,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 07 — Team */}
           <section
-            className="mb-20 border-t border-[var(--line)] pt-12"
+            className="cs-section mb-20 border-t border-[var(--line)] pt-12"
             aria-labelledby="section-07-heading"
           >
             <span
@@ -267,7 +269,7 @@ export default async function CaseStudyDetailPage({
 
           {/* Section 08 — CTA */}
           <section
-            className="border-t border-[var(--line)] pt-12 text-center"
+            className="cs-section border-t border-[var(--line)] pt-12 text-center"
             aria-labelledby="section-08-heading"
           >
             <span
@@ -296,6 +298,7 @@ export default async function CaseStudyDetailPage({
             </div>
           </section>
         </article>
+        </CaseStudyAnimations>
       </div>
     </div>
   );
