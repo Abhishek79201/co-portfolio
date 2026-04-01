@@ -43,7 +43,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Case Studies
 
-- [ ] **CASE-01**: Case study index page with filterable/browsable project cards
+- [x] **CASE-01**: Case study index page with filterable/browsable project cards
 - [ ] **CASE-02**: Case study detail page template with sections: Hero → Challenge → Architecture → Tech Rationale → Implementation → Results → Team → CTA
 - [x] **CASE-03**: GleeMeet case study — dating app, Redis + OpenSearch + DynamoDB, BERT vector matching, real-time features
 - [x] **CASE-04**: CareerBox case study — career platform, MongoDB + Redis + OpenSearch, MVP-to-scale methodology
@@ -141,7 +141,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STUD-07 | Phase 2 | Pending |
 | STUD-08 | Phase 2 | Pending |
 | STUD-09 | Phase 2 | Complete |
-| CASE-01 | Phase 3 | Pending |
+| CASE-01 | Phase 3 | Complete |
 | CASE-02 | Phase 3 | Pending |
 | CASE-03 | Phase 3 | Complete |
 | CASE-04 | Phase 3 | Complete |

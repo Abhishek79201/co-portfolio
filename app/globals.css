@@ -203,6 +203,40 @@
 }
 .project-row > * { position: relative; z-index: 1; }
 
+/* ===== CASE STUDY INDEX CARDS — accent border-top on hover ===== */
+.case-card {
+  border-top: 4px solid var(--line);
+  transition: border-color 300ms ease;
+}
+.case-card[data-accent="violet"]:hover,
+.case-card[data-accent="violet"]:focus-within {
+  border-top-color: var(--violet);
+}
+.case-card[data-accent="pink"]:hover,
+.case-card[data-accent="pink"]:focus-within {
+  border-top-color: var(--pink);
+}
+.case-card[data-accent="orange"]:hover,
+.case-card[data-accent="orange"]:focus-within {
+  border-top-color: var(--orange);
+}
+
+.case-card[data-accent="violet"]:hover .case-card-title,
+.case-card[data-accent="violet"]:focus-within .case-card-title {
+  color: var(--violet);
+}
+.case-card[data-accent="pink"]:hover .case-card-title,
+.case-card[data-accent="pink"]:focus-within .case-card-title {
+  color: var(--pink);
+}
+.case-card[data-accent="orange"]:hover .case-card-title,
+.case-card[data-accent="orange"]:focus-within .case-card-title {
+  color: var(--orange);
+}
+.case-card-title {
+  transition: color 300ms ease;
+}
+
 /* ===== PILLS ===== */
 .pill {
   display: inline-flex; align-items: center;
