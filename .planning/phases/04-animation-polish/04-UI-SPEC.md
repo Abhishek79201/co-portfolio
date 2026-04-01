@@ -54,15 +54,14 @@ Exceptions: none for this phase. Animation does not introduce new spatial elemen
 
 Existing scale is locked. This phase does not add or change font sizes or weights — it upgrades the mechanism by which text is split for animation (SplitText replaces manual splitting). The typographic output is visually identical; the internal DOM structure improves.
 
+**Full type scale documented in `app/globals.css` — unchanged by this phase.**
+
+The two sizes SplitText directly targets in this phase:
+
 | Role | Size | Weight | Line Height | Font | Source |
 |------|------|--------|-------------|------|--------|
-| Body | clamp(1rem, 1.2vw, 1.15rem) | 400 | 1.75 | Inter | `globals.css .text-body` |
-| Label / Caption | 0.7rem | 500 | 1.4 | Inter | `globals.css .pill` |
-| Heading md | clamp(1.25rem, 3vw, 2rem) | 600 | 1.1 | Inter | `globals.css .heading-md` |
-| Heading lg | clamp(2rem, 5vw, 4rem) | 700 | 1.0 | Inter | `globals.css .heading-lg` |
-| Heading xl | clamp(3rem, 8vw, 7rem) | 800 | 0.92 | Inter | `globals.css .heading-xl` |
-| Display brutal | clamp(3.5rem, 14vw, 12rem) | 900 | 0.88 | Flagfies / Inter | `globals.css .heading-brutal` |
-| Mono | inherits context | 400 | inherits | JetBrains Mono | `globals.css .dev-mono` |
+| Body (About word-reveal) | clamp(1rem, 1.2vw, 1.15rem) | 400 | 1.75 | Inter | `globals.css .text-body` |
+| Display brutal (Hero name chars) | clamp(3.5rem, 14vw, 12rem) | 900 | 0.88 | Flagfies / Inter | `globals.css .heading-brutal` |
 
 **SplitText scope:** SplitText is applied to Hero name headings (type: `chars`) and About intro paragraph (type: `words`). All other typography renders normally with no splitting.
 
