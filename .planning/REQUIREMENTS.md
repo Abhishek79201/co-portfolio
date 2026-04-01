@@ -9,15 +9,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Data layer extracted into `data/` directory with TypeScript interfaces (Project, CaseStudy, TeamMember)
-- [ ] **INFRA-02**: All 6 projects defined in `data/projects.ts` with full metadata (slug, tech stack, description, URL, type)
-- [ ] **INFRA-03**: Team data defined in `data/team.ts` for Abhishek and Vatsal (equal billing)
-- [ ] **INFRA-04**: Case study content files in `data/case-studies/` for GleeMeet, CareerBox, Zorova
+- [x] **INFRA-01**: Data layer extracted into `data/` directory with TypeScript interfaces (Project, CaseStudy, TeamMember)
+- [x] **INFRA-02**: All 6 projects defined in `data/projects.ts` with full metadata (slug, tech stack, description, URL, type)
+- [x] **INFRA-03**: Team data defined in `data/team.ts` for Abhishek and Vatsal (equal billing)
+- [x] **INFRA-04**: Case study content files in `data/case-studies/` for GleeMeet, CareerBox, Zorova
 - [x] **INFRA-05**: GSAP registration centralized in `lib/gsap.ts` — no per-component registration
 - [x] **INFRA-06**: `@gsap/react` adopted — all animated components use `useGSAP` hook
 - [x] **INFRA-07**: Lenis cleanup bug fixed (anonymous function reference leak in SmoothScrollProvider)
 - [x] **INFRA-08**: SmoothScrollProvider is route-aware (scroll reset + ScrollTrigger.refresh on navigation)
-- [ ] **INFRA-09**: Remove unused `@supabase/supabase-js` dependency
+- [x] **INFRA-09**: Remove unused `@supabase/supabase-js` dependency
 
 ### Routing
 

@@ -52,6 +52,7 @@ Progress: [..........] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-infrastructure-foundation P01 | 20 | 2 tasks | 5 files |
 | Phase 01-infrastructure-foundation P02 | 25 | 3 tasks | 8 files |
 
 ## Accumulated Context
@@ -63,6 +64,9 @@ Recent decisions affecting current work:
 
 - Roadmap: 5 phases derived from 6 requirement categories (INFRA+ROUT merged into Phase 1)
 - Roadmap: Case studies are the highest-value conversion asset -- Phase 3 is the core delivery
+- [Phase 01-infrastructure-foundation P01]: Centralized content in data/ directory, all components import from data/ not inline
+- [Phase 01-infrastructure-foundation P01]: accent type uses string union for type safety; type field uses 'client'|'co-built'|'internal' union
+- [Phase 01-infrastructure-foundation P01]: hasCaseStudy boolean links projects to case studies without coupling the data files
 - [Phase 01-infrastructure-foundation]: lib/gsap.ts as single GSAP registration module -- all components import from @/lib/gsap, never directly from gsap
 - [Phase 01-infrastructure-foundation]: useGSAP hook replaces useEffect+gsap.context pattern for automatic cleanup and correct multi-page behavior
 - [Phase 01-infrastructure-foundation]: Named rafCallback reference fixes Lenis cleanup leak in SmoothScrollProvider
