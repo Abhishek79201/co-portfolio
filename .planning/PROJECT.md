@@ -21,6 +21,14 @@ Two developers who've shipped together prove they can ship for you — the case 
 - ✓ Responsive, accessible design — existing
 - ✓ Project showcase section — existing
 - ✓ Contact section with form — existing
+- ✓ Typed data layer for projects, team, case studies — Validated in Phase 1: Infrastructure Foundation
+- ✓ Centralized GSAP registration with useGSAP hook migration — Validated in Phase 1
+- ✓ Route-aware SmoothScrollProvider with proper cleanup — Validated in Phase 1
+- ✓ Case studies routing skeleton (`/case-studies`, `/case-studies/[slug]`) — Validated in Phase 1
+- ✓ Route-aware Navigation with cross-page hash links — Validated in Phase 1
+- ✓ Shared Footer component — Validated in Phase 1
+- ✓ Clean sitemap with real routes (no hash fragments) — Validated in Phase 1
+- ✓ @supabase/supabase-js removed — Validated in Phase 1
 
 ### Active
 
@@ -29,11 +37,11 @@ Two developers who've shipped together prove they can ship for you — the case 
 - [ ] Rebrand from personal portfolio to startup studio identity (placeholder name)
 - [ ] Add team section showcasing both Abhishek and Vatsal with roles/skills
 - [ ] Update hero/about to reflect "two devs, one studio" positioning
-- [ ] Add case studies page (`/case-studies`) with individual case study views (`/case-studies/[slug]`)
+- [x] Add case studies page (`/case-studies`) with individual case study views (`/case-studies/[slug]`) — routing skeleton done in Phase 1, content in Phase 3
 - [ ] Case study format: Problem → Architecture diagram → Tech stack → Implementation highlights → Results/metrics
-- [ ] Showcase 6 projects: GleeMeet, CareerBox, Zorova (client), EmpireInvestmentBank, Huslemad, Impactoverse
-- [ ] Add Zorova.in as new project — home spa service, MERN + Redis + OpenSearch (client project)
-- [ ] Add EmpireInvestmentBank.com — banking broker, 4 regions, investment banking services
+- [x] Showcase 6 projects: GleeMeet, CareerBox, Zorova (client), EmpireInvestmentBank, Huslemad, Impactoverse — data layer complete in Phase 1
+- [x] Add Zorova.in as new project — home spa service, MERN + Redis + OpenSearch (client project) — added in Phase 1 data layer
+- [x] Add EmpireInvestmentBank.com — banking broker, 4 regions, investment banking services — added in Phase 1 data layer
 - [ ] Deep case studies for key projects (GleeMeet, CareerBox, Zorova) highlighting Redis/OpenSearch/DynamoDB architecture
 - [ ] Improve animation fluidity across all sections — smoother transitions, better scroll-linked effects
 - [ ] URL validation — verify all project URLs (gleemeet.com, careerbox.in, zorova.in, empireinvestmentbank.com, huslemad.com, impactoverse.com) are live before linking
@@ -106,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 after initialization*
+*Last updated: 2026-04-01 after Phase 1 completion*
