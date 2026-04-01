@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [ ] 01-01: Data layer extraction + dependency cleanup (INFRA-01, INFRA-02, INFRA-03, INFRA-04, INFRA-09)
-- [ ] 01-02: GSAP centralization + scroll/Lenis fixes (INFRA-05, INFRA-06, INFRA-07, INFRA-08)
+- [x] 01-02: GSAP centralization + scroll/Lenis fixes (INFRA-05, INFRA-06, INFRA-07, INFRA-08)
 - [ ] 01-03: Case studies routing skeleton + navigation + sitemap (ROUT-01 through ROUT-07)
 
 ### Phase 2: Landing Page Rebrand
@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure Foundation | 0/3 | Planning complete | - |
+| 1. Infrastructure Foundation | 1/3 | In Progress|  |
 | 2. Landing Page Rebrand | 0/2 | Not started | - |
 | 3. Case Study Pages | 0/3 | Not started | - |
 | 4. Animation & Polish | 0/2 | Not started | - |

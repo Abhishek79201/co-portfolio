@@ -13,10 +13,10 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **INFRA-02**: All 6 projects defined in `data/projects.ts` with full metadata (slug, tech stack, description, URL, type)
 - [ ] **INFRA-03**: Team data defined in `data/team.ts` for Abhishek and Vatsal (equal billing)
 - [ ] **INFRA-04**: Case study content files in `data/case-studies/` for GleeMeet, CareerBox, Zorova
-- [ ] **INFRA-05**: GSAP registration centralized in `lib/gsap.ts` — no per-component registration
-- [ ] **INFRA-06**: `@gsap/react` adopted — all animated components use `useGSAP` hook
-- [ ] **INFRA-07**: Lenis cleanup bug fixed (anonymous function reference leak in SmoothScrollProvider)
-- [ ] **INFRA-08**: SmoothScrollProvider is route-aware (scroll reset + ScrollTrigger.refresh on navigation)
+- [x] **INFRA-05**: GSAP registration centralized in `lib/gsap.ts` — no per-component registration
+- [x] **INFRA-06**: `@gsap/react` adopted — all animated components use `useGSAP` hook
+- [x] **INFRA-07**: Lenis cleanup bug fixed (anonymous function reference leak in SmoothScrollProvider)
+- [x] **INFRA-08**: SmoothScrollProvider is route-aware (scroll reset + ScrollTrigger.refresh on navigation)
 - [ ] **INFRA-09**: Remove unused `@supabase/supabase-js` dependency
 
 ### Routing
@@ -120,10 +120,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-02 | Phase 1 | Pending |
 | INFRA-03 | Phase 1 | Pending |
 | INFRA-04 | Phase 1 | Pending |
-| INFRA-05 | Phase 1 | Pending |
-| INFRA-06 | Phase 1 | Pending |
-| INFRA-07 | Phase 1 | Pending |
-| INFRA-08 | Phase 1 | Pending |
+| INFRA-05 | Phase 1 | Complete |
+| INFRA-06 | Phase 1 | Complete |
+| INFRA-07 | Phase 1 | Complete |
+| INFRA-08 | Phase 1 | Complete |
 | INFRA-09 | Phase 1 | Pending |
 | ROUT-01 | Phase 1 | Pending |
 | ROUT-02 | Phase 1 | Pending |

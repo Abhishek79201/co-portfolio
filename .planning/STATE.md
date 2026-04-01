@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-04-01T04:04:55.147Z"
+last_activity: 2026-04-01
+progress:
+  total_phases: 5
+  completed_phases: 0
+  total_plans: 3
+  completed_plans: 1
+  percent: 0
+---
+
 # Project State
 
 ## Project Reference
@@ -5,20 +21,21 @@
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Two developers who've shipped together prove they can ship for you -- the case studies are the proof, the site is the pitch.
-**Current focus:** Phase 1: Infrastructure Foundation
+**Current focus:** Phase 01 — infrastructure-foundation
 
 ## Current Position
 
-Phase: 1 of 5 (Infrastructure Foundation)
-Plan: 0 of 3 in current phase
-Status: Ready to plan
-Last activity: 2026-04-01 -- Roadmap created
+Phase: 01 (infrastructure-foundation) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-04-01
 
 Progress: [..........] 0%
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0
 - Average duration: -
 - Total execution time: 0 hours
@@ -30,10 +47,12 @@ Progress: [..........] 0%
 | - | - | - | - |
 
 **Recent Trend:**
+
 - Last 5 plans: -
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-infrastructure-foundation P02 | 25 | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -44,6 +63,9 @@ Recent decisions affecting current work:
 
 - Roadmap: 5 phases derived from 6 requirement categories (INFRA+ROUT merged into Phase 1)
 - Roadmap: Case studies are the highest-value conversion asset -- Phase 3 is the core delivery
+- [Phase 01-infrastructure-foundation]: lib/gsap.ts as single GSAP registration module -- all components import from @/lib/gsap, never directly from gsap
+- [Phase 01-infrastructure-foundation]: useGSAP hook replaces useEffect+gsap.context pattern for automatic cleanup and correct multi-page behavior
+- [Phase 01-infrastructure-foundation]: Named rafCallback reference fixes Lenis cleanup leak in SmoothScrollProvider
 
 ### Pending Todos
 
@@ -57,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01
-Stopped at: Roadmap and state initialized
+Last session: 2026-04-01T04:04:55.140Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
