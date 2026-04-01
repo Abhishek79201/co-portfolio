@@ -34,7 +34,7 @@ Two developers who've shipped together prove they can ship for you — the case 
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] Rebrand from personal portfolio to startup studio identity (placeholder name)
+- [x] Rebrand from personal portfolio to startup studio identity (placeholder name) — Hero, metadata, and Navigation rebranded in Phase 2 Plan 01
 - [ ] Add team section showcasing both Abhishek and Vatsal with roles/skills
 - [ ] Update hero/about to reflect "two devs, one studio" positioning
 - [x] Add case studies page (`/case-studies`) with individual case study views (`/case-studies/[slug]`) — routing skeleton done in Phase 1, content in Phase 3
@@ -45,7 +45,7 @@ Two developers who've shipped together prove they can ship for you — the case 
 - [ ] Deep case studies for key projects (GleeMeet, CareerBox, Zorova) highlighting Redis/OpenSearch/DynamoDB architecture
 - [ ] Improve animation fluidity across all sections — smoother transitions, better scroll-linked effects
 - [ ] URL validation — verify all project URLs (gleemeet.com, careerbox.in, zorova.in, empireinvestmentbank.com, huslemad.com, impactoverse.com) are live before linking
-- [ ] Update metadata/SEO from personal branding to startup studio branding
+- [x] Update metadata/SEO from personal branding to startup studio branding — Validated in Phase 2
 - [ ] Update schema.org JSON-LD from Person to Organization
 
 ### Out of Scope
@@ -114,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 after Phase 1 completion*
+*Last updated: 2026-04-01 after Phase 2 completion*
