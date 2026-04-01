@@ -2,19 +2,10 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { gsap, SplitText, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 const STACK = ['REACT', 'NEXT.JS', 'NODE.JS', 'TYPESCRIPT', 'MONGODB', 'AWS', 'DOCKER', 'REDIS'];
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&';
-
-// Pre-render characters in JSX so text is visible without JS (good LCP)
-const CharLine = ({ text, className, innerRef }: { text: string; className: string; innerRef: React.Ref<HTMLSpanElement> }) => (
-  <span ref={innerRef} className={className} aria-hidden="true">
-    {text.split('').map((c, i) => (
-      <span key={i} className="hero-char inline-block">{c}</span>
-    ))}
-  </span>
-);
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -61,82 +52,119 @@ const Hero = () => {
 
   // GSAP animations -- useGSAP handles context creation and cleanup automatically
   useGSAP(() => {
-    const tl = gsap.timeline({ delay: 0.05 });
+    const mm = gsap.matchMedia();
 
-    // Blobs — fade in (no blur, just opacity + scale)
-    [blob1, blob2].forEach((b, i) => {
-      if (!b.current) return;
-      tl.from(b.current, { scale: 0.6, opacity: 0, duration: 1.8, ease: 'power2.out' }, i * 0.1);
-    });
+    mm.add({
+      isDesktop: '(min-width: 768px)',
+      isMobile: '(max-width: 767px)',
+      reduceMotion: '(prefers-reduced-motion: reduce)',
+    }, (context) => {
+      const { isDesktop, isMobile, reduceMotion } = context.conditions!;
 
-    // Name chars — gsap.from() so text is visible by default (great for LCP)
-    // Characters animate FROM hidden TO their natural visible state
-    [name1Ref, name2Ref].forEach((ref, lineIdx) => {
-      if (!ref.current) return;
-      const chars = ref.current.querySelectorAll('.hero-char');
-      tl.from(chars, {
-        opacity: 0, y: '140%',
-        rotation: () => (Math.random() - 0.5) * 30,
-        scale: 0.5,
-        duration: 1.2, stagger: 0.025,
-        ease: 'elastic.out(1, 0.55)',
-      }, 0.1 + lineIdx * 0.1);
-    });
+      if (reduceMotion) {
+        // Instant final state -- no motion (per D-15, UI-SPEC Accessibility)
+        gsap.set([name1Ref.current, name2Ref.current, roleRef.current, descRef.current], {
+          opacity: 1, y: 0, scale: 1, clearProps: 'all',
+        });
+        if (ctaRef.current?.children) gsap.set(ctaRef.current.children, { opacity: 1, y: 0, scale: 1, clearProps: 'all' });
+        if (marqueeRef.current) gsap.set(marqueeRef.current, { opacity: 1, x: 0, clearProps: 'all' });
+        if (statsRef.current?.children) gsap.set(statsRef.current.children, { opacity: 1, y: 0, scale: 1, clearProps: 'all' });
+        // Still run counters (non-motion content) and scramble (text content)
+        if (roleRef.current) scramble(roleRef.current, 'DEV STUDIO');
+        return;
+      }
 
-    // Role — scramble decode
-    if (roleRef.current) {
-      tl.from(roleRef.current, { opacity: 0, duration: 0.01 }, 0.5);
-      tl.call(() => { if (roleRef.current) scramble(roleRef.current, 'DEV STUDIO'); }, [], 0.5);
-    }
+      const tl = gsap.timeline({ delay: 0.05 });
 
-    // Description — clip reveal from left
-    if (descRef.current) {
-      tl.from(descRef.current, {
-        clipPath: 'inset(0 100% 0 0)',
-        duration: 1, ease: 'power3.inOut',
-      }, 0.85);
-    }
-
-    // CTA — bounce in
-    if (ctaRef.current?.children) {
-      tl.from(ctaRef.current.children, {
-        opacity: 0, y: 25, scale: 0.85,
-        duration: 0.7, stagger: 0.08, ease: 'back.out(2.5)',
-      }, 1.1);
-    }
-
-    // Marquee
-    if (marqueeRef.current) {
-      tl.from(marqueeRef.current, { opacity: 0, x: 50, duration: 0.8, ease: 'power3.out' }, 1.0);
-    }
-
-    // Stats
-    if (statsRef.current?.children) {
-      tl.from(statsRef.current.children, {
-        opacity: 0, y: 30, scale: 0.85,
-        duration: 0.6, stagger: 0.1, ease: 'back.out(3)',
-      }, 1.3);
-    }
-
-    // SCROLL-LINKED: Name parallaxes up faster + fades
-    [name1Ref, name2Ref].forEach((ref) => {
-      if (!ref.current) return;
-      gsap.to(ref.current, {
-        y: -180, opacity: 0.2, ease: 'none',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 0.6 },
+      // Blobs fade in (same for desktop and mobile)
+      [blob1, blob2].forEach((b, i) => {
+        if (!b.current) return;
+        tl.from(b.current, { scale: 0.6, opacity: 0, duration: 1.8, ease: 'power2.out' }, i * 0.1);
       });
-    });
 
-    // Blob scroll parallax
-    [blob1, blob2].forEach((b, i) => {
-      if (!b.current) return;
-      gsap.to(b.current, {
-        y: -250 - i * 80, ease: 'none',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 1 },
+      // Name chars -- SplitText (per D-01)
+      [name1Ref, name2Ref].forEach((ref, lineIdx) => {
+        if (!ref.current) return;
+        SplitText.create(ref.current, {
+          type: 'chars',
+          autoSplit: true,
+          onSplit(self) {
+            if (isMobile) {
+              // Mobile: simpler animation, no rotation, shorter duration (per D-13, D-14)
+              return tl.from(self.chars, {
+                opacity: 0, y: '80%',
+                duration: 0.4, stagger: 0.015,
+                ease: 'power2.out',
+              }, 0.1 + lineIdx * 0.05);
+            }
+            // Desktop: full animation (back.out(2.5) per UI-SPEC easing overhaul table)
+            return tl.from(self.chars, {
+              opacity: 0, y: '140%',
+              rotation: () => (Math.random() - 0.5) * 30,
+              scale: 0.5,
+              duration: 1.0, stagger: 0.02,
+              ease: 'back.out(2.5)',
+            }, 0.1 + lineIdx * 0.1);
+          }
+        });
       });
+
+      // Role scramble (preserved per D-02 -- scramble behavior stays)
+      if (roleRef.current) {
+        tl.from(roleRef.current, { opacity: 0, duration: 0.01 }, 0.5);
+        tl.call(() => { if (roleRef.current) scramble(roleRef.current, 'DEV STUDIO'); }, [], 0.5);
+      }
+
+      // Description clip reveal
+      if (descRef.current) {
+        tl.from(descRef.current, {
+          clipPath: 'inset(0 100% 0 0)',
+          duration: isMobile ? 0.6 : 1, ease: 'power3.inOut',
+        }, 0.85);
+      }
+
+      // CTA bounce in
+      if (ctaRef.current?.children) {
+        tl.from(ctaRef.current.children, {
+          opacity: 0, y: 25, scale: 0.85,
+          duration: isMobile ? 0.4 : 0.7, stagger: 0.08, ease: 'back.out(2.5)',
+        }, 1.1);
+      }
+
+      // Marquee
+      if (marqueeRef.current) {
+        tl.from(marqueeRef.current, { opacity: 0, x: 50, duration: 0.8, ease: 'power3.out' }, 1.0);
+      }
+
+      // Stats
+      if (statsRef.current?.children) {
+        tl.from(statsRef.current.children, {
+          opacity: 0, y: 30, scale: 0.85,
+          duration: isMobile ? 0.3 : 0.6, stagger: 0.1, ease: 'back.out(3)',
+        }, 1.3);
+      }
+
+      // SCROLL-LINKED parallax (desktop only per D-13)
+      if (isDesktop) {
+        [name1Ref, name2Ref].forEach((ref) => {
+          if (!ref.current) return;
+          gsap.to(ref.current, {
+            y: -100, opacity: 0.2, ease: 'none',
+            scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 0.8 },
+          });
+        });
+
+        [blob1, blob2].forEach((b, i) => {
+          if (!b.current) return;
+          gsap.to(b.current, {
+            y: -250 - i * 80, ease: 'none',
+            scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 1 },
+          });
+        });
+      }
     });
 
-    // Counters
+    // Counters (outside matchMedia -- non-motion content, always runs)
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setProductsCount(Math.min(c,6));if(c>=6)clearInterval(iv)},38); }, 1600);
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setYearsCount(Math.min(c,3));if(c>=3)clearInterval(iv)},28); }, 1800);
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setFoundersCount(Math.min(c,2));if(c>=2)clearInterval(iv)},50); }, 2000);
@@ -165,11 +193,11 @@ const Hero = () => {
             <span className="dev-mono text-[11px] text-[var(--text-muted)] tracking-[0.2em] uppercase">Available for projects</span>
           </div>
 
-          {/* Name — pre-rendered chars, visible by default */}
+          {/* Name — plain text spans, SplitText handles char wrapping */}
           <h1 className="mb-3">
             <span className="sr-only">Dev Studio — We Build Scalable Products</span>
-            <CharLine text="Dev" className="heading-brutal block text-white" innerRef={name1Ref} />
-            <CharLine text="Studio" className="heading-brutal block text-outline" innerRef={name2Ref} />
+            <span ref={name1Ref} className="heading-brutal block text-white" aria-hidden="true">Dev</span>
+            <span ref={name2Ref} className="heading-brutal block text-outline" aria-hidden="true">Studio</span>
           </h1>
 
           {/* Role — scramble effect */}
