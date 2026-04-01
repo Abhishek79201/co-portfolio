@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-04-01T17:13:58.675Z"
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-04-01T17:13:40.684Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 5
@@ -57,7 +57,7 @@ Progress: [..........] 0%
 | Phase 01-infrastructure-foundation P03 | 25 | 2 tasks | 8 files |
 | Phase 02-landing-page-rebrand P01 | 12 | 3 tasks | 3 files |
 | Phase 03-case-study-pages P01 | 6 | 2 tasks | 3 files |
-| Phase 03 P02 | 4 | 2 tasks | 2 files |
+| Phase 03 P03 | 3 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -82,8 +82,9 @@ Recent decisions affecting current work:
 - [Phase 02-landing-page-rebrand]: JSON-LD @type stays Person in Phase 2 — Organization schema migration deferred to Phase 5 (SEO-01)
 - [Phase 03-case-study-pages]: CaseStudySection removed; CaseStudy uses structured typed fields (TechRationaleItem, ImplementationHighlight, ResultMetric, TeamContribution, PatternSpotlight)
 - [Phase 03-case-study-pages]: techStack field removed from CaseStudy; tech pills sourced from projects.ts via projectSlug to avoid data duplication
-- [Phase 03]: Used CSS data-accent pattern for case-card hover states (matching existing project-row convention)
-- [Phase 03]: Index page uses vertical card stack (space-y-6) per D-07 editorial card spec, not multi-column grid
+- [Phase 03]: All architecture diagrams use CSS custom properties in SVG attributes for theme-consistent rendering
+- [Phase 03]: BERT node in GleeMeet uses standard styling (not accent) to distinguish from Redis+OpenSearch+DB trio
+- [Phase 03]: components/diagrams/ directory established for all architecture diagram Server Components
 
 ### Pending Todos
 
@@ -97,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T17:13:58.670Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-04-01T17:13:40.679Z
+Stopped at: Completed 03-03-PLAN.md
 Resume file: None
