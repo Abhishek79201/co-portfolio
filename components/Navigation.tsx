@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { Github, Linkedin, Mail } from 'lucide-react';
 
 const Navigation = () => {
@@ -9,28 +10,64 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState('');
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Global scroll-based scrolled state (works on all routes)
   useEffect(() => {
-    const onScroll = () => {
+    const onScrollGlobal = () => {
       setScrolled(window.scrollY > 80);
+    };
+    window.addEventListener('scroll', onScrollGlobal, { passive: true });
+    onScrollGlobal();
+    return () => window.removeEventListener('scroll', onScrollGlobal);
+  }, []);
+
+  // Homepage scroll-spy for active section
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const onScroll = () => {
       const ids = ['contact', 'projects', 'experience', 'about'];
       for (const id of ids) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= 200) {
-          setActive(id); return;
+          setActive(id);
+          return;
         }
       }
       setActive('');
     };
     window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // initial check
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [pathname]);
+
+  // Set active state for non-homepage routes
+  useEffect(() => {
+    if (pathname.startsWith('/case-studies')) {
+      setActive('case-studies');
+    } else if (pathname !== '/') {
+      setActive('');
+    }
+  }, [pathname]);
 
   const items = [
     { name: 'About', href: '#about' },
     { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Case Studies', href: '/case-studies' },
     { name: 'Contact', href: '#contact' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#') && pathname !== '/') {
+      e.preventDefault();
+      router.push(`/${href}`);
+    }
+    // On homepage, default anchor behavior + Lenis smooth scroll handles it
+    // For non-hash links like /case-studies, default Link behavior handles it
+  };
 
   return (
     <header role="banner">
@@ -47,12 +84,19 @@ const Navigation = () => {
             {/* Desktop links */}
             <div className="hidden md:flex items-center gap-8" role="menubar">
               {items.map((item) => {
-                const isActive = active === item.href.slice(1);
+                const isActive = item.href.startsWith('#')
+                  ? active === item.href.slice(1)
+                  : pathname.startsWith(item.href);
                 return (
-                  <Link key={item.name} href={item.href} role="menuitem"
-                        className={`text-sm transition-colors duration-300 ${
-                          isActive ? 'text-white' : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
-                        }`}>
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    role="menuitem"
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`text-sm transition-colors duration-300 ${
+                      isActive ? 'text-white' : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
+                    }`}
+                  >
                     {item.name}
                   </Link>
                 );
@@ -91,9 +135,16 @@ const Navigation = () => {
                role="menu">
             <div className="border-t border-[var(--line)] pt-4 space-y-4 pb-2">
               {items.map((item) => (
-                <Link key={item.name} href={item.href} role="menuitem"
-                      className="block text-[var(--text-secondary)] hover:text-white text-sm transition-colors"
-                      onClick={() => setIsOpen(false)}>
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  role="menuitem"
+                  className="block text-[var(--text-secondary)] hover:text-white text-sm transition-colors"
+                  onClick={(e) => {
+                    handleNavClick(e, item.href);
+                    setIsOpen(false);
+                  }}
+                >
                   {item.name}
                 </Link>
               ))}
