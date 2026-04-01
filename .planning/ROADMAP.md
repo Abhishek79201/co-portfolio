@@ -68,9 +68,9 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md -- Expand CaseStudy types + author all 3 case study content (CASE-03, CASE-04, CASE-05, CASE-07, CASE-08, CASE-09)
-- [ ] 03-02-PLAN.md -- Index page redesign with pattern intro + rich cards (CASE-01, CASE-08)
-- [ ] 03-03-PLAN.md -- Architecture SVG diagrams for GleeMeet, CareerBox, Zorova (CASE-06)
-- [ ] 03-04-PLAN.md -- Detail page 8-section template + PatternSpotlight component (CASE-02, CASE-07, CASE-08, CASE-09, CASE-10)
+- [x] 03-02-PLAN.md -- Index page redesign with pattern intro + rich cards (CASE-01, CASE-08)
+- [x] 03-03-PLAN.md -- Architecture SVG diagrams for GleeMeet, CareerBox, Zorova (CASE-06)
+- [x] 03-04-PLAN.md -- Detail page 8-section template + PatternSpotlight component (CASE-02, CASE-07, CASE-08, CASE-09, CASE-10)
 
 ### Phase 4: Animation & Polish
 **Goal**: The site feels premium and fluid -- animations enhance comprehension of case study content and perform well on mobile devices with reduced-motion support
