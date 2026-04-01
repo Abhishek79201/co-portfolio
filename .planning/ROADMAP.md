@@ -13,7 +13,7 @@ Transform an existing single-page personal portfolio into a two-person dev studi
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Infrastructure Foundation** - Data layer, GSAP/Lenis fixes, routing skeleton, dependency cleanup
-- [ ] **Phase 2: Landing Page Rebrand** - Studio identity, team section, project showcase, methodology
+- [x] **Phase 2: Landing Page Rebrand** - Studio identity, team section, project showcase, methodology (completed 2026-04-01)
 - [ ] **Phase 3: Case Study Pages** - Index page, detail template, 3 deep-dive case studies with architecture diagrams
 - [ ] **Phase 4: Animation & Polish** - SplitText, scroll reveals, diagram animations, mobile performance
 - [ ] **Phase 5: SEO & Verification** - Schema migration, OG images, URL checks, Core Web Vitals
@@ -51,7 +51,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 02-01: TBD
+- [x] 02-01: TBD
 - [ ] 02-02: TBD
 
 ### Phase 3: Case Study Pages
@@ -109,7 +109,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Infrastructure Foundation | 2/3 | In Progress|  |
-| 2. Landing Page Rebrand | 0/2 | Not started | - |
+| 2. Landing Page Rebrand | 1/1 | Complete   | 2026-04-01 |
 | 3. Case Study Pages | 0/3 | Not started | - |
 | 4. Animation & Polish | 0/2 | Not started | - |
 | 5. SEO & Verification | 0/1 | Not started | - |

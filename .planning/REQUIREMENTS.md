@@ -31,7 +31,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Studio Identity
 
-- [ ] **STUD-01**: Hero section rewritten for studio identity — "two devs, one studio" positioning
+- [x] **STUD-01**: Hero section rewritten for studio identity — "two devs, one studio" positioning
 - [ ] **STUD-02**: About section updated with shared history narrative (GEC Modasa → Screenplay → X-Byte)
 - [ ] **STUD-03**: Team section with equal-billing cards for Abhishek and Vatsal (photo, role, skills, GitHub, LinkedIn)
 - [ ] **STUD-04**: Footer component extracted and shared across all pages (studio name, email, social links, copyright)
@@ -39,7 +39,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **STUD-06**: Project showcase section refactored to consume `data/projects.ts` with 6 projects
 - [ ] **STUD-07**: Client vs internal project labels on project cards (Zorova = "Client", GleeMeet = "Co-built")
 - [ ] **STUD-08**: Contact section copy updated from personal to studio framing
-- [ ] **STUD-09**: Metadata/title updated from "Abhishek Vaghela" to studio branding (placeholder name)
+- [x] **STUD-09**: Metadata/title updated from "Abhishek Vaghela" to studio branding (placeholder name)
 
 ### Case Studies
 
@@ -132,7 +132,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROUT-05 | Phase 1 | Complete |
 | ROUT-06 | Phase 1 | Complete |
 | ROUT-07 | Phase 1 | Complete |
-| STUD-01 | Phase 2 | Pending |
+| STUD-01 | Phase 2 | Complete |
 | STUD-02 | Phase 2 | Pending |
 | STUD-03 | Phase 2 | Pending |
 | STUD-04 | Phase 2 | Pending |
@@ -140,7 +140,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STUD-06 | Phase 2 | Pending |
 | STUD-07 | Phase 2 | Pending |
 | STUD-08 | Phase 2 | Pending |
-| STUD-09 | Phase 2 | Pending |
+| STUD-09 | Phase 2 | Complete |
 | CASE-01 | Phase 3 | Pending |
 | CASE-02 | Phase 3 | Pending |
 | CASE-03 | Phase 3 | Pending |
