@@ -45,7 +45,7 @@ Declared values (multiples of 4 — 8-point grid):
 
 Exceptions:
 - Touch targets for CTA buttons: minimum 44px height
-- Pattern Spotlight callout block: 24px horizontal + 20px vertical inner padding (asymmetric for visual weight)
+- Pattern Spotlight callout block: 24px horizontal + 16px vertical inner padding (asymmetric for visual weight — both values on 4px grid)
 - Architecture diagram container: no max-width constraint — full bleed within the max-[1400px] shell
 - Section numbering label (`01 /`): 0 left margin, dev-mono 10px, tracks left edge
 
@@ -172,7 +172,7 @@ This is a cross-cutting component appearing in the Architecture section of every
 **Anatomy:**
 - Left border: 3px solid `var(--{project.accent})`
 - Background: `rgba(255,255,255,0.02)` over `var(--bg-elevated)`
-- Inner padding: 20px vertical, 24px horizontal
+- Inner padding: 16px vertical, 24px horizontal
 - Label: dev-mono 10px uppercase "Pattern Spotlight" in `var(--{project.accent})`
 - Heading: 16px weight 700 white — "Redis + OpenSearch + {DB name}" (project-specific DB)
 - Body: `.text-body` — 2-3 sentences explaining how the pattern is applied in this specific project's context
