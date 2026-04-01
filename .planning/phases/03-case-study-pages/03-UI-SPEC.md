@@ -53,19 +53,18 @@ Exceptions:
 
 ## Typography
 
-All sizes use clamp() where noted — these are the declared minimum/target/maximum. Weights are the **only two weights** used across this phase.
+All sizes use clamp() where noted — these are the declared minimum/target/maximum. The two system weights are **400 (regular)** and **700 (bold)**. Utility-specific weight overrides are noted per row and do not constitute additional system weights.
 
 | Role | Size | Weight | Line Height | Font | Class / Token |
 |------|------|--------|-------------|------|---------------|
 | Body | clamp(1rem → 1.15rem) | 400 (regular) | 1.75 | Inter | `.text-body` (existing global utility) |
-| Label / mono | 10–12px (0.625–0.75rem) | 500 (medium) | 1.4 | JetBrains Mono | `.dev-mono` (existing global utility) |
-| Section heading | clamp(2rem → 4rem) | 700 (bold) | 1.0 | Inter | `.heading-lg` (existing global utility) |
-| Display / hero | clamp(3.5rem → 12rem) | 900 (black) | 0.88 | Inter | `.heading-brutal` (existing global utility) |
+| Label / mono | 10–12px (0.625–0.75rem) | 400 (regular); 500 permitted within this utility only | 1.4 | JetBrains Mono | `.dev-mono` (existing global utility) |
+| Section / sub-heading | clamp(1.25rem → 2rem) | 700 (bold) | 1.1 | Inter | `.heading-md` (existing global utility) |
+| Page heading | clamp(2rem → 4rem) | 700 (bold) | 1.0 | Inter | `.heading-lg` (existing global utility) |
 
-Additional size used for case study section sub-headings (Challenge, Architecture, etc.):
-- Size: clamp(1.25rem → 2rem), weight 600, line-height 1.1, letter-spacing -0.02em — maps to `.heading-md` (existing global utility)
-
-**Declared weights: 400 (regular), 700 (bold).** 600 (semibold) is permitted only for section sub-headings and CTA labels. 900 (black) reserved for brutalist display type only.
+Notes:
+- `.heading-brutal` (clamp(3.5rem → 12rem), weight 900, line-height 0.88) is a display utility used optionally on the index pattern intro section. Weight 900 is confined to this utility and is not a type system weight. It is not assigned a row in the scale table.
+- The two declared system weights are 400 and 700. Weight 500 is a permitted variance within `.dev-mono` only. Weight 900 is confined to `.heading-brutal` only. No other weight values are in use in this phase.
 
 ---
 
@@ -111,8 +110,8 @@ Components already installed (no new installs required for this phase):
 | `Separator` (shadcn) | Horizontal rule between detail page sections (alternative to `border-t`) |
 | `.pill` utility | Tech stack pills (existing global class — violet/pink/cyan/orange/lime variants) |
 | `.heading-lg` | Index page h1 and detail page h1 |
-| `.heading-md` | Detail page section sub-headings |
-| `.heading-brutal` | Pattern intro section large display type on index (optional) |
+| `.heading-md` | Detail page section sub-headings and index card titles |
+| `.heading-brutal` | Pattern intro section large display type on index (optional — display utility only) |
 | `.dev-mono` | Section numbers, meta labels, tech categories |
 | `.text-body` | All paragraph content |
 | `.magnetic-btn` | CTA button ("Let's Talk") |
@@ -147,7 +146,7 @@ Components already installed (no new installs required for this phase):
 
 **Section anatomy — all 8 sections follow this pattern:**
 - Section number label: dev-mono 10px, `var(--{project.accent})`, position top-left, format `01 /`
-- Section heading: `.heading-md`, white, weight 600
+- Section heading: `.heading-md`, white, weight 700
 - `border-t border-[var(--line)] pt-12 mb-20` between each section
 - Body: `.text-body` for narrative prose
 
@@ -175,7 +174,7 @@ This is a cross-cutting component appearing in the Architecture section of every
 - Background: `rgba(255,255,255,0.02)` over `var(--bg-elevated)`
 - Inner padding: 20px vertical, 24px horizontal
 - Label: dev-mono 10px uppercase "Pattern Spotlight" in `var(--{project.accent})`
-- Heading: 16px weight 600 white — "Redis + OpenSearch + {DB name}" (project-specific DB)
+- Heading: 16px weight 700 white — "Redis + OpenSearch + {DB name}" (project-specific DB)
 - Body: `.text-body` — 2-3 sentences explaining how the pattern is applied in this specific project's context
 
 ---
