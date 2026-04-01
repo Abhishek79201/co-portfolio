@@ -140,12 +140,6 @@ const Contact = () => {
           </div>
         </div>
 
-        <footer className="mt-32 pt-6 border-t border-[var(--line)]" role="contentinfo">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <p className="text-[10px] text-[var(--text-muted)] dev-mono">&copy; {new Date().getFullYear()} Abhishek Vaghela</p>
-            <p className="text-[10px] text-[var(--text-muted)] dev-mono">Next.js + GSAP + late nights</p>
-          </div>
-        </footer>
       </div>
     </section>
   );
