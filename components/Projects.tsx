@@ -36,7 +36,7 @@ const projects = [
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Text scramble on hover (uses setInterval, not GSAP -- no contextSafe needed)
+  // Text scramble on hover
   const handleRowHover = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     const titleEl = e.currentTarget.querySelector('.project-title') as HTMLElement;
     if (!titleEl) return;
@@ -56,47 +56,75 @@ const Projects = () => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Label — clip
-    const label = section.querySelector('.section-label');
-    if (label) {
-      gsap.fromTo(label,
-        { clipPath: 'inset(0 100% 0 0)' },
-        { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
-          scrollTrigger: { trigger: label, start: 'top 90%' } }
-      );
-    }
+    const mm = gsap.matchMedia();
 
-    // Heading — slide up
-    const heading = section.querySelector('.section-heading');
-    if (heading) {
-      gsap.from(heading, {
-        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: heading, start: 'top 85%' },
+    mm.add({
+      isDesktop: '(min-width: 768px)',
+      isMobile: '(max-width: 767px)',
+      reduceMotion: '(prefers-reduced-motion: reduce)',
+    }, (context) => {
+      const { isDesktop, isMobile, reduceMotion } = context.conditions!;
+
+      if (reduceMotion) {
+        // Instant final state -- no motion (per D-15)
+        // Scramble hover effect still works (it's a callback, not GSAP animation)
+        const allAnimated = section.querySelectorAll('.section-label, .section-heading, .project-row, .cta-row');
+        gsap.set(allAnimated, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'all' });
+        return;
+      }
+
+      // Label -- clip reveal
+      const label = section.querySelector('.section-label');
+      if (label) {
+        gsap.fromTo(label,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+            scrollTrigger: { trigger: label, start: 'top 90%' } }
+        );
+      }
+
+      // Heading -- slide up
+      const heading = section.querySelector('.section-heading');
+      if (heading) {
+        gsap.from(heading, {
+          y: isMobile ? 30 : 60, opacity: 0,
+          duration: isMobile ? 0.4 : 1, ease: 'power3.out',
+          scrollTrigger: { trigger: heading, start: 'top 85%' },
+        });
+      }
+
+      // Project rows -- y + opacity + scale, NO rotation on mobile (simplified per D-13)
+      section.querySelectorAll('.project-row').forEach((row, i) => {
+        gsap.fromTo(row,
+          {
+            y: isMobile ? 30 : 60,
+            opacity: 0,
+            scale: isMobile ? 1 : 0.97,
+          },
+          {
+            y: 0, opacity: 1, scale: 1,
+            duration: isMobile ? 0.4 : 0.9,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: row, start: 'top 92%' },
+            delay: i * 0.06,
+          }
+        );
       });
-    }
 
-    // Project rows — scale + slight rotate from bottom
-    section.querySelectorAll('.project-row').forEach((row, i) => {
-      gsap.fromTo(row,
-        { y: 60, opacity: 0, scale: 0.97, rotate: 0.5 },
-        {
-          y: 0, opacity: 1, scale: 1, rotate: 0, duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: row, start: 'top 92%' },
-          delay: i * 0.06,
-        }
-      );
+      // CTA
+      const cta = section.querySelector('.cta-row');
+      if (cta) {
+        gsap.fromTo(cta,
+          { y: isMobile ? 15 : 30, opacity: 0 },
+          {
+            y: 0, opacity: 1,
+            duration: isMobile ? 0.3 : 0.8,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: cta, start: 'top 90%' },
+          }
+        );
+      }
     });
-
-    // CTA
-    const cta = section.querySelector('.cta-row');
-    if (cta) {
-      gsap.fromTo(cta,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
-          scrollTrigger: { trigger: cta, start: 'top 90%' } }
-      );
-    }
   }, { scope: sectionRef });
 
   return (

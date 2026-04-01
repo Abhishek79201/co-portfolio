@@ -38,36 +38,57 @@ const Experience = () => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Label — clip reveal
-    const label = section.querySelector('.section-label');
-    if (label) {
-      gsap.fromTo(label,
-        { clipPath: 'inset(0 100% 0 0)' },
-        { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
-          scrollTrigger: { trigger: label, start: 'top 90%' } }
-      );
-    }
+    const mm = gsap.matchMedia();
 
-    // Heading — slide up
-    const heading = section.querySelector('.section-heading');
-    if (heading) {
-      gsap.from(heading, {
-        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: heading, start: 'top 85%' },
+    mm.add({
+      isDesktop: '(min-width: 768px)',
+      isMobile: '(max-width: 767px)',
+      reduceMotion: '(prefers-reduced-motion: reduce)',
+    }, (context) => {
+      const { isDesktop, isMobile, reduceMotion } = context.conditions!;
+
+      if (reduceMotion) {
+        // Instant final state -- no motion (per D-15)
+        const allAnimated = section.querySelectorAll('.section-label, .section-heading, .exp-row');
+        gsap.set(allAnimated, { opacity: 1, x: 0, y: 0, clearProps: 'all' });
+        return;
+      }
+
+      // Label clip reveal
+      const label = section.querySelector('.section-label');
+      if (label) {
+        gsap.fromTo(label,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+            scrollTrigger: { trigger: label, start: 'top 90%' } }
+        );
+      }
+
+      // Heading slide up
+      const heading = section.querySelector('.section-heading');
+      if (heading) {
+        gsap.from(heading, {
+          y: isMobile ? 30 : 60, opacity: 0,
+          duration: isMobile ? 0.4 : 1, ease: 'power3.out',
+          scrollTrigger: { trigger: heading, start: 'top 85%' },
+        });
+      }
+
+      // Experience rows -- alternating x slide, NO rotation (per UI-SPEC easing overhaul)
+      section.querySelectorAll('.exp-row').forEach((row, i) => {
+        const fromX = i % 2 === 0
+          ? (isMobile ? -30 : -80)
+          : (isMobile ? 30 : 80);
+        gsap.fromTo(row,
+          { x: fromX, opacity: 0 },
+          {
+            x: 0, opacity: 1,
+            duration: isMobile ? 0.4 : 1,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: row, start: 'top 88%' },
+          }
+        );
       });
-    }
-
-    // Experience rows — alternating slide direction + slight rotate
-    section.querySelectorAll('.exp-row').forEach((row, i) => {
-      const fromX = i % 2 === 0 ? -80 : 80;
-      gsap.fromTo(row,
-        { x: fromX, opacity: 0, rotate: i % 2 === 0 ? -1.5 : 1.5 },
-        {
-          x: 0, opacity: 1, rotate: 0, duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: row, start: 'top 88%' },
-        }
-      );
     });
   }, { scope: sectionRef });
 
