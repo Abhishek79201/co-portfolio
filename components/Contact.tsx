@@ -1,65 +1,56 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useState } from 'react';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { ArrowUpRight, Send } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
 
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
-      // Label clip
-      const label = section.querySelector('.section-label');
-      if (label) {
-        gsap.fromTo(label,
-          { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
-            scrollTrigger: { trigger: label, start: 'top 90%' } }
-        );
-      }
+    // Label clip
+    const label = section.querySelector('.section-label');
+    if (label) {
+      gsap.fromTo(label,
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+          scrollTrigger: { trigger: label, start: 'top 90%' } }
+      );
+    }
 
-      // Heading — slide up
-      const heading = section.querySelector('.section-heading');
-      if (heading) {
-        gsap.from(heading, {
-          y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: heading, start: 'top 85%' },
-        });
-      }
-
-      // Contact links — stagger slide up
-      section.querySelectorAll('.contact-link').forEach((el, i) => {
-        gsap.fromTo(el,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 92%' },
-            delay: i * 0.06 }
-        );
+    // Heading — slide up
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      gsap.from(heading, {
+        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: heading, start: 'top 85%' },
       });
+    }
 
-      // Form — clip reveal
-      const form = section.querySelector('.contact-form');
-      if (form) {
-        gsap.fromTo(form,
-          { clipPath: 'inset(0 0 100% 0)', opacity: 1 },
-          { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power3.inOut',
-            scrollTrigger: { trigger: form, start: 'top 85%' } }
-        );
-      }
-    }, section);
+    // Contact links — stagger slide up
+    section.querySelectorAll('.contact-link').forEach((el, i) => {
+      gsap.fromTo(el,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 92%' },
+          delay: i * 0.06 }
+      );
+    });
 
-    return () => ctx.revert();
-  }, []);
+    // Form — clip reveal
+    const form = section.querySelector('.contact-form');
+    if (form) {
+      gsap.fromTo(form,
+        { clipPath: 'inset(0 0 100% 0)', opacity: 1 },
+        { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power3.inOut',
+          scrollTrigger: { trigger: form, start: 'top 85%' } }
+      );
+    }
+  }, { scope: sectionRef });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,12 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useRef } from 'react';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 const experiences = [
   {
@@ -39,46 +34,42 @@ const experiences = [
 const Experience = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
-      // Label — clip reveal
-      const label = section.querySelector('.section-label');
-      if (label) {
-        gsap.fromTo(label,
-          { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
-            scrollTrigger: { trigger: label, start: 'top 90%' } }
-        );
-      }
+    // Label — clip reveal
+    const label = section.querySelector('.section-label');
+    if (label) {
+      gsap.fromTo(label,
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.inOut',
+          scrollTrigger: { trigger: label, start: 'top 90%' } }
+      );
+    }
 
-      // Heading — slide up
-      const heading = section.querySelector('.section-heading');
-      if (heading) {
-        gsap.from(heading, {
-          y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: heading, start: 'top 85%' },
-        });
-      }
-
-      // Experience rows — alternating slide direction + slight rotate
-      section.querySelectorAll('.exp-row').forEach((row, i) => {
-        const fromX = i % 2 === 0 ? -80 : 80;
-        gsap.fromTo(row,
-          { x: fromX, opacity: 0, rotate: i % 2 === 0 ? -1.5 : 1.5 },
-          {
-            x: 0, opacity: 1, rotate: 0, duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: row, start: 'top 88%' },
-          }
-        );
+    // Heading — slide up
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      gsap.from(heading, {
+        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: heading, start: 'top 85%' },
       });
-    }, section);
+    }
 
-    return () => ctx.revert();
-  }, []);
+    // Experience rows — alternating slide direction + slight rotate
+    section.querySelectorAll('.exp-row').forEach((row, i) => {
+      const fromX = i % 2 === 0 ? -80 : 80;
+      gsap.fromTo(row,
+        { x: fromX, opacity: 0, rotate: i % 2 === 0 ? -1.5 : 1.5 },
+        {
+          x: 0, opacity: 1, rotate: 0, duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: row, start: 'top 88%' },
+        }
+      );
+    });
+  }, { scope: sectionRef });
 
   return (
     <section id="experience" ref={sectionRef} aria-label="Work experience" className="py-32 lg:py-44 content-auto">

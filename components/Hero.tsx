@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 const STACK = ['REACT', 'NEXT.JS', 'NODE.JS', 'TYPESCRIPT', 'MONGODB', 'AWS', 'DOCKER', 'REDIS'];
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&';
@@ -57,93 +52,94 @@ const Hero = () => {
     if (blob2.current) gsap.to(blob2.current, { x: x * -25, y: y * -18, duration: 1.5, ease: 'power2.out', overwrite: 'auto' });
   }, []);
 
+  // Mouse event listener (separate useEffect -- not a GSAP animation setup)
   useEffect(() => {
     window.addEventListener('mousemove', onMouseMove, { passive: true });
+    return () => { window.removeEventListener('mousemove', onMouseMove); };
+  }, [onMouseMove]);
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.05 });
+  // GSAP animations -- useGSAP handles context creation and cleanup automatically
+  useGSAP(() => {
+    const tl = gsap.timeline({ delay: 0.05 });
 
-      // Blobs — fade in (no blur, just opacity + scale)
-      [blob1, blob2].forEach((b, i) => {
-        if (!b.current) return;
-        tl.from(b.current, { scale: 0.6, opacity: 0, duration: 1.8, ease: 'power2.out' }, i * 0.1);
+    // Blobs — fade in (no blur, just opacity + scale)
+    [blob1, blob2].forEach((b, i) => {
+      if (!b.current) return;
+      tl.from(b.current, { scale: 0.6, opacity: 0, duration: 1.8, ease: 'power2.out' }, i * 0.1);
+    });
+
+    // Name chars — gsap.from() so text is visible by default (great for LCP)
+    // Characters animate FROM hidden TO their natural visible state
+    [name1Ref, name2Ref].forEach((ref, lineIdx) => {
+      if (!ref.current) return;
+      const chars = ref.current.querySelectorAll('.hero-char');
+      tl.from(chars, {
+        opacity: 0, y: '140%',
+        rotation: () => (Math.random() - 0.5) * 30,
+        scale: 0.5,
+        duration: 1.2, stagger: 0.025,
+        ease: 'elastic.out(1, 0.55)',
+      }, 0.1 + lineIdx * 0.1);
+    });
+
+    // Role — scramble decode
+    if (roleRef.current) {
+      tl.from(roleRef.current, { opacity: 0, duration: 0.01 }, 0.5);
+      tl.call(() => { if (roleRef.current) scramble(roleRef.current, 'FULL STACK DEVELOPER'); }, [], 0.5);
+    }
+
+    // Description — clip reveal from left
+    if (descRef.current) {
+      tl.from(descRef.current, {
+        clipPath: 'inset(0 100% 0 0)',
+        duration: 1, ease: 'power3.inOut',
+      }, 0.85);
+    }
+
+    // CTA — bounce in
+    if (ctaRef.current?.children) {
+      tl.from(ctaRef.current.children, {
+        opacity: 0, y: 25, scale: 0.85,
+        duration: 0.7, stagger: 0.08, ease: 'back.out(2.5)',
+      }, 1.1);
+    }
+
+    // Marquee
+    if (marqueeRef.current) {
+      tl.from(marqueeRef.current, { opacity: 0, x: 50, duration: 0.8, ease: 'power3.out' }, 1.0);
+    }
+
+    // Stats
+    if (statsRef.current?.children) {
+      tl.from(statsRef.current.children, {
+        opacity: 0, y: 30, scale: 0.85,
+        duration: 0.6, stagger: 0.1, ease: 'back.out(3)',
+      }, 1.3);
+    }
+
+    // SCROLL-LINKED: Name parallaxes up faster + fades
+    [name1Ref, name2Ref].forEach((ref) => {
+      if (!ref.current) return;
+      gsap.to(ref.current, {
+        y: -180, opacity: 0.2, ease: 'none',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 0.6 },
       });
+    });
 
-      // Name chars — gsap.from() so text is visible by default (great for LCP)
-      // Characters animate FROM hidden TO their natural visible state
-      [name1Ref, name2Ref].forEach((ref, lineIdx) => {
-        if (!ref.current) return;
-        const chars = ref.current.querySelectorAll('.hero-char');
-        tl.from(chars, {
-          opacity: 0, y: '140%',
-          rotation: () => (Math.random() - 0.5) * 30,
-          scale: 0.5,
-          duration: 1.2, stagger: 0.025,
-          ease: 'elastic.out(1, 0.55)',
-        }, 0.1 + lineIdx * 0.1);
+    // Blob scroll parallax
+    [blob1, blob2].forEach((b, i) => {
+      if (!b.current) return;
+      gsap.to(b.current, {
+        y: -250 - i * 80, ease: 'none',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 1 },
       });
-
-      // Role — scramble decode
-      if (roleRef.current) {
-        tl.from(roleRef.current, { opacity: 0, duration: 0.01 }, 0.5);
-        tl.call(() => { if (roleRef.current) scramble(roleRef.current, 'FULL STACK DEVELOPER'); }, [], 0.5);
-      }
-
-      // Description — clip reveal from left
-      if (descRef.current) {
-        tl.from(descRef.current, {
-          clipPath: 'inset(0 100% 0 0)',
-          duration: 1, ease: 'power3.inOut',
-        }, 0.85);
-      }
-
-      // CTA — bounce in
-      if (ctaRef.current?.children) {
-        tl.from(ctaRef.current.children, {
-          opacity: 0, y: 25, scale: 0.85,
-          duration: 0.7, stagger: 0.08, ease: 'back.out(2.5)',
-        }, 1.1);
-      }
-
-      // Marquee
-      if (marqueeRef.current) {
-        tl.from(marqueeRef.current, { opacity: 0, x: 50, duration: 0.8, ease: 'power3.out' }, 1.0);
-      }
-
-      // Stats
-      if (statsRef.current?.children) {
-        tl.from(statsRef.current.children, {
-          opacity: 0, y: 30, scale: 0.85,
-          duration: 0.6, stagger: 0.1, ease: 'back.out(3)',
-        }, 1.3);
-      }
-
-      // SCROLL-LINKED: Name parallaxes up faster + fades
-      [name1Ref, name2Ref].forEach((ref) => {
-        if (!ref.current) return;
-        gsap.to(ref.current, {
-          y: -180, opacity: 0.2, ease: 'none',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 0.6 },
-        });
-      });
-
-      // Blob scroll parallax
-      [blob1, blob2].forEach((b, i) => {
-        if (!b.current) return;
-        gsap.to(b.current, {
-          y: -250 - i * 80, ease: 'none',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: 1 },
-        });
-      });
-    }, sectionRef);
+    });
 
     // Counters
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setCorpCount(Math.min(c,2.5));if(c>=2.5)clearInterval(iv)},22); }, 1600);
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setFreeCount(Math.min(c,2));if(c>=2)clearInterval(iv)},28); }, 1800);
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setProjCount(Math.min(c,18));if(c>=18)clearInterval(iv)},38); }, 2000);
-
-    return () => { ctx.revert(); window.removeEventListener('mousemove', onMouseMove); };
-  }, [scramble, onMouseMove]);
+  }, { scope: sectionRef, dependencies: [scramble] });
 
   const marqueeText = STACK.map(s => `${s}  /  `).join('');
 
