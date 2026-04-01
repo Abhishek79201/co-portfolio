@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 4 context gathered
-last_updated: "2026-04-01T19:18:16.988Z"
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-04-01T21:09:48.462Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 11
+  completed_plans: 9
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Two developers who've shipped together prove they can ship for you -- the case studies are the proof, the site is the pitch.
-**Current focus:** Phase 03 — case-study-pages
+**Current focus:** Phase 04 — animation-polish
 
 ## Current Position
 
-Phase: 4
-Plan: Not started
-Status: Executing Phase 03
+Phase: 04 (animation-polish) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-04-01
 
 Progress: [..........] 0%
@@ -59,6 +59,7 @@ Progress: [..........] 0%
 | Phase 03-case-study-pages P01 | 6 | 2 tasks | 3 files |
 | Phase 03 P03 | 3 | 2 tasks | 3 files |
 | Phase 03 P04 | 4 | 2 tasks | 2 files |
+| Phase 04-animation-polish P01 | 5 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -89,6 +90,9 @@ Recent decisions affecting current work:
 - [Phase 03]: Hero section uses 'Case Study' label, sections 02-08 get numbered labels per UI-SPEC
 - [Phase 03]: accentRgbMap used for hero gradient because CSS vars cannot interpolate in rgba() inline styles
 - [Phase 03]: PatternSpotlight is a pure Server Component with accent/dbName/body props for reuse across all 3 case studies
+- [Phase 04-animation-polish]: SplitText autoSplit+onSplit pattern for resize-safe char/word splitting in Hero and About
+- [Phase 04-animation-polish]: gsap.matchMedia for animation context isolation across desktop/mobile/reduceMotion conditions
+- [Phase 04-animation-polish]: DrawSVGPlugin registered in lib/gsap.ts now for Plan 02 path-tracing; word-reveal CSS classes retired
 
 ### Pending Todos
 
@@ -102,6 +106,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T19:18:16.981Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-animation-polish/04-CONTEXT.md
+Last session: 2026-04-01T21:09:48.451Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: None

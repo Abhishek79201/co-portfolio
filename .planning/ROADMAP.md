@@ -84,7 +84,7 @@ Plans:
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01-PLAN.md -- Register SplitText + DrawSVGPlugin, migrate Hero + About to SplitText with matchMedia + easing overhaul (ANIM-01, ANIM-05, ANIM-06, ANIM-07)
+- [x] 04-01-PLAN.md -- Register SplitText + DrawSVGPlugin, migrate Hero + About to SplitText with matchMedia + easing overhaul (ANIM-01, ANIM-05, ANIM-06, ANIM-07)
 - [ ] 04-02-PLAN.md -- Case study page animations: section reveals, DrawSVG diagram tracing, metric card stagger + accent flash (ANIM-02, ANIM-03, ANIM-04, ANIM-05, ANIM-06)
 - [ ] 04-03-PLAN.md -- Experience + Contact easing overhaul + matchMedia for mobile + reduced motion (ANIM-05, ANIM-06, ANIM-07)
 
@@ -113,5 +113,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Infrastructure Foundation | 2/3 | In Progress|  |
 | 2. Landing Page Rebrand | 1/1 | Complete   | 2026-04-01 |
 | 3. Case Study Pages | 0/4 | Not started | - |
-| 4. Animation & Polish | 0/3 | Not started | - |
+| 4. Animation & Polish | 1/3 | In Progress|  |
 | 5. SEO & Verification | 0/1 | Not started | - |
