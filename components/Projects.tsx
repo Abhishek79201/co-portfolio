@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useCallback } from 'react';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { ArrowUpRight } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
 
@@ -57,12 +52,28 @@ const Projects = () => {
     }, 20);
   }, []);
 
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
-      // Label — clip
+    const mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: '(min-width: 768px)',
+      isMobile: '(max-width: 767px)',
+      reduceMotion: '(prefers-reduced-motion: reduce)',
+    }, (context) => {
+      const { isDesktop, isMobile, reduceMotion } = context.conditions!;
+
+      if (reduceMotion) {
+        // Instant final state -- no motion (per D-15)
+        // Scramble hover effect still works (it's a callback, not GSAP animation)
+        const allAnimated = section.querySelectorAll('.section-label, .section-heading, .project-row, .cta-row');
+        gsap.set(allAnimated, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'all' });
+        return;
+      }
+
+      // Label -- clip reveal
       const label = section.querySelector('.section-label');
       if (label) {
         gsap.fromTo(label,
@@ -72,21 +83,27 @@ const Projects = () => {
         );
       }
 
-      // Heading — slide up
+      // Heading -- slide up
       const heading = section.querySelector('.section-heading');
       if (heading) {
         gsap.from(heading, {
-          y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+          y: isMobile ? 30 : 60, opacity: 0,
+          duration: isMobile ? 0.4 : 1, ease: 'power3.out',
           scrollTrigger: { trigger: heading, start: 'top 85%' },
         });
       }
 
-      // Project rows — scale + slight rotate from bottom
+      // Project rows -- y + opacity + scale, NO rotation on mobile (simplified per D-13)
       section.querySelectorAll('.project-row').forEach((row, i) => {
         gsap.fromTo(row,
-          { y: 60, opacity: 0, scale: 0.97, rotate: 0.5 },
           {
-            y: 0, opacity: 1, scale: 1, rotate: 0, duration: 0.9,
+            y: isMobile ? 30 : 60,
+            opacity: 0,
+            scale: isMobile ? 1 : 0.97,
+          },
+          {
+            y: 0, opacity: 1, scale: 1,
+            duration: isMobile ? 0.4 : 0.9,
             ease: 'power3.out',
             scrollTrigger: { trigger: row, start: 'top 92%' },
             delay: i * 0.06,
@@ -98,15 +115,17 @@ const Projects = () => {
       const cta = section.querySelector('.cta-row');
       if (cta) {
         gsap.fromTo(cta,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
-            scrollTrigger: { trigger: cta, start: 'top 90%' } }
+          { y: isMobile ? 15 : 30, opacity: 0 },
+          {
+            y: 0, opacity: 1,
+            duration: isMobile ? 0.3 : 0.8,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: cta, start: 'top 90%' },
+          }
         );
       }
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+    });
+  }, { scope: sectionRef });
 
   return (
     <section id="projects" ref={sectionRef} aria-label="Featured projects" className="py-32 lg:py-44 content-auto">
