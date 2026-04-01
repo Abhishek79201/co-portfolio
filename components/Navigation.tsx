@@ -1,3 +1,4 @@
+// TODO: Replace "Dev Studio" with final studio name when decided
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -28,7 +29,7 @@ const Navigation = () => {
     if (pathname !== '/') return;
 
     const onScroll = () => {
-      const ids = ['contact', 'projects', 'experience', 'about'];
+      const ids = ['contact', 'projects', 'methodology', 'experience', 'team'];
       for (const id of ids) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= 200) {
@@ -53,8 +54,9 @@ const Navigation = () => {
   }, [pathname]);
 
   const items = [
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
+    { name: 'Team', href: '#team' },
+    { name: 'Journey', href: '#experience' },
+    { name: 'How We Work', href: '#methodology' },
     { name: 'Projects', href: '#projects' },
     { name: 'Case Studies', href: '/case-studies' },
     { name: 'Contact', href: '#contact' },
@@ -77,7 +79,7 @@ const Navigation = () => {
           <div className="flex justify-between items-center">
 
             {/* Logo */}
-            <Link href="/" className="font-flagfies text-lg text-white hover:opacity-70 transition-opacity duration-300" aria-label="Abhishek Vaghela — Home">
+            <Link href="/" className="font-flagfies text-lg text-white hover:opacity-70 transition-opacity duration-300" aria-label="Dev Studio — Home">
               AV<span className="text-[var(--violet)]">.</span>
             </Link>
 
