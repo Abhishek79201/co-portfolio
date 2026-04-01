@@ -57,9 +57,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Animation
 
 - [x] **ANIM-01**: GSAP SplitText replaces manual character/word splitting in Hero and About
-- [ ] **ANIM-02**: Scroll-triggered section reveals on case study pages (extend existing pattern)
-- [ ] **ANIM-03**: Architecture diagram reveal animations (trace arrows, fade in components)
-- [ ] **ANIM-04**: Metric counter animations on scroll entry
+- [x] **ANIM-02**: Scroll-triggered section reveals on case study pages (extend existing pattern)
+- [x] **ANIM-03**: Architecture diagram reveal animations (trace arrows, fade in components)
+- [x] **ANIM-04**: Metric counter animations on scroll entry
 - [x] **ANIM-05**: `gsap.matchMedia()` for reduced-motion variants on mobile
 - [x] **ANIM-06**: `prefers-reduced-motion` respected in both CSS and GSAP
 - [x] **ANIM-07**: Overall animation fluidity improvement across existing sections
@@ -152,9 +152,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CASE-09 | Phase 3 | Complete |
 | CASE-10 | Phase 3 | Complete |
 | ANIM-01 | Phase 4 | Complete |
-| ANIM-02 | Phase 4 | Pending |
-| ANIM-03 | Phase 4 | Pending |
-| ANIM-04 | Phase 4 | Pending |
+| ANIM-02 | Phase 4 | Complete |
+| ANIM-03 | Phase 4 | Complete |
+| ANIM-04 | Phase 4 | Complete |
 | ANIM-05 | Phase 4 | Complete |
 | ANIM-06 | Phase 4 | Complete |
 | ANIM-07 | Phase 4 | Complete |

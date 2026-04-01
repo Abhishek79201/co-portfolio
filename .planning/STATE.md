@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-04-01T21:09:48.462Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-04-01T21:21:09.886Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 11
-  completed_plans: 9
+  completed_plans: 10
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 04 (animation-polish) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-04-01
 
@@ -60,6 +60,7 @@ Progress: [..........] 0%
 | Phase 03 P03 | 3 | 2 tasks | 3 files |
 | Phase 03 P04 | 4 | 2 tasks | 2 files |
 | Phase 04-animation-polish P01 | 5 | 3 tasks | 4 files |
+| Phase 04-animation-polish P02 | 7 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,9 @@ Recent decisions affecting current work:
 - [Phase 04-animation-polish]: SplitText autoSplit+onSplit pattern for resize-safe char/word splitting in Hero and About
 - [Phase 04-animation-polish]: gsap.matchMedia for animation context isolation across desktop/mobile/reduceMotion conditions
 - [Phase 04-animation-polish]: DrawSVGPlugin registered in lib/gsap.ts now for Plan 02 path-tracing; word-reveal CSS classes retired
+- [Phase 04-animation-polish]: CaseStudyAnimations uses selector-based targeting (.cs-section, .metric-card) — works cleanly across Server/Client boundary without ref-forwarding
+- [Phase 04-animation-polish]: DrawSVG animation sequence: lines draw first, then rects appear with back.out(2), then texts fade in — established pattern for all 3 diagrams
+- [Phase 04-animation-polish]: Layer label exclusion via :not([y=...]) attribute selectors on SVG text elements per-diagram
 
 ### Pending Todos
 
@@ -106,6 +110,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T21:09:48.451Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-04-01T21:21:09.881Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
