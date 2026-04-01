@@ -64,32 +64,40 @@ export default async function CaseStudyDetailPage({
 
         {/* Challenge */}
         <section className="mb-20 border-t border-[var(--line)] pt-12">
-          <h2 className="text-xl font-bold text-white mb-4">{caseStudy.challenge.heading}</h2>
-          <p className="text-body">{caseStudy.challenge.content}</p>
+          <h2 className="text-xl font-bold text-white mb-4">The Challenge</h2>
+          <div className="text-body whitespace-pre-line">{caseStudy.challenge}</div>
         </section>
 
-        {/* Architecture */}
+        {/* Pattern Spotlight */}
         <section className="mb-20 border-t border-[var(--line)] pt-12">
-          <h2 className="text-xl font-bold text-white mb-4">{caseStudy.architecture.heading}</h2>
-          <p className="text-body">{caseStudy.architecture.content}</p>
+          <h2 className="text-xl font-bold text-white mb-4">Pattern Spotlight: Redis + OpenSearch + {caseStudy.patternSpotlight.dbName}</h2>
+          <p className="text-body">{caseStudy.patternSpotlight.body}</p>
         </section>
 
-        {/* Tech Stack */}
+        {/* Tech Rationale */}
         <section className="mb-20 border-t border-[var(--line)] pt-12">
-          <h2 className="text-xl font-bold text-white mb-4">Tech Stack</h2>
+          <h2 className="text-xl font-bold text-white mb-4">Tech Rationale</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudy.techStack.map((group) => (
-              <div key={group.category}>
+            {caseStudy.techRationale.map((item) => (
+              <div key={item.technology}>
                 <h3 className="dev-mono text-xs text-[var(--text-muted)] uppercase tracking-[0.2em] mb-3">
-                  {group.category}
+                  {item.technology}
                 </h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {group.items.map((item) => (
-                    <span key={item} className="pill pill-violet dev-mono text-[9px]">
-                      {item}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-body text-sm mb-2"><strong>Problem:</strong> {item.problem}</p>
+                <p className="text-body text-sm"><strong>Solution:</strong> {item.solution}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Implementation Highlights */}
+        <section className="mb-20 border-t border-[var(--line)] pt-12">
+          <h2 className="text-xl font-bold text-white mb-4">Implementation Highlights</h2>
+          <div className="space-y-6">
+            {caseStudy.implementationHighlights.map((item) => (
+              <div key={item.title}>
+                <h3 className="text-white font-bold mb-1">{item.title}</h3>
+                <p className="text-body">{item.detail}</p>
               </div>
             ))}
           </div>
@@ -97,18 +105,30 @@ export default async function CaseStudyDetailPage({
 
         {/* Results */}
         <section className="mb-20 border-t border-[var(--line)] pt-12">
-          <h2 className="text-xl font-bold text-white mb-4">{caseStudy.results.heading}</h2>
-          <p className="text-body">{caseStudy.results.content}</p>
+          <h2 className="text-xl font-bold text-white mb-4">Results &amp; Impact</h2>
+          <div className="grid sm:grid-cols-2 gap-8">
+            {caseStudy.results.map((item) => (
+              <div key={item.metric}>
+                <h3 className="dev-mono text-xs text-[var(--text-muted)] uppercase tracking-[0.2em] mb-2">
+                  {item.metric}
+                </h3>
+                <p className="text-body">{item.description}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Team */}
         <section className="mb-20 border-t border-[var(--line)] pt-12">
           <h2 className="text-xl font-bold text-white mb-4">Team</h2>
-          <div className="flex gap-4">
-            {caseStudy.team.map((name) => (
-              <span key={name} className="pill pill-cyan dev-mono text-[9px]">
-                {name}
-              </span>
+          <div className="grid sm:grid-cols-2 gap-8">
+            {caseStudy.team.map((member) => (
+              <div key={member.name}>
+                <span className="pill pill-cyan dev-mono text-[9px] mb-2 inline-block">
+                  {member.name}
+                </span>
+                <p className="text-body text-sm">{member.contribution}</p>
+              </div>
             ))}
           </div>
         </section>
