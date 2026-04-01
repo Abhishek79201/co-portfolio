@@ -74,9 +74,9 @@ completed: 2026-04-01
 
 Each task was committed atomically:
 
-1. **Task 1: Rebrand Hero section for studio identity** - `7c2c65d` (feat)
-2. **Task 2: Update site metadata for studio branding** - `a102e7a` (feat)
-3. **Task 3: Update Navigation for new section labels and scroll-spy** - `177fed7` (feat)
+1. **Task 1: Rebrand Hero section for studio identity** - `df2e7e7` (feat)
+2. **Task 2: Update site metadata for studio branding** - `7e3154b` (feat)
+3. **Task 3: Update Navigation for new section labels and scroll-spy** - `4785a89` (feat)
 
 ## Files Created/Modified
 - `components/Hero.tsx` - Studio-branded hero with Dev/Studio CharLine, DEV STUDIO scramble, studio description, renamed stat vars (productsCount/yearsCount/foundersCount), updated CTAs and scroll link

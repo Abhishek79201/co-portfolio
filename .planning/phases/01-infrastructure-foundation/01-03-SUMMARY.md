@@ -121,3 +121,5 @@ Files verified:
 - `components/Navigation.tsx` — contains usePathname, useRouter, handleNavClick, Case Studies link
 - `app/sitemap.ts` — no hash fragments, imports caseStudies from data layer
 - Build: 11 static pages generated, typecheck passes
+
+## Self-Check: PASSED
