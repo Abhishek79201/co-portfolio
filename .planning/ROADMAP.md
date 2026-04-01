@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01: Data layer extraction + dependency cleanup (INFRA-01, INFRA-02, INFRA-03, INFRA-04, INFRA-09)
 - [x] 01-02: GSAP centralization + scroll/Lenis fixes (INFRA-05, INFRA-06, INFRA-07, INFRA-08)
-- [ ] 01-03: Case studies routing skeleton + navigation + sitemap (ROUT-01 through ROUT-07)
+- [x] 01-03: Case studies routing skeleton + navigation + sitemap (ROUT-01 through ROUT-07)
 
 ### Phase 2: Landing Page Rebrand
 **Goal**: Visitors landing on the homepage see a professional dev studio with two named founders, a clear methodology, and a 6-project portfolio -- not a personal portfolio

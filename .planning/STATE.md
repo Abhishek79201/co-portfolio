@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-04-01T04:04:55.147Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-04-01T04:41:07.131Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 3
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 01 (infrastructure-foundation) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-04-01
 
@@ -54,6 +54,7 @@ Progress: [..........] 0%
 *Updated after each plan completion*
 | Phase 01-infrastructure-foundation P01 | 20 | 2 tasks | 5 files |
 | Phase 01-infrastructure-foundation P02 | 25 | 3 tasks | 8 files |
+| Phase 01-infrastructure-foundation P03 | 25 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,9 @@ Recent decisions affecting current work:
 - [Phase 01-infrastructure-foundation]: lib/gsap.ts as single GSAP registration module -- all components import from @/lib/gsap, never directly from gsap
 - [Phase 01-infrastructure-foundation]: useGSAP hook replaces useEffect+gsap.context pattern for automatic cleanup and correct multi-page behavior
 - [Phase 01-infrastructure-foundation]: Named rafCallback reference fixes Lenis cleanup leak in SmoothScrollProvider
+- [Phase 01-infrastructure-foundation]: Footer extracted as Server Component with max-w wrapper, rendered in page.tsx and case-studies layout instead of Contact.tsx
+- [Phase 01-infrastructure-foundation]: dynamicParams=false on [slug] page ensures invalid case study slugs return 404 without a custom not-found page
+- [Phase 01-infrastructure-foundation]: Navigation uses two separate useEffect hooks: global scrolled state for all routes, homepage-only scroll-spy for active section
 
 ### Pending Todos
 
@@ -83,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T04:04:55.140Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-04-01T04:41:07.121Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None

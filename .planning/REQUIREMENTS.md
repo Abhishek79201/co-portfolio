@@ -21,13 +21,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Routing
 
-- [ ] **ROUT-01**: Case studies index page at `/case-studies` renders project cards
-- [ ] **ROUT-02**: Individual case study pages at `/case-studies/[slug]` with `generateStaticParams` + `dynamicParams: false`
-- [ ] **ROUT-03**: Next.js 15 async params handled correctly (`await params` pattern)
-- [ ] **ROUT-04**: `case-studies/layout.tsx` provides shared navigation + footer chrome
-- [ ] **ROUT-05**: Navigation is route-aware — hash links become `/#section` links on non-homepage routes
-- [ ] **ROUT-06**: "Case Studies" link added to navigation menu
-- [ ] **ROUT-07**: Sitemap updated with real routes (no hash fragments)
+- [x] **ROUT-01**: Case studies index page at `/case-studies` renders project cards
+- [x] **ROUT-02**: Individual case study pages at `/case-studies/[slug]` with `generateStaticParams` + `dynamicParams: false`
+- [x] **ROUT-03**: Next.js 15 async params handled correctly (`await params` pattern)
+- [x] **ROUT-04**: `case-studies/layout.tsx` provides shared navigation + footer chrome
+- [x] **ROUT-05**: Navigation is route-aware — hash links become `/#section` links on non-homepage routes
+- [x] **ROUT-06**: "Case Studies" link added to navigation menu
+- [x] **ROUT-07**: Sitemap updated with real routes (no hash fragments)
 
 ### Studio Identity
 
@@ -125,13 +125,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-07 | Phase 1 | Complete |
 | INFRA-08 | Phase 1 | Complete |
 | INFRA-09 | Phase 1 | Pending |
-| ROUT-01 | Phase 1 | Pending |
-| ROUT-02 | Phase 1 | Pending |
-| ROUT-03 | Phase 1 | Pending |
-| ROUT-04 | Phase 1 | Pending |
-| ROUT-05 | Phase 1 | Pending |
-| ROUT-06 | Phase 1 | Pending |
-| ROUT-07 | Phase 1 | Pending |
+| ROUT-01 | Phase 1 | Complete |
+| ROUT-02 | Phase 1 | Complete |
+| ROUT-03 | Phase 1 | Complete |
+| ROUT-04 | Phase 1 | Complete |
+| ROUT-05 | Phase 1 | Complete |
+| ROUT-06 | Phase 1 | Complete |
+| ROUT-07 | Phase 1 | Complete |
 | STUD-01 | Phase 2 | Pending |
 | STUD-02 | Phase 2 | Pending |
 | STUD-03 | Phase 2 | Pending |
