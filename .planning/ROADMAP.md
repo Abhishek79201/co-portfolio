@@ -121,7 +121,7 @@ Plans:
 
 Plans:
 - [x] 06-01-PLAN.md -- About.tsx full rewrite: studio narrative + stats counters + team cards (STUD-02, STUD-03)
-- [ ] 06-02-PLAN.md -- New Methodology.tsx component + page.tsx insertion (STUD-05)
+- [x] 06-02-PLAN.md -- New Methodology.tsx component + page.tsx insertion (STUD-05)
 
 ### Phase 7: Landing Page Polish
 **Goal**: All remaining landing page sections reflect studio identity — project cards show type labels, Contact section uses studio voice, and only one footer landmark exists on the page
