@@ -50,8 +50,8 @@ Two developers who've shipped together prove they can ship for you — the case 
 <!-- Current scope. Building toward these. -->
 
 - [x] Rebrand from personal portfolio to startup studio identity (placeholder name) — Hero, metadata, and Navigation rebranded in Phase 2 Plan 01
-- [ ] Add team section showcasing both Abhishek and Vatsal with roles/skills
-- [ ] Update hero/about to reflect "two devs, one studio" positioning
+- [x] Add team section showcasing both Abhishek and Vatsal with roles/skills — Validated in Phase 6: Studio Sections
+- [x] Update hero/about to reflect "two devs, one studio" positioning — Validated in Phase 6: Studio Sections
 - [ ] Improve animation fluidity across all sections — smoother transitions, better scroll-linked effects
 - [x] URL validation — verified live URLs, dead links render as non-clickable cards — Validated in Phase 5
 - [x] Update metadata/SEO from personal branding to startup studio branding — Validated in Phase 2
