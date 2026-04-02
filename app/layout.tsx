@@ -5,6 +5,8 @@ import localFont from 'next/font/local';
 import Script from 'next/script';
 import { AnalyticsProvider } from '@/components/Analytics';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
+import CustomCursor from '@/components/CustomCursor';
+import FilmGrain from '@/components/FilmGrain';
 import { team } from '@/data/team';
 
 const inter = Inter({
@@ -102,7 +104,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={`${inter.className} ${jetbrainsMono.variable} ${flagfies.variable} antialiased`}>
-        <div className="noise-overlay" aria-hidden="true" />
+        <FilmGrain />
+        <CustomCursor />
         <a href="#main-content" className="skip-to-content">Skip to content</a>
         <SmoothScrollProvider>
           <AnalyticsProvider>
