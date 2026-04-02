@@ -165,7 +165,7 @@ const Hero = () => {
     });
 
     // Counters (outside matchMedia -- non-motion content, always runs)
-    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setProductsCount(Math.min(c,6));if(c>=6)clearInterval(iv)},38); }, 1600);
+    setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setProductsCount(Math.min(c,20));if(c>=20)clearInterval(iv)},38); }, 1600);
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setYearsCount(Math.min(c,3));if(c>=3)clearInterval(iv)},28); }, 1800);
     setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setFoundersCount(Math.min(c,2));if(c>=2)clearInterval(iv)},50); }, 2000);
   }, { scope: sectionRef, dependencies: [scramble] });

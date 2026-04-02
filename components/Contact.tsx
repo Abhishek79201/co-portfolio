@@ -78,21 +78,55 @@ const Contact = () => {
     });
   }, { scope: sectionRef });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const mailto = `mailto:vaghelaabhishek2580@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
-    window.location.href = mailto;
+    setSending(true);
+    setError('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to send message');
+      }
+      setSent(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const links = [
-    { label: 'Email', value: 'vaghelaabhishek2580@gmail.com', href: 'mailto:vaghelaabhishek2580@gmail.com' },
-    { label: 'Phone', value: '+91 8200394360', href: 'tel:+918200394360' },
-    { label: 'GitHub', value: 'github/abhishekvaghela', href: 'https://github.com/abhishekvaghela' },
-    { label: 'LinkedIn', value: 'linkedin/abhishekvaghela', href: 'https://linkedin.com/in/abhishekvaghela' },
+  const members = [
+    {
+      name: 'Abhishek Vaghela',
+      links: [
+        { label: 'Email', value: 'vaghelaabhishek2580@gmail.com', href: 'mailto:vaghelaabhishek2580@gmail.com' },
+        { label: 'Phone', value: '+91 8200394360', href: 'tel:+918200394360' },
+        { label: 'GitHub', value: 'github/abhishekvaghela', href: 'https://github.com/abhishekvaghela' },
+        { label: 'LinkedIn', value: 'linkedin/abhishekvaghela', href: 'https://linkedin.com/in/abhishekvaghela' },
+      ],
+    },
+    {
+      name: 'Vatsal Zinzuvadiya',
+      links: [
+        { label: 'Email', value: 'vatsalzinzuvadiya@gmail.com', href: 'mailto:vatsalzinzuvadiya@gmail.com' },
+        { label: 'GitHub', value: 'github/vatsalzinzuvadiya', href: 'https://github.com/vatsalzinzuvadiya' },
+        { label: 'LinkedIn', value: 'linkedin/vatsalzinzuvadiya', href: 'https://linkedin.com/in/vatsalzinzuvadiya' },
+      ],
+    },
   ];
 
   return (
@@ -109,7 +143,7 @@ const Contact = () => {
           {/* Left */}
           <div className="lg:col-span-5">
             <p className="text-body mb-10 text-lg">
-              Got a project in mind? I'm always down to collaborate on
+              Got a project in mind? We&apos;re always down to collaborate on
               interesting products and ideas.
             </p>
 
@@ -121,20 +155,25 @@ const Contact = () => {
               <span className="text-[var(--lime)] text-sm font-medium">Available for projects</span>
             </div>
 
-            <nav aria-label="Contact links">
-              {links.map((link, i) => (
-                <a key={i} href={link.href}
-                   target={link.href.startsWith('http') ? '_blank' : undefined}
-                   rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                   className="contact-link group flex items-center justify-between py-4 border-b border-[var(--line)] hover:border-[var(--line-light)] transition-colors">
-                  <div>
-                    <div className="dev-mono text-[9px] text-[var(--text-muted)] uppercase tracking-[0.2em] mb-0.5">{link.label}</div>
-                    <div className="text-[var(--text-secondary)] text-sm group-hover:text-white transition-colors">{link.value}</div>
-                  </div>
-                  <ArrowUpRight size={13} className="text-[var(--text-muted)] group-hover:text-white transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
-                </a>
-              ))}
-            </nav>
+            {members.map((member, mi) => (
+              <div key={mi} className={mi > 0 ? 'mt-10' : ''}>
+                <h3 className="dev-mono text-xs text-[var(--violet)] tracking-[0.15em] uppercase mb-3">{member.name}</h3>
+                <nav aria-label={`${member.name} contact links`}>
+                  {member.links.map((link, i) => (
+                    <a key={i} href={link.href}
+                       target={link.href.startsWith('http') ? '_blank' : undefined}
+                       rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                       className="contact-link group flex items-center justify-between py-3 border-b border-[var(--line)] hover:border-[var(--line-light)] transition-colors">
+                      <div>
+                        <div className="dev-mono text-[9px] text-[var(--text-muted)] uppercase tracking-[0.2em] mb-0.5">{link.label}</div>
+                        <div className="text-[var(--text-secondary)] text-sm group-hover:text-white transition-colors">{link.value}</div>
+                      </div>
+                      <ArrowUpRight size={13} className="text-[var(--text-muted)] group-hover:text-white transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            ))}
             <p className="text-[10px] text-[var(--text-muted)] dev-mono mt-4">Usually responds within 24h</p>
           </div>
 
@@ -159,19 +198,16 @@ const Contact = () => {
                 <label htmlFor="message" className="block text-[10px] dev-mono text-[var(--text-muted)] uppercase tracking-[0.2em] mb-3">Message</label>
                 <textarea id="message" name="message" required value={formData.message} onChange={handleChange} rows={5} className="input-dark resize-none" placeholder="Tell me about your project..." />
               </div>
-              <button type="submit" className="magnetic-btn inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold bg-white text-black hover:bg-[var(--violet)] hover:text-white transition-colors duration-300">
-                <Send size={15} aria-hidden="true" /> Send Message
+              {error && <p className="text-red-400 text-sm dev-mono">{error}</p>}
+              {sent && <p className="text-[var(--lime)] text-sm dev-mono">Message sent successfully!</p>}
+              <button type="submit" disabled={sending}
+                className="magnetic-btn inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold bg-white text-black hover:bg-[var(--violet)] hover:text-white transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <Send size={15} aria-hidden="true" /> {sending ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
         </div>
 
-        <footer className="mt-32 pt-6 border-t border-[var(--line)]" role="contentinfo">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <p className="text-[10px] text-[var(--text-muted)] dev-mono">&copy; {new Date().getFullYear()} Abhishek Vaghela</p>
-            <p className="text-[10px] text-[var(--text-muted)] dev-mono">Next.js + GSAP + late nights</p>
-          </div>
-        </footer>
       </div>
     </section>
   );

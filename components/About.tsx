@@ -115,7 +115,7 @@ const About = () => {
         // Counter 1: "8" (Combined Years) -- integer, increment by 1
         setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setYearsCount(Math.min(c, 8)); if (c >= 8) clearInterval(iv); }, 60); }, 300);
         // Counter 2: "6" (Products Shipped) -- integer, increment by 1
-        setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setShippedCount(Math.min(c, 6)); if (c >= 6) clearInterval(iv); }, 80); }, 500);
+        setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setShippedCount(Math.min(c, 20)); if (c >= 20) clearInterval(iv); }, 40); }, 500);
         // Counter 3: "50" (Technologies) -- integer, increment by 1
         setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setTechCount(Math.min(c, 50)); if (c >= 50) clearInterval(iv); }, 30); }, 400);
         observer.disconnect();

@@ -44,7 +44,7 @@ const FilmGrain = () => {
         data[i] = v;
         data[i + 1] = v;
         data[i + 2] = v;
-        data[i + 3] = 12; // very low alpha for subtlety
+        data[i + 3] = 8; // reduced alpha for subtler grain
       }
 
       ctx.putImageData(imageData, 0, 0);
