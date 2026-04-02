@@ -98,8 +98,8 @@ const Experience = () => {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
 
         <span className="section-label dev-mono text-xs text-[var(--pink)] tracking-[0.25em] uppercase block mb-8">02 / Experience</span>
-        <h2 className="section-heading heading-lg text-white mb-20" aria-label="Where I've worked">
-          Where I've worked.
+        <h2 className="section-heading heading-lg text-white mb-20" aria-label="Where we've worked">
+          Where we've worked.
         </h2>
 
         <div role="list" aria-label="Work experience">

@@ -1,30 +1,12 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { ArrowUpRight } from 'lucide-react';
 import { projects } from '@/data/projects';
 
-const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
-
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Text scramble on hover — works for both <a> and <div> wrappers
-  const handleRowHover = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const titleEl = e.currentTarget.querySelector('.project-title') as HTMLElement;
-    if (!titleEl) return;
-    const finalText = titleEl.dataset.text || '';
-    let iteration = 0;
-    const interval = setInterval(() => {
-      titleEl.innerText = finalText.split('').map((char, i) => {
-        if (i < iteration) return char;
-        return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      }).join('');
-      if (iteration >= finalText.length) clearInterval(interval);
-      iteration += 0.6;
-    }, 20);
-  }, []);
 
   useGSAP(() => {
     const section = sectionRef.current;
@@ -136,7 +118,6 @@ const Projects = () => {
                     ? `${project.title} — ${project.subtitle}. Visit ${project.liveUrl}`
                     : `${project.title} — ${project.subtitle}`
                 }
-                onMouseEnter={handleRowHover}
               >
 
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">

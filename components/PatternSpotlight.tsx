@@ -7,11 +7,11 @@ interface PatternSpotlightProps {
 export default function PatternSpotlight({ dbName, body, accent }: PatternSpotlightProps) {
   return (
     <div
-      className="mt-8 rounded-[var(--radius)]"
+      className="mt-8 rounded-[var(--radius)] backdrop-blur-sm"
       style={{
-        borderLeft: `3px solid var(--${accent})`,
         padding: '16px 24px',
-        backgroundColor: 'rgba(255,255,255,0.02)',
+        backgroundColor: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.06)',
       }}
     >
       <span

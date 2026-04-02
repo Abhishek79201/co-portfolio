@@ -28,8 +28,8 @@ export default function CaseStudiesPage() {
 
         {/* 2. Pattern Intro Block (D-08, CASE-08) */}
         <div
-          className="mb-16 rounded-[var(--radius)] bg-[var(--bg-elevated)] border border-[var(--line)] p-6 lg:p-8"
-          style={{ borderLeft: '3px solid var(--cyan)' }}
+          className="mb-16 rounded-[var(--radius)] backdrop-blur-sm p-6 lg:p-8"
+          style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
         >
           <h2 className="heading-md text-white mb-3">Our Signature Stack</h2>
           <p className="text-body mb-4">
