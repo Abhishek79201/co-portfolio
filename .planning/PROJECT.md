@@ -37,6 +37,13 @@ Two developers who've shipped together prove they can ship for you — the case 
 - ✓ Team attribution per case study for both founders — Validated in Phase 3
 - ✓ "Want similar results?" CTA on every case study — Validated in Phase 3
 - ✓ PatternSpotlight shared component for Redis+OpenSearch+DB callouts — Validated in Phase 3
+- ✓ Organization JSON-LD with two-founder array — Validated in Phase 5: SEO & Verification
+- ✓ Dynamic OG images for all case studies — Validated in Phase 5
+- ✓ Per-page openGraph and twitter card metadata — Validated in Phase 5
+- ✓ Dead link policy (liveUrl field, conditional rendering) — Validated in Phase 5
+- ✓ Image optimization re-enabled — Validated in Phase 5
+- ✓ Clean robots.txt without phantom disallows — Validated in Phase 5
+- ✓ Core Web Vitals green — Validated in Phase 5
 
 ### Active
 
@@ -46,9 +53,9 @@ Two developers who've shipped together prove they can ship for you — the case 
 - [ ] Add team section showcasing both Abhishek and Vatsal with roles/skills
 - [ ] Update hero/about to reflect "two devs, one studio" positioning
 - [ ] Improve animation fluidity across all sections — smoother transitions, better scroll-linked effects
-- [ ] URL validation — verify all project URLs (gleemeet.com, careerbox.in, zorova.in, empireinvestmentbank.com, huslemad.com, impactoverse.com) are live before linking
+- [x] URL validation — verified live URLs, dead links render as non-clickable cards — Validated in Phase 5
 - [x] Update metadata/SEO from personal branding to startup studio branding — Validated in Phase 2
-- [ ] Update schema.org JSON-LD from Person to Organization
+- [x] Update schema.org JSON-LD from Person to Organization — Validated in Phase 5
 
 ### Out of Scope
 
@@ -116,4 +123,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after Phase 3 completion*
+*Last updated: 2026-04-02 after Phase 5 completion*
