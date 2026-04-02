@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 6 context gathered
-last_updated: "2026-04-02T11:56:26.713Z"
-last_activity: 2026-04-02
+status: executing
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-04-02T15:57:15Z"
+last_activity: 2026-04-02 -- Phase 06 plan 01 complete
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 14
-  completed_plans: 14
-  percent: 0
+  total_plans: 16
+  completed_plans: 15
+  percent: 94
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Two developers who've shipped together prove they can ship for you -- the case studies are the proof, the site is the pitch.
-**Current focus:** Phase 04 — animation-polish
+**Current focus:** Phase 06 — studio-sections
 
 ## Current Position
 
-Phase: 05
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-04-02
+Phase: 06 (studio-sections) — EXECUTING
+Plan: 2 of 2
+Status: Executing Phase 06
+Last activity: 2026-04-02 -- Phase 06 plan 01 complete
 
-Progress: [..........] 0%
+Progress: [#########.] 94%
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Progress: [..........] 0%
 | Phase 04-animation-polish P03 | 6 | 3 tasks | 4 files |
 | Phase 05-seo-verification P02 | 6 | 2 tasks | 5 files |
 | Phase 05-seo-verification P01 | 12 | 2 tasks | 5 files |
+| Phase 06-studio-sections P01 | 3 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -109,6 +110,10 @@ Recent decisions affecting current work:
 - [Phase 05-seo-verification]: Organization JSON-LD sourced from data/team.ts via team.map() for DRY founder array with conditional telephone spread
 - [Phase 05-seo-verification]: Satori (Next.js OG images) requires literal hex values — CSS custom properties not supported; opengraph-image.tsx uses hardcoded hex color map
 - [Phase 05-seo-verification]: No manual images array in generateMetadata openGraph — Next.js auto-injects OG image from opengraph-image.tsx file convention
+- [Phase 06-studio-sections P01]: Section id changed from 'about' to 'team' -- fixes Hero #team anchor and Navigation scroll-spy activation
+- [Phase 06-studio-sections P01]: All 3 counters use integer display (no toFixed) -- studio stats are whole numbers (8, 6, 50)
+- [Phase 06-studio-sections P01]: Both founder avatars use same violet accent -- emphasizes team unity per D-07
+- [Phase 06-studio-sections P01]: Skill pill colors rotate via modulo ['violet','cyan','pink','lime'][i % 4] for visual variety
 
 ### Pending Todos
 
@@ -122,6 +127,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-02T11:56:26.708Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-studio-sections/06-CONTEXT.md
+Last session: 2026-04-02T15:57:15Z
+Stopped at: Completed 06-01-PLAN.md
+Resume file: .planning/phases/06-studio-sections/06-01-SUMMARY.md

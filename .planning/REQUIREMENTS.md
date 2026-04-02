@@ -32,8 +32,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Studio Identity
 
 - [x] **STUD-01**: Hero section rewritten for studio identity — "two devs, one studio" positioning
-- [ ] **STUD-02**: About section updated with shared history narrative (GEC Modasa → Screenplay → X-Byte)
-- [ ] **STUD-03**: Team section with equal-billing cards for Abhishek and Vatsal (photo, role, skills, GitHub, LinkedIn)
+- [x] **STUD-02**: About section updated with shared history narrative (GEC Modasa → Screenplay → X-Byte)
+- [x] **STUD-03**: Team section with equal-billing cards for Abhishek and Vatsal (photo, role, skills, GitHub, LinkedIn)
 - [ ] **STUD-04**: Footer component extracted and shared across all pages (studio name, email, social links, copyright)
 - [ ] **STUD-05**: "How we work" methodology section on landing page (MVP-first → scale approach, 3-4 steps)
 - [x] **STUD-06**: Project showcase section refactored to consume `data/projects.ts` with 6 projects
@@ -133,8 +133,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROUT-06 | Phase 1 | Complete |
 | ROUT-07 | Phase 1 | Complete |
 | STUD-01 | Phase 2 | Complete |
-| STUD-02 | Phase 6 | Pending |
-| STUD-03 | Phase 6 | Pending |
+| STUD-02 | Phase 6 | Complete |
+| STUD-03 | Phase 6 | Complete |
 | STUD-04 | Phase 7 | Pending |
 | STUD-05 | Phase 6 | Pending |
 | STUD-06 | Phase 5 | Complete |
