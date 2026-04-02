@@ -1,0 +1,208 @@
+# Architecture
+
+**Analysis Date:** 2026-03-31
+
+## Pattern Overview
+
+**Overall:** Single-Page Application (SPA) built as a Next.js App Router monolith
+
+**Key Characteristics:**
+- Single-route portfolio site with all content rendered on one page (`app/page.tsx`)
+- Section-based component architecture: Hero, About, Experience, Projects, Contact
+- All page sections are client components (`'use client'`) due to heavy GSAP animation usage
+- Root layout provides global providers (smooth scroll, analytics) wrapping all content
+- No API routes, no database queries, no server-side data fetching -- purely static/client-rendered
+- Data is hardcoded inline within components (no CMS, no external data source)
+
+## Component Map
+
+**Root Layout (`app/layout.tsx`):**
+- Loads fonts (Inter via Google Fonts, JetBrains Mono via Google Fonts, Flagfies via local file)
+- Injects Google Tag Manager script
+- Embeds JSON-LD structured data for SEO
+- Wraps children in `SmoothScrollProvider` > `AnalyticsProvider`
+- Exports `metadata` and `viewport` for Next.js head management
+
+**Page (`app/page.tsx`):**
+- Composes all section components in order: Navigation > Hero > About > Experience > Projects > Contact
+- No data fetching, no props passed -- each section is self-contained
+
+**Section Components (all in `components/`):**
+| Component | File | Purpose | State |
+|-----------|------|---------|-------|
+| Navigation | `components/Navigation.tsx` | Fixed nav bar with scroll-spy, mobile hamburger menu | scroll position, active section, menu open/close |
+| Hero | `components/Hero.tsx` | Landing section with name animation, scramble text effect, stats counters, marquee | counter animations, mouse parallax |
+| About | `components/About.tsx` | Bio, stats, education, skill pills with word-by-word scroll reveal | counter animations |
+| Experience | `components/Experience.tsx` | Timeline of work history with alternating slide animations | none (data inline) |
+| Projects | `components/Projects.tsx` | Project listing with hover scramble effect and expandable details | none (data inline) |
+| Contact | `components/Contact.tsx` | Contact form (mailto), contact links, footer | form field state |
+
+**Provider Components:**
+| Component | File | Purpose |
+|-----------|------|---------|
+| SmoothScrollProvider | `components/SmoothScrollProvider.tsx` | Initializes Lenis smooth scrolling, connects to GSAP ScrollTrigger |
+| AnalyticsProvider | `components/Analytics.tsx` | Conditionally loads GA4, Meta Pixel, LinkedIn Insight scripts |
+
+**UI Component Library (`components/ui/`):**
+- Full shadcn/ui installation (~49 components) built on Radix UI primitives
+- Currently unused by the portfolio page sections -- these components are available but not imported by any section component
+- Configured via `components.json` for shadcn CLI integration
+
+## Data Flow
+
+**Page Load Sequence:**
+
+1. Next.js renders `app/layout.tsx` (server component) with metadata, fonts, GTM script, JSON-LD
+2. `app/page.tsx` renders (server component) composing all section components
+3. Client hydration triggers `'use client'` boundaries on every section component
+4. `SmoothScrollProvider` initializes Lenis smooth scroll, connects to GSAP ticker
+5. `AnalyticsProvider` conditionally injects analytics scripts if `analyticsConfig.enabled === true`
+6. Each section component runs its own `useEffect` to set up GSAP timelines and ScrollTrigger animations
+7. Hero component adds mouse parallax listener for blob elements
+
+**Contact Form Flow:**
+
+1. User fills form fields (React state in `Contact.tsx`)
+2. On submit, constructs `mailto:` URL with encoded subject/body
+3. Redirects to `window.location.href = mailto` -- no backend, no API call
+
+**Analytics Event Flow:**
+
+1. `config/analytics.ts` exports configuration with env-var-based tracking IDs
+2. `components/Analytics.tsx` provides `AnalyticsProvider` (script injection) and utility functions `trackEvent()`, `trackPageView()`
+3. Analytics is currently **disabled** (`enabled: false` in config)
+
+**State Management:**
+- No global state management library (no Redux, no Zustand, no Context for app state)
+- Each component manages its own local state via `useState`
+- Animation state managed entirely by GSAP timelines (imperative, ref-based)
+- Scroll state tracked by GSAP ScrollTrigger and IntersectionObserver
+- Toast state managed by a custom reducer pattern in `hooks/use-toast.ts` (shadcn pattern, currently unused)
+
+## Routing
+
+**Strategy:** Next.js App Router with file-based routing
+
+**Routes:**
+- `/` -- `app/page.tsx` (the only page)
+- No other pages exist -- no sub-routes, no dynamic routes, no API routes
+
+**In-Page Navigation:**
+- Hash-based anchor links (`#about`, `#experience`, `#projects`, `#contact`)
+- Navigation component uses scroll-spy via `IntersectionObserver`-style logic in scroll handler
+- Smooth scrolling provided by Lenis
+
+**SEO Routes (auto-generated by Next.js):**
+- `/sitemap.xml` -- `app/sitemap.ts`
+- `/robots.txt` -- `app/robots.ts`
+- `/manifest.json` -- `app/manifest.ts`
+
+## Key Abstractions
+
+**GSAP Animation Pattern:**
+Every section component follows the same animation setup pattern:
+```typescript
+// 1. Register plugin at module level
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// 2. Create refs for animated elements
+const sectionRef = useRef<HTMLElement>(null);
+
+// 3. Set up animations in useEffect with gsap.context()
+useEffect(() => {
+  const ctx = gsap.context(() => {
+    // Section label -- clip reveal from left
+    gsap.fromTo(label, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', ... });
+    // Heading -- slide up
+    gsap.from(heading, { y: 60, opacity: 0, ... });
+    // Content-specific animations...
+  }, sectionRef);
+  return () => ctx.revert();
+}, []);
+```
+
+**Section Label Convention:**
+Each section uses a numbered label: `01 / About`, `02 / Experience`, `03 / Projects`, `04 / Contact` with the class `section-label` for consistent clip-reveal animation.
+
+**CSS Design System (`app/globals.css` + `config/design-system.ts`):**
+- CSS custom properties define a dark theme palette (violet, pink, cyan, lime accent colors)
+- Utility classes: `.heading-brutal`, `.heading-lg`, `.text-body`, `.dev-mono`, `.pill`, `.input-dark`, `.magnetic-btn`
+- Design tokens also exported as TypeScript constants in `config/design-system.ts`
+
+**shadcn/ui + Radix Pattern (`components/ui/`):**
+- `cn()` utility from `lib/utils.ts` merges Tailwind classes via `clsx` + `tailwind-merge`
+- Components use `class-variance-authority` for variant-based styling
+- Radix UI primitives provide accessible, unstyled component foundations
+
+## Entry Points
+
+**Application Entry:**
+- Location: `app/layout.tsx` (root layout)
+- Triggers: Next.js App Router renders this as the shell for all routes
+- Responsibilities: Font loading, metadata, GTM, JSON-LD, provider wrapping
+
+**Page Entry:**
+- Location: `app/page.tsx`
+- Triggers: Route `/` resolves to this file
+- Responsibilities: Composes all section components in rendering order
+
+**Style Entry:**
+- Location: `app/globals.css`
+- Triggers: Imported by `app/layout.tsx`
+- Responsibilities: Tailwind import, CSS custom properties, custom utility classes, animations, accessibility
+
+## Rendering Strategy
+
+**Server-Side Rendering (SSR) with client hydration:**
+- `app/layout.tsx` and `app/page.tsx` are Server Components (no `'use client'` directive)
+- All section components (`Hero.tsx`, `About.tsx`, etc.) are Client Components (`'use client'`)
+- This means: HTML is server-rendered for SEO and LCP, then hydrated on client for interactivity
+- GSAP animations use `gsap.from()` pattern so elements are visible by default (good for LCP) and animate FROM hidden states on hydration
+
+**No SSG/ISR:**
+- `next.config.js` does not configure static export
+- No `generateStaticParams`, no `revalidate` settings
+- Images are unoptimized (`images: { unoptimized: true }` in `next.config.js`)
+
+**Performance Optimizations in CSS:**
+- `content-visibility: auto` on sections (`.content-auto` class) for rendering performance
+- `@media (prefers-reduced-motion: reduce)` disables all animations for accessibility
+- No CSS `blur()` on blobs (explicitly avoided per code comments as "expensive paint")
+
+## Error Handling
+
+**Strategy:** Minimal -- no error boundaries, no try/catch, no error pages
+
+**Patterns:**
+- No `error.tsx` or `not-found.tsx` in the app directory
+- GSAP operations guarded by null checks on refs (`if (!ref.current) return`)
+- `typeof window !== 'undefined'` guards for SSR-safe plugin registration
+- No form validation beyond HTML `required` attribute
+- No network error handling (no API calls to fail)
+
+## Cross-Cutting Concerns
+
+**Logging:** None. No logging framework, no console.log calls in production code.
+
+**Validation:** HTML-native `required` attributes on contact form inputs. No Zod validation schemas despite Zod being a dependency.
+
+**Authentication:** None. Purely static public site.
+
+**SEO:**
+- Comprehensive `metadata` export in `app/layout.tsx` (OpenGraph, Twitter Cards, robots directives)
+- JSON-LD structured data (Person schema)
+- `sitemap.ts`, `robots.ts`, `manifest.ts` for search engine and PWA support
+- Semantic HTML with ARIA labels, roles, and `sr-only` text throughout
+
+**Accessibility:**
+- Skip-to-content link
+- ARIA labels on all interactive elements
+- `prefers-reduced-motion` media query disables animations
+- Focus-visible styles defined globally
+- Semantic landmark roles (`banner`, `contentinfo`, `navigation`, `menubar`)
+
+---
+
+*Architecture analysis: 2026-03-31*

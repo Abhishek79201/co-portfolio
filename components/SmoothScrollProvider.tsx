@@ -38,10 +38,16 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     };
   }, []);
 
-  // INFRA-08: Route change handler -- kill stale ScrollTriggers, reset scroll
+  // Route change handler -- reset scroll and refresh ScrollTrigger for new route
+  // Note: individual components clean up their own ScrollTriggers via useGSAP unmount.
+  // We must NOT call ScrollTrigger.getAll().kill() here because React fires parent
+  // effects AFTER child effects, so it would destroy the new page's freshly-created triggers.
+  const isFirstMount = useRef(true);
   useEffect(() => {
-    // Kill all ScrollTrigger instances from previous route
-    ScrollTrigger.getAll().forEach((st) => st.kill());
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
 
     // Reset scroll position immediately (not animated)
     if (lenisRef.current) {

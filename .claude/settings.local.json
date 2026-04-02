@@ -5,7 +5,14 @@
       "Bash(npx npm-check-updates:*)",
       "Bash(rm:*)",
       "Bash(npx update-browserslist-db@latest:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap update-plan-progress --phase 06 --plan 02 --status complete)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap update-plan-progress 06 02 complete)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs commit 'docs\\(06-02\\): complete methodology section plan' --files .planning/phases/06-studio-sections/06-02-SUMMARY.md .planning/ROADMAP.md .planning/STATE.md --no-verify)",
+      "Bash(npx tsc:*)",
+      "Bash(node:*)",
+      "Bash(npm run:*)",
+      "Bash(grep \"^status:\" .planning/phases/06-studio-sections/*-VERIFICATION.md)"
     ]
   }
 }
