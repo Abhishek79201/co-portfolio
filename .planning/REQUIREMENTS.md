@@ -36,14 +36,14 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **STUD-03**: Team section with equal-billing cards for Abhishek and Vatsal (photo, role, skills, GitHub, LinkedIn)
 - [ ] **STUD-04**: Footer component extracted and shared across all pages (studio name, email, social links, copyright)
 - [ ] **STUD-05**: "How we work" methodology section on landing page (MVP-first → scale approach, 3-4 steps)
-- [ ] **STUD-06**: Project showcase section refactored to consume `data/projects.ts` with 6 projects
+- [x] **STUD-06**: Project showcase section refactored to consume `data/projects.ts` with 6 projects
 - [ ] **STUD-07**: Client vs internal project labels on project cards (Zorova = "Client", GleeMeet = "Co-built")
 - [ ] **STUD-08**: Contact section copy updated from personal to studio framing
 - [x] **STUD-09**: Metadata/title updated from "Abhishek Vaghela" to studio branding (placeholder name)
 
 ### Case Studies
 
-- [ ] **CASE-01**: Case study index page with filterable/browsable project cards
+- [x] **CASE-01**: Case study index page with filterable/browsable project cards
 - [x] **CASE-02**: Case study detail page template with sections: Hero → Challenge → Architecture → Tech Rationale → Implementation → Results → Team → CTA
 - [x] **CASE-03**: GleeMeet case study — dating app, Redis + OpenSearch + DynamoDB, BERT vector matching, real-time features
 - [x] **CASE-04**: CareerBox case study — career platform, MongoDB + Redis + OpenSearch, MVP-to-scale methodology
@@ -71,7 +71,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SEO-03**: Dynamic OG images per case study via `opengraph-image.tsx`
 - [x] **SEO-04**: All 6 project URLs verified as live before linking (gleemeet.com, careerbox.in, zorova.in, empireinvestmentbank.com, huslemad.com, impactoverse.com)
 - [x] **SEO-05**: `images: { unoptimized: true }` removed from next.config.js; `next/image` used properly
-- [ ] **SEO-06**: Core Web Vitals green on landing page and case study pages (LCP, CLS, INP)
+- [x] **SEO-06**: Core Web Vitals green on landing page and case study pages (LCP, CLS, INP)
 - [x] **SEO-07**: Robots.txt verified correct for new routes
 
 ## v2 Requirements
@@ -116,15 +116,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 1 | Pending |
-| INFRA-02 | Phase 1 | Pending |
-| INFRA-03 | Phase 1 | Pending |
-| INFRA-04 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Complete |
+| INFRA-02 | Phase 1 | Complete |
+| INFRA-03 | Phase 1 | Complete |
+| INFRA-04 | Phase 1 | Complete |
 | INFRA-05 | Phase 1 | Complete |
 | INFRA-06 | Phase 1 | Complete |
 | INFRA-07 | Phase 1 | Complete |
 | INFRA-08 | Phase 1 | Complete |
-| INFRA-09 | Phase 1 | Pending |
+| INFRA-09 | Phase 1 | Complete |
 | ROUT-01 | Phase 1 | Complete |
 | ROUT-02 | Phase 1 | Complete |
 | ROUT-03 | Phase 1 | Complete |
@@ -133,15 +133,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROUT-06 | Phase 1 | Complete |
 | ROUT-07 | Phase 1 | Complete |
 | STUD-01 | Phase 2 | Complete |
-| STUD-02 | Phase 2 | Pending |
-| STUD-03 | Phase 2 | Pending |
-| STUD-04 | Phase 2 | Pending |
-| STUD-05 | Phase 2 | Pending |
-| STUD-06 | Phase 2 | Pending |
-| STUD-07 | Phase 2 | Pending |
-| STUD-08 | Phase 2 | Pending |
+| STUD-02 | Phase 6 | Pending |
+| STUD-03 | Phase 6 | Pending |
+| STUD-04 | Phase 7 | Pending |
+| STUD-05 | Phase 6 | Pending |
+| STUD-06 | Phase 5 | Complete |
+| STUD-07 | Phase 7 | Pending |
+| STUD-08 | Phase 7 | Pending |
 | STUD-09 | Phase 2 | Complete |
-| CASE-01 | Phase 3 | Pending |
+| CASE-01 | Phase 3 | Complete |
 | CASE-02 | Phase 3 | Complete |
 | CASE-03 | Phase 3 | Complete |
 | CASE-04 | Phase 3 | Complete |
@@ -163,13 +163,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-03 | Phase 5 | Complete |
 | SEO-04 | Phase 5 | Complete |
 | SEO-05 | Phase 5 | Complete |
-| SEO-06 | Phase 5 | Pending |
+| SEO-06 | Phase 5 | Complete |
 | SEO-07 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 49 total
 - Mapped to phases: 49
 - Unmapped: 0
+- Complete: 43 | Pending: 6 (STUD-02, STUD-03, STUD-04, STUD-05, STUD-07, STUD-08)
 
 ---
 *Requirements defined: 2026-04-01*

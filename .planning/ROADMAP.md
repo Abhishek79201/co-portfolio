@@ -17,6 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 3: Case Study Pages** - Index page, detail template, 3 deep-dive case studies with architecture diagrams
 - [ ] **Phase 4: Animation & Polish** - SplitText, scroll reveals, diagram animations, mobile performance
 - [ ] **Phase 5: SEO & Verification** - Schema migration, OG images, URL checks, Core Web Vitals
+- [ ] **Phase 6: Studio Sections** - About rewrite, Team section, Methodology section (gap closure)
+- [ ] **Phase 7: Landing Page Polish** - Contact studio framing, project labels, footer cleanup (gap closure)
 
 ## Phase Details
 
@@ -103,15 +105,49 @@ Plans:
 Plans:
 - [x] 05-01: TBD
 
+### Phase 6: Studio Sections
+**Goal**: The landing page has a rewritten About section with shared history, a Team section with equal-billing cards for both founders, and a "How we work" methodology section — completing the studio identity rebrand
+**Depends on**: Phase 5
+**Requirements**: STUD-02, STUD-03, STUD-05
+**Gap Closure**: Closes 3 requirements + 3 integration issues + 1 flow issue from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. About section communicates shared history (GEC Modasa → X-Byte → Screenplay) with studio framing — no "About me" personal language remains
+  2. A #team section displays both Abhishek and Vatsal with equal billing, including roles, skills, and social links (GitHub, LinkedIn)
+  3. A #methodology section explains the MVP-first → scale approach in 3-4 steps
+  4. Navigation scroll-spy activates correctly for all nav items including Team and How We Work
+  5. Hero scroll indicator points to a valid anchor
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 06-01: TBD
+
+### Phase 7: Landing Page Polish
+**Goal**: All remaining landing page sections reflect studio identity — project cards show type labels, Contact section uses studio voice, and only one footer landmark exists on the page
+**Depends on**: Phase 6
+**Requirements**: STUD-04, STUD-07, STUD-08
+**Gap Closure**: Closes 3 requirements + 1 integration issue from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. Project cards display type labels (Client, Co-built, Internal) sourced from `data/projects.ts` type field
+  2. Contact section copy uses studio framing ("we" not "I") — no first-person singular remains
+  3. Contact.tsx embedded `<footer role="contentinfo">` is removed — only Footer.tsx renders the contentinfo landmark
+  4. Footer.tsx reflects studio identity (studio name, both founders in copyright)
+**Plans**: TBD
+
+Plans:
+- [ ] 07-01: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure Foundation | 2/3 | In Progress|  |
-| 2. Landing Page Rebrand | 1/1 | Complete   | 2026-04-01 |
-| 3. Case Study Pages | 0/4 | Not started | - |
-| 4. Animation & Polish | 3/3 | Complete   | 2026-04-02 |
-| 5. SEO & Verification | 2/3 | In Progress|  |
+| 1. Infrastructure Foundation | 3/3 | Complete | 2026-04-01 |
+| 2. Landing Page Rebrand | 1/1 | Complete | 2026-04-01 |
+| 3. Case Study Pages | 4/4 | Complete | 2026-04-01 |
+| 4. Animation & Polish | 3/3 | Complete | 2026-04-02 |
+| 5. SEO & Verification | 1/1 | Complete | 2026-04-02 |
+| 6. Studio Sections | 0/0 | Not started | - |
+| 7. Landing Page Polish | 0/0 | Not started | - |
