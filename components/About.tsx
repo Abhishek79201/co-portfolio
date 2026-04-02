@@ -128,9 +128,9 @@ const About = () => {
   const pillColors = ['violet', 'cyan', 'pink', 'lime'];
 
   return (
-    <section id="team" ref={sectionRef} aria-label="About the studio" className="py-32 lg:py-44 content-auto">
+    <section id="team" ref={sectionRef} aria-label="About the studio" className="pt-12 pb-32 lg:pt-16 lg:pb-44 content-auto">
       <div className="section-line" aria-hidden="true" />
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-16">
 
         <span className="section-label dev-mono text-xs text-[var(--violet)] tracking-[0.25em] uppercase block mb-8">01 / About</span>
 

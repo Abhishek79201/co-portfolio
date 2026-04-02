@@ -73,7 +73,7 @@ const Navigation = () => {
 
   return (
     <header role="banner">
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'py-2' : 'py-4'}`}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'py-2 bg-[var(--bg)]/80 backdrop-blur-md' : 'py-4'}`}
            aria-label="Main navigation">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24">
           <div className="flex justify-between items-center">

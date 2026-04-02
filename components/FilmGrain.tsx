@@ -9,43 +9,62 @@ const FilmGrain = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    // Respect reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
-    // Small tile that repeats — keeps performance tight
-    const size = 128;
-    canvas.width = size;
-    canvas.height = size;
+    // Match viewport
+    const resize = () => {
+      canvas.width = window.innerWidth / 2;   // half-res for perf
+      canvas.height = window.innerHeight / 2;
+    };
+    resize();
+    window.addEventListener('resize', resize);
 
-    const imageData = ctx.createImageData(size, size);
-    const data = imageData.data;
+    let raf: number;
+    let lastFrame = 0;
+    const fps = 8; // film-like flicker rate
+    const interval = 1000 / fps;
 
-    for (let i = 0; i < data.length; i += 4) {
-      const v = Math.random() * 255;
-      data[i] = v;       // R
-      data[i + 1] = v;   // G
-      data[i + 2] = v;   // B
-      data[i + 3] = 18;  // A — subtle grain
-    }
+    const draw = (time: number) => {
+      raf = requestAnimationFrame(draw);
+      if (time - lastFrame < interval) return;
+      lastFrame = time;
 
-    ctx.putImageData(imageData, 0, 0);
+      const w = canvas.width;
+      const h = canvas.height;
+      const imageData = ctx.createImageData(w, h);
+      const data = imageData.data;
 
-    // Convert to repeating background on a full-screen div
-    const dataUrl = canvas.toDataURL('image/png');
-    const overlay = canvas.parentElement;
-    if (overlay) {
-      overlay.style.backgroundImage = `url(${dataUrl})`;
-      overlay.style.backgroundRepeat = 'repeat';
-    }
+      // Fine grain — every pixel gets a random luminance
+      for (let i = 0; i < data.length; i += 4) {
+        const v = Math.random() * 255;
+        data[i] = v;
+        data[i + 1] = v;
+        data[i + 2] = v;
+        data[i + 3] = 12; // very low alpha for subtlety
+      }
 
-    // Hide the canvas itself
-    canvas.style.display = 'none';
+      ctx.putImageData(imageData, 0, 0);
+    };
+
+    raf = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+    };
   }, []);
 
   return (
-    <div className="noise-overlay" aria-hidden="true">
-      <canvas ref={canvasRef} />
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="noise-overlay"
+      aria-hidden="true"
+      style={{ imageRendering: 'pixelated' }}
+    />
   );
 };
 
