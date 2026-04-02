@@ -2,11 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap, SplitText, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { team } from '@/data/team';
+import { Github, Linkedin } from 'lucide-react';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLParagraphElement>(null);
-  const [expCount, setExpCount] = useState(0);
+  const [yearsCount, setYearsCount] = useState(0);
+  const [shippedCount, setShippedCount] = useState(0);
   const [techCount, setTechCount] = useState(0);
 
   useGSAP(() => {
@@ -23,9 +26,10 @@ const About = () => {
       const { isDesktop, isMobile, reduceMotion } = context.conditions!;
 
       if (reduceMotion) {
-        // Instant final state for all animated elements (per D-15)
-        const allAnimatedEls = section.querySelectorAll('.section-label, .section-heading, .stat-num, .edu-block, .skill-group, .skill-pill');
-        gsap.set(allAnimatedEls, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'all' });
+        gsap.set(
+          section.querySelectorAll('.section-label, .section-heading, .stat-num, .team-card, .skill-pill'),
+          { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'all' }
+        );
         if (introRef.current) gsap.set(introRef.current, { opacity: 1, clearProps: 'all' });
         return;
       }
@@ -50,7 +54,7 @@ const About = () => {
         });
       }
 
-      // Word-by-word scroll reveal (SplitText -- per D-01)
+      // Word-by-word scroll reveal (narrative paragraph)
       if (introRef.current) {
         SplitText.create(introRef.current, {
           type: 'words',
@@ -58,14 +62,10 @@ const About = () => {
           onSplit(self) {
             return gsap.fromTo(self.words,
               { opacity: 0.15, color: 'var(--text-muted)' },
-              {
-                opacity: 1, color: 'var(--text)',
-                stagger: 0.04,
+              { opacity: 1, color: 'var(--text)', stagger: 0.04,
                 scrollTrigger: {
                   trigger: introRef.current,
-                  start: 'top 75%',
-                  end: 'bottom 40%',
-                  scrub: 1,
+                  start: 'top 75%', end: 'bottom 40%', scrub: 1,
                 }
               }
             );
@@ -73,51 +73,35 @@ const About = () => {
         });
       }
 
-      // Stats -- power3.out, subtler scale (per UI-SPEC easing overhaul)
+      // Stat numbers scale in
       section.querySelectorAll('.stat-num').forEach((el, i) => {
         gsap.fromTo(el,
           { scale: 0.85, opacity: 0, y: 20 },
-          {
-            scale: 1, opacity: 1, y: 0,
-            duration: isMobile ? 0.3 : 0.6,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 90%' },
-            delay: i * 0.1,
-          }
+          { scale: 1, opacity: 1, y: 0,
+            duration: isMobile ? 0.3 : 0.6, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 90%' }, delay: i * 0.1 }
         );
       });
 
-      // Education slide from left
-      const edu = section.querySelector('.edu-block');
-      if (edu) {
-        gsap.fromTo(edu,
-          { x: isMobile ? -40 : -80, opacity: 0 },
-          { x: 0, opacity: 1, duration: isMobile ? 0.4 : 1, ease: 'power3.out',
-            scrollTrigger: { trigger: edu, start: 'top 85%' } }
-        );
-      }
-
-      // Skill groups slide from right
-      section.querySelectorAll('.skill-group').forEach((el, i) => {
+      // Team cards slide from right, staggered
+      section.querySelectorAll('.team-card').forEach((el, i) => {
         gsap.fromTo(el,
-          { x: isMobile ? 40 : 80, opacity: 0 },
-          { x: 0, opacity: 1, duration: isMobile ? 0.4 : 1, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' },
-            delay: i * 0.08 }
+          { x: isMobile ? 20 : 40, opacity: 0 },
+          { x: 0, opacity: 1,
+            duration: isMobile ? 0.4 : 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' }, delay: i * 0.12 }
         );
       });
 
-      // Skill pills pop (reduced stagger per UI-SPEC)
+      // Skill pills pop in with stagger (capped at 8)
       section.querySelectorAll('.skill-pill').forEach((el, i) => {
         gsap.fromTo(el,
           { scale: 0, opacity: 0 },
-          {
-            scale: 1, opacity: 1,
+          { scale: 1, opacity: 1,
             duration: isMobile ? 0.2 : 0.35,
             ease: isMobile ? 'power2.out' : 'back.out(3)',
             scrollTrigger: { trigger: el, start: 'top 95%' },
-            delay: Math.min(i, 8) * 0.015,
-          }
+            delay: Math.min(i, 8) * 0.015 }
         );
       });
     });
@@ -126,87 +110,95 @@ const About = () => {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=0.1;setExpCount(Math.min(c,5));if(c>=5)clearInterval(iv)},30); }, 300);
-        setTimeout(() => { let c=0; const iv=setInterval(()=>{c+=1;setTechCount(Math.min(c,15));if(c>=15)clearInterval(iv)},45); }, 500);
+        // Counter 1: "8" (Combined Years) -- integer, increment by 1
+        setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setYearsCount(Math.min(c, 8)); if (c >= 8) clearInterval(iv); }, 60); }, 300);
+        // Counter 2: "6" (Products Shipped) -- integer, increment by 1
+        setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setShippedCount(Math.min(c, 6)); if (c >= 6) clearInterval(iv); }, 80); }, 500);
+        // Counter 3: "50" (Technologies) -- integer, increment by 1
+        setTimeout(() => { let c = 0; const iv = setInterval(() => { c += 1; setTechCount(Math.min(c, 50)); if (c >= 50) clearInterval(iv); }, 30); }, 400);
         observer.disconnect();
       }
     }, { threshold: 0.1 });
     observer.observe(section);
-
     return () => { observer.disconnect(); };
   }, []);
 
-  const skillGroups = [
-    { label: 'Frontend', color: 'violet', items: ['JavaScript', 'React.js', 'Next.js 14', 'TypeScript', 'Redux', 'GSAP', 'Tailwind CSS'] },
-    { label: 'Backend', color: 'cyan', items: ['Node.js', 'Express.js', 'TypeScript'] },
-    { label: 'Database', color: 'pink', items: ['MongoDB', 'MySQL', 'Firebase', 'DynamoDB', 'Redis', 'OpenSearch'] },
-    { label: 'DevOps', color: 'lime', items: ['Docker', 'AWS', 'CI/CD'] },
-  ];
+  const pillColors = ['violet', 'cyan', 'pink', 'lime'];
 
   return (
-    <section id="about" ref={sectionRef} aria-label="About me" className="py-32 lg:py-44 content-auto">
+    <section id="team" ref={sectionRef} aria-label="About the studio" className="py-32 lg:py-44 content-auto">
       <div className="section-line" aria-hidden="true" />
       <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
 
         <span className="section-label dev-mono text-xs text-[var(--violet)] tracking-[0.25em] uppercase block mb-8">01 / About</span>
 
-        <h2 className="section-heading heading-lg text-white mb-12" aria-label="I build things for the web">
-          I build things for the web.
-        </h2>
+        <h2 className="section-heading heading-lg text-white mb-12">We build together.</h2>
 
-        {/* Word-by-word scroll reveal paragraph */}
-        <p ref={introRef} className="text-2xl sm:text-3xl lg:text-4xl font-light leading-snug text-white max-w-4xl mb-20" style={{ letterSpacing: '-0.02em' }}>
-          Full Stack Developer with a strong MERN stack foundation. Started freelancing during college, went corporate to sharpen the craft, and now I bring startup speed with enterprise discipline to every product I ship.
+        {/* Studio narrative -- word-by-word scroll reveal */}
+        <p ref={introRef}
+           className="text-white max-w-4xl mb-20"
+           style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
+          Two GEC Modasa alumni who spent years shipping production systems at X-Byte Solutions
+          and Screenplay before going independent. We&apos;ve built dating apps, career platforms,
+          and marketplace tools — together. Dev Studio is what happens when two builders stop
+          working for others and start working for you.
         </p>
 
-        <div className="grid lg:grid-cols-12 gap-x-16 gap-y-20">
-          {/* Left — stats + education */}
-          <div className="lg:col-span-5">
-            <div className="flex gap-14 mb-16">
-              <div className="stat-num">
-                <div className="dev-mono text-5xl lg:text-7xl font-bold text-white leading-none">
-                  {expCount.toFixed(1)}<span className="text-[var(--violet)]">+</span>
-                </div>
-                <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Years building</div>
-              </div>
-              <div className="stat-num">
-                <div className="dev-mono text-5xl lg:text-7xl font-bold text-white leading-none">
-                  {techCount}<span className="text-[var(--pink)]">+</span>
-                </div>
-                <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Technologies</div>
-              </div>
+        {/* Studio stats counters */}
+        <div className="flex flex-wrap gap-14 mb-16">
+          <div className="stat-num">
+            <div className="dev-mono font-bold text-white leading-none" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}>
+              {yearsCount}<span className="text-[var(--violet)]">+</span>
             </div>
-
-            <div className="edu-block border-l-2 border-[var(--line-light)] pl-6">
-              <div className="dev-mono text-[10px] text-[var(--text-muted)] tracking-[0.2em] uppercase mb-2">Education / 2019 — 2023</div>
-              <h3 className="text-white text-xl font-semibold mb-1">B.E. Computer Engineering</h3>
-              <p className="text-[var(--text-secondary)] text-sm">Government Engineering College, Modasa</p>
-              <span className="text-[var(--violet)] text-xs dev-mono mt-1 inline-block">NAAC A++</span>
-            </div>
+            <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Combined Years</div>
           </div>
-
-          {/* Right — skills */}
-          <div className="lg:col-span-7">
-            <div className="lg:sticky lg:top-32 space-y-8">
-              <h3 className="dev-mono text-[10px] text-[var(--text-muted)] tracking-[0.25em] uppercase mb-6">Stack</h3>
-              {skillGroups.map((group) => (
-                <div key={group.label} className="skill-group">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `var(--${group.color})` }} aria-hidden="true" />
-                    <span className="text-white text-xs font-bold uppercase tracking-[0.15em]">{group.label}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {group.items.map((tech) => (
-                      <span key={tech} className={`skill-pill pill pill-${group.color} dev-mono`}>{tech}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
+          <div className="stat-num">
+            <div className="dev-mono font-bold text-white leading-none" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}>
+              {shippedCount}<span className="text-[var(--pink)]">+</span>
             </div>
+            <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Products Shipped</div>
           </div>
+          <div className="stat-num">
+            <div className="dev-mono font-bold text-white leading-none" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}>
+              {techCount}<span className="text-[var(--cyan)]">+</span>
+            </div>
+            <div className="text-xs text-[var(--text-muted)] uppercase tracking-widest mt-2">Technologies</div>
+          </div>
+        </div>
+
+        {/* Team cards grid */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {team.map((member) => {
+            const initials = member.name.split(' ').map(n => n[0]).join('');
+            return (
+              <div key={member.name} className="team-card bg-[var(--line)] border border-[var(--line-light)] rounded-lg p-6">
+                <div className="w-12 h-12 rounded-full bg-[var(--violet)] flex items-center justify-center mb-4">
+                  <span className="dev-mono text-sm font-bold text-white">{initials}</span>
+                </div>
+                <h3 className="text-sm font-bold text-white leading-tight mb-1">{member.name}</h3>
+                <p className="text-sm text-[var(--text-secondary)]" style={{ lineHeight: 1.4 }}>{member.role}</p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {member.skills.map((skill, si) => (
+                    <span key={skill} className={`skill-pill pill pill-${pillColors[si % 4]} dev-mono`}>{skill}</span>
+                  ))}
+                </div>
+                <div className="flex gap-1 mt-4">
+                  <a href={member.github} target="_blank" rel="noopener noreferrer"
+                     aria-label={`${member.name} on GitHub`}
+                     className="p-3 text-[var(--text-muted)] hover:text-white transition-colors duration-300">
+                    <Github size={16} />
+                  </a>
+                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
+                     aria-label={`${member.name} on LinkedIn`}
+                     className="p-3 text-[var(--text-muted)] hover:text-white transition-colors duration-300">
+                    <Linkedin size={16} />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
