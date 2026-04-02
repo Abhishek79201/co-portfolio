@@ -58,7 +58,7 @@ export default function CaseStudiesPage() {
                 aria-label={`Read ${project.title} case study`}
               >
                 <Card
-                  className="case-card bg-[var(--bg-elevated)] border border-[var(--line)] rounded-[var(--radius)] p-6 lg:p-8"
+                  className="case-card bg-[var(--bg-elevated)] border-0 rounded-[var(--radius)] p-6 lg:p-8"
                   data-accent={project.accent}
                 >
                   {/* Top row: number + type badge */}
