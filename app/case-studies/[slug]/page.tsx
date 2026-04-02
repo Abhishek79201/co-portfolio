@@ -42,6 +42,20 @@ export async function generateMetadata({
   return {
     title: `${caseStudy.title} | Dev Studio`,
     description: caseStudy.tagline,
+    openGraph: {
+      title: `${caseStudy.title} | Dev Studio`,
+      description: caseStudy.tagline,
+      type: 'article',
+      url: `https://abhishekvaghela.dev/case-studies/${slug}`,
+      siteName: 'Dev Studio',
+      // og:image is auto-injected by Next.js from opengraph-image.tsx in the same route segment
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${caseStudy.title} | Dev Studio`,
+      description: caseStudy.tagline,
+      // twitter:image is auto-injected by Next.js from opengraph-image.tsx
+    },
   };
 }
 
