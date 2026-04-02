@@ -116,11 +116,12 @@ Plans:
   3. A #methodology section explains the MVP-first → scale approach in 3-4 steps
   4. Navigation scroll-spy activates correctly for all nav items including Team and How We Work
   5. Hero scroll indicator points to a valid anchor
-**Plans**: TBD
+**Plans**: 2 plans in 1 wave
 **UI hint**: yes
 
 Plans:
-- [ ] 06-01: TBD
+- [ ] 06-01-PLAN.md -- About.tsx full rewrite: studio narrative + stats counters + team cards (STUD-02, STUD-03)
+- [ ] 06-02-PLAN.md -- New Methodology.tsx component + page.tsx insertion (STUD-05)
 
 ### Phase 7: Landing Page Polish
 **Goal**: All remaining landing page sections reflect studio identity — project cards show type labels, Contact section uses studio voice, and only one footer landmark exists on the page
@@ -149,5 +150,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Case Study Pages | 4/4 | Complete | 2026-04-01 |
 | 4. Animation & Polish | 3/3 | Complete | 2026-04-02 |
 | 5. SEO & Verification | 1/1 | Complete | 2026-04-02 |
-| 6. Studio Sections | 0/0 | Not started | - |
+| 6. Studio Sections | 0/2 | Planning complete | - |
 | 7. Landing Page Polish | 0/0 | Not started | - |
