@@ -4,8 +4,8 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'vaghelaabhishek2580@gmail.com',
-    pass: 'nwwrxzpiascrmjxs',
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
   },
 });
 
@@ -18,8 +18,8 @@ export async function POST(req: Request) {
     }
 
     await transporter.sendMail({
-      from: `"Dev Studio Contact" <vaghelaabhishek2580@gmail.com>`,
-      to: 'vaghelaabhishek2580@gmail.com',
+      from: `"Dev Studio Contact" <${process.env.GMAIL_USER}>`,
+      to: process.env.GMAIL_USER,
       replyTo: email,
       subject: `[Dev Studio] ${subject}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
