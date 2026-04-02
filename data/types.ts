@@ -7,7 +7,7 @@ export interface Project {
   liveUrl?: string;  // set only for verified-live URLs; undefined = dead link (no clickable card)
   accent: 'violet' | 'pink' | 'cyan' | 'lime' | 'orange';
   tech: string[];
-  type: 'client' | 'co-built' | 'internal';
+  type: 'client' | 'co-built' | 'internal' | 'oss';
   hasCaseStudy: boolean;
 }
 

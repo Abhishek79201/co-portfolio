@@ -140,10 +140,10 @@ const About = () => {
         <p ref={introRef}
            className="text-white max-w-4xl mb-20"
            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
-          Two GEC Modasa alumni who spent years shipping production systems at X-Byte Solutions
-          and Screenplay before going independent. We&apos;ve built dating apps, career platforms,
-          and marketplace tools — together. Dev Studio is what happens when two builders stop
-          working for others and start working for you.
+          Two GEC Modasa alumni who&apos;ve been the go-to dev agency for companies like X-Byte Solutions
+          and Screenplay — shipping their most critical products as indie partners. We&apos;ve built dating
+          apps, career platforms, marketplace tools, and contributed to OpenSearch — together. Dev
+          Studio is what happens when two builders who ship together start shipping for you.
         </p>
 
         {/* Studio stats counters */}

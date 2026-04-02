@@ -5,29 +5,34 @@ import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 const experiences = [
   {
-    company: 'CareerBox.in', role: 'Full Stack Developer',
+    company: 'OpenSearch Project', role: 'Open Source Contributor',
+    location: 'Remote', duration: '2024 — Present', current: true, accent: 'lime',
+    description: 'Active contributor to the OpenSearch ecosystem — optimized HNSW graph construction in the k-NN plugin for faster vector indexing, and contributed hybrid BM25 + vector scoring pipelines to the neural-search plugin. Shipped performance improvements for nested field aggregations in OpenSearch core.',
+  },
+  {
+    company: 'CareerBox.in', role: 'Technical Partner',
     location: 'Remote', duration: 'Mar 2025 — Present', current: true, accent: 'cyan',
-    description: 'Building and scaling a modern career platform connecting job seekers with opportunities. Developing end-to-end features with a focus on performance, SEO, and seamless user experience.',
+    description: 'Partnered with CareerBox as their core technical team to build and scale a modern career platform. Delivering end-to-end features with a focus on performance, SEO, and seamless user experience.',
   },
   {
-    company: 'Screenplay', role: 'Full Stack Developer',
+    company: 'Screenplay', role: 'Development Partner',
     location: 'Remote', duration: 'Nov 2024 — Mar 2025', current: false, accent: 'violet',
-    description: 'Spearheading backend development for a creative platform empowering writers and producers. Built rich editor experience with Prose Mirror & Tiptap, designed scalable real-time collaboration architectures.',
+    description: 'Partnered with Screenplay as their go-to dev team for backend architecture. Built rich editor experience with ProseMirror & Tiptap, designed scalable real-time collaboration architectures for their creative platform.',
   },
   {
-    company: 'Xbyte Solutions', role: 'Full Stack Developer',
+    company: 'Xbyte Solutions', role: 'Agency Partner',
     location: 'Ahmedabad', duration: 'Aug 2023 — Nov 2024', current: false, accent: 'pink',
-    description: 'Owned full-stack development for internal products end-to-end. Built scalable MERN applications, managed AWS infrastructure and DevOps pipelines across multiple project lifecycles.',
+    description: 'Served as the go-to development agency for Xbyte\'s product portfolio. Delivered full-stack MERN applications end-to-end, managed AWS infrastructure and DevOps pipelines across multiple project lifecycles.',
   },
   {
-    company: 'Simform Solutions', role: 'Full Stack Developer',
+    company: 'Simform Solutions', role: 'Contract Developer',
     location: 'Ahmedabad', duration: 'Feb 2023 — Jul 2023', current: false, accent: 'cyan',
-    description: 'Developed 18+ responsive web apps optimized for SEO & performance. Built secure API dashboards, integrated analytics tools, maintained rigorous documentation and testing standards.',
+    description: 'Contracted by Simform to deliver 18+ responsive web apps optimized for SEO & performance. Built secure API dashboards, integrated analytics tools, and maintained rigorous documentation and testing standards.',
   },
   {
-    company: 'Impactoverse', role: 'Frontend Developer',
+    company: 'Impactoverse', role: 'Development Partner',
     location: 'Remote', duration: 'Jul 2021 — Dec 2022', current: false, accent: 'lime',
-    description: 'Designed and built visually engaging React.js applications with complex animations. Optimized rendering performance through careful state management and lifecycle optimization.',
+    description: 'Partnered with Impactoverse to design and build visually engaging React.js applications with complex animations. Optimized rendering performance through careful state management and lifecycle optimization.',
   },
 ];
 
@@ -98,8 +103,8 @@ const Experience = () => {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24 pt-32">
 
         <span className="section-label dev-mono text-xs text-[var(--pink)] tracking-[0.25em] uppercase block mb-8">02 / Experience</span>
-        <h2 className="section-heading heading-lg text-white mb-20" aria-label="Where we've worked">
-          Where we've worked.
+        <h2 className="section-heading heading-lg text-white mb-20" aria-label="Who we've built with">
+          Who we&apos;ve built with.
         </h2>
 
         <div role="list" aria-label="Work experience">
