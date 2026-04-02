@@ -5,6 +5,8 @@ status: draft
 shadcn_initialized: true
 preset: default (neutral base, dark CSS variables, RSC-enabled)
 created: 2026-04-02
+revised: 2026-04-02
+revision_reason: checker flag — collapse type scale to 4 sizes / 2 weights; add About focal point declaration
 ---
 
 # Phase 6 — UI Design Contract
@@ -51,22 +53,39 @@ Section padding follows the established pattern: `py-32 lg:py-44` (128px / 176px
 
 ## Typography
 
-All roles use Inter except `.dev-mono` elements which use JetBrains Mono. Sizes are expressed as rendered values at baseline viewport; `clamp()` rules from globals.css govern fluid scaling.
+All roles use Inter except `.dev-mono` elements which use JetBrains Mono. The type scale is exactly 4 size tiers and 2 weights. No values outside these tiers are permitted.
+
+### Size Tiers
+
+| Tier | Rendered Size | Roles Assigned |
+|------|--------------|----------------|
+| Caption | 12px (0.75rem) | Section labels, stat labels |
+| Body | 14px (0.875rem) | Card role text, methodology body, card name (see weight note) |
+| Pull-quote | clamp(1.5rem, 3vw, 2.25rem) | Studio narrative paragraph |
+| Display | clamp(2.5rem, 8vw, 5rem) | Stat numbers, methodology step numbers |
+
+### Weight Tiers
+
+| Weight | Value | Roles Assigned |
+|--------|-------|----------------|
+| Regular | 400 | Section labels, narrative paragraph, pull-quote, stat labels, card role, methodology body |
+| Bold | 700 | Card name, methodology title, stat numbers, methodology step numbers, avatar initials |
+
+### Full Role Table
 
 | Role | Size | Weight | Line Height | Class / Notes |
 |------|------|--------|-------------|---------------|
-| Section label | 12px (0.75rem) | 500 | 1.0 | `.dev-mono`, `tracking-[0.25em]`, `uppercase` — matches existing `.section-label` pattern |
-| Body / narrative | clamp(1rem, 1.2vw, 1.15rem) | 400 | 1.75 | `.text-body` — studio narrative paragraph |
-| Large pull-quote | clamp(1.5rem, 3vw, 2.25rem) | 300 (light) | 1.3 | Inline style `font-weight: 300; letter-spacing: -0.02em` — matches existing introRef paragraph size treatment |
-| Card name | 18px (1.125rem) | 600 | 1.2 | `text-white font-semibold` |
+| Section label | 12px (0.75rem) | 400 | 1.0 | `.dev-mono`, `tracking-[0.25em]`, `uppercase` — matches existing `.section-label` pattern; uppercase tracking replaces weight differentiation |
+| Stat label | 12px (0.75rem) | 400 | 1.0 | `uppercase tracking-widest text-[var(--text-muted)]` — merged from former 10px tier |
 | Card role | 14px (0.875rem) | 400 | 1.4 | `text-[var(--text-secondary)]` |
-| Stat number | clamp(3rem, 8vw, 5rem) | 700 | 1.0 | `.dev-mono`, `font-bold` — animated counter — matches existing `.stat-num` pattern |
-| Stat label | 10px (0.625rem) | 400 | 1.0 | `uppercase tracking-widest text-[var(--text-muted)]` |
-| Methodology number | clamp(2.5rem, 6vw, 4rem) | 700 | 1.0 | `.dev-mono`, accent-colored — primary visual anchor per D-10 |
-| Methodology title | 20px (1.25rem) | 600 | 1.2 | `text-white font-semibold` |
 | Methodology body | 14px (0.875rem) | 400 | 1.6 | `text-[var(--text-secondary)]` |
+| Card name | 14px (0.875rem) | 700 | 1.2 | `text-white font-bold` — bold weight provides visual separation within the Body tier |
+| Methodology title | 14px (0.875rem) | 700 | 1.2 | `text-white font-bold` |
+| Studio narrative | clamp(1.5rem, 3vw, 2.25rem) | 400 | 1.3 | Pull-quote tier; `letter-spacing: -0.02em` provides optical refinement at large size; no weight change needed |
+| Stat number | clamp(2.5rem, 8vw, 5rem) | 700 | 1.0 | `.dev-mono`, `font-bold` — animated counter — matches existing `.stat-num` pattern |
+| Methodology number | clamp(2.5rem, 8vw, 5rem) | 700 | 1.0 | `.dev-mono`, `font-bold`, accent-colored (`var(--violet)`) — shares Display tier clamp with stat numbers |
 
-Maximum type scale in use: 4 distinct size tiers (label / body / large-pull-quote / display-number). Two weights: 400 (regular) and 600–700 (semibold/bold). Constraint met.
+**Constraint confirmation:** 4 distinct size tiers (Caption 12px / Body 14px / Pull-quote clamp(1.5rem…2.25rem) / Display clamp(2.5rem…5rem)). 2 weights (400 regular / 700 bold). No exceptions.
 
 ---
 
@@ -110,6 +129,8 @@ Components to be built or significantly modified in this phase:
 
 **Aria-label:** `"About the studio"` (replaces "About me")
 
+**Primary visual focal point:** The studio stats counters row (`8+ Combined Years | 6 Products Shipped | 50+ Technologies`) is the primary visual anchor for the About section. These animated counters are the largest typographic elements in the section (Display tier, clamp(2.5rem, 8vw, 5rem)) and must remain visually dominant over the team cards and narrative text.
+
 **Internal layout order (per D-04):**
 1. Section label: `01 / About`
 2. Section heading: studio-level headline (see Copywriting Contract)
@@ -121,8 +142,8 @@ Components to be built or significantly modified in this phase:
 - Background: `bg-[var(--line)]` (`#161616`) with `border border-[var(--line-light)]`
 - No glass effect, no hover glow
 - Avatar: 48px circle, `bg-[var(--violet)]`, initials in white `font-bold text-sm dev-mono`
-- Name: 18px semibold white
-- Role: 14px `text-[var(--text-secondary)]`
+- Name: Body tier (14px), weight 700, `text-white font-bold`
+- Role: Body tier (14px), weight 400, `text-[var(--text-secondary)]`
 - Skills: `.pill` elements, mixed colors (violet/cyan/pink/lime based on tech category)
 - Links: GitHub + LinkedIn icons from `lucide-react`, 16px, `text-[var(--text-muted)] hover:text-white`, wrapped in `p-3` for 44px touch target
 - Data source: `data/team.ts` — both members rendered from `team` array
@@ -155,10 +176,10 @@ Components to be built or significantly modified in this phase:
 - Mobile: `grid-cols-1` stacked, full-width each
 
 **Step visual structure (per D-10):**
-- Large accent number: `var(--violet)`, `.dev-mono`, `clamp(2.5rem, 6vw, 4rem)`, `font-bold`
+- Large accent number: `var(--violet)`, `.dev-mono`, Display tier `clamp(2.5rem, 8vw, 5rem)`, weight 700
 - Format: `01 /` (slash matches existing section label convention)
-- Title below number: 20px semibold white
-- Body below title: 14px `text-[var(--text-secondary)]`, 1.6 line-height
+- Title below number: Body tier (14px), weight 700, `text-white font-bold`
+- Body below title: Body tier (14px), weight 400, `text-[var(--text-secondary)]`, 1.6 line-height
 - No connecting lines, no icons, no cards — pure typographic blocks
 
 ---
