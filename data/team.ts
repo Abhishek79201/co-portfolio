@@ -8,6 +8,7 @@ export const team: TeamMember[] = [
     github: 'https://github.com/abhishekvaghela',
     linkedin: 'https://linkedin.com/in/abhishekvaghela',
     email: 'vaghelaabhishek2580@gmail.com',
+    telephone: '+91 8200394360',
     skills: ['React', 'Next.js', 'Node.js', 'TypeScript', 'MongoDB', 'AWS', 'Docker', 'Redis'],
   },
   {

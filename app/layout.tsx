@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import Script from 'next/script';
 import { AnalyticsProvider } from '@/components/Analytics';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
+import { team } from '@/data/team';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -69,20 +70,22 @@ export const metadata: Metadata = {
   category: 'technology',
 };
 
+// TODO: Replace "Dev Studio" with final studio name when decided
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
+  '@type': 'Organization',
   name: 'Dev Studio',
-  jobTitle: 'Full Stack Development Studio',
+  description: 'Two full-stack developers building scalable web applications. Expertise in React, Next.js, Node.js, TypeScript, MongoDB, AWS.',
   url: 'https://abhishekvaghela.dev',
-  email: 'vaghelaabhishek2580@gmail.com',
-  telephone: '+91 8200394360',
-  sameAs: [
-    'https://github.com/abhishekvaghela',
-    'https://linkedin.com/in/abhishekvaghela',
-  ],
-  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Government Engineering College, Modasa' },
-  knowsAbout: ['JavaScript','React','Node.js','TypeScript','MongoDB','Express.js','Next.js','AWS','Docker'],
+  knowsAbout: ['React', 'Next.js', 'Node.js', 'TypeScript', 'MongoDB', 'AWS', 'Docker', 'Redis', 'OpenSearch'],
+  founder: team.map((member) => ({
+    '@type': 'Person',
+    name: member.name,
+    email: member.email,
+    ...(member.telephone ? { telephone: member.telephone } : {}),
+    url: member.linkedin,
+    sameAs: [member.github, member.linkedin].filter(Boolean),
+  })),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

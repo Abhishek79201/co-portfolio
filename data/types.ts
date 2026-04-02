@@ -4,6 +4,7 @@ export interface Project {
   subtitle: string;
   description: string;
   url: string;
+  liveUrl?: string;  // set only for verified-live URLs; undefined = dead link (no clickable card)
   accent: 'violet' | 'pink' | 'cyan' | 'lime' | 'orange';
   tech: string[];
   type: 'client' | 'co-built' | 'internal';
@@ -17,6 +18,7 @@ export interface TeamMember {
   github: string;
   linkedin: string;
   email: string;
+  telephone?: string;
   photo?: string;
   skills: string[];
 }
