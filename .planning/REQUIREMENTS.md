@@ -66,9 +66,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### SEO & Verification
 
-- [ ] **SEO-01**: Schema.org JSON-LD migrated from Person to Organization with founder array
-- [ ] **SEO-02**: `generateMetadata` per case study page (unique title, description)
-- [ ] **SEO-03**: Dynamic OG images per case study via `opengraph-image.tsx`
+- [x] **SEO-01**: Schema.org JSON-LD migrated from Person to Organization with founder array
+- [x] **SEO-02**: `generateMetadata` per case study page (unique title, description)
+- [x] **SEO-03**: Dynamic OG images per case study via `opengraph-image.tsx`
 - [x] **SEO-04**: All 6 project URLs verified as live before linking (gleemeet.com, careerbox.in, zorova.in, empireinvestmentbank.com, huslemad.com, impactoverse.com)
 - [x] **SEO-05**: `images: { unoptimized: true }` removed from next.config.js; `next/image` used properly
 - [ ] **SEO-06**: Core Web Vitals green on landing page and case study pages (LCP, CLS, INP)
@@ -158,9 +158,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ANIM-05 | Phase 4 | Complete |
 | ANIM-06 | Phase 4 | Complete |
 | ANIM-07 | Phase 4 | Complete |
-| SEO-01 | Phase 5 | Pending |
-| SEO-02 | Phase 5 | Pending |
-| SEO-03 | Phase 5 | Pending |
+| SEO-01 | Phase 5 | Complete |
+| SEO-02 | Phase 5 | Complete |
+| SEO-03 | Phase 5 | Complete |
 | SEO-04 | Phase 5 | Complete |
 | SEO-05 | Phase 5 | Complete |
 | SEO-06 | Phase 5 | Pending |

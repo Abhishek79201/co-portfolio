@@ -101,7 +101,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: TBD
+- [x] 05-01: TBD
 
 ## Progress
 
@@ -114,4 +114,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Landing Page Rebrand | 1/1 | Complete   | 2026-04-01 |
 | 3. Case Study Pages | 0/4 | Not started | - |
 | 4. Animation & Polish | 3/3 | Complete   | 2026-04-02 |
-| 5. SEO & Verification | 1/3 | In Progress|  |
+| 5. SEO & Verification | 2/3 | In Progress|  |

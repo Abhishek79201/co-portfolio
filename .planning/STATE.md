@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-04-02T10:33:11.868Z"
+stopped_at: Completed 05-01-PLAN.md - Organization JSON-LD migration and dynamic OG images
+last_updated: "2026-04-02T10:37:01.451Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 14
-  completed_plans: 12
+  completed_plans: 13
   percent: 0
 ---
 
@@ -63,6 +63,7 @@ Progress: [..........] 0%
 | Phase 04-animation-polish P02 | 7 | 2 tasks | 5 files |
 | Phase 04-animation-polish P03 | 6 | 3 tasks | 4 files |
 | Phase 05-seo-verification P02 | 6 | 2 tasks | 5 files |
+| Phase 05-seo-verification P01 | 12 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,9 @@ Recent decisions affecting current work:
 - [Phase 04-animation-polish P03]: gsap.matchMedia applied to Experience, Contact, Projects -- all 5 landing page sections complete
 - [Phase 05-seo-verification]: liveUrl optional field on Project interface — set only for verified-live sites, undefined renders non-clickable card (dead link policy D-08)
 - [Phase 05-seo-verification]: Projects.tsx refactored to import from data/projects.ts — eliminates stale inline copy, now all 6 projects rendered with conditional link rendering
+- [Phase 05-seo-verification]: Organization JSON-LD sourced from data/team.ts via team.map() for DRY founder array with conditional telephone spread
+- [Phase 05-seo-verification]: Satori (Next.js OG images) requires literal hex values — CSS custom properties not supported; opengraph-image.tsx uses hardcoded hex color map
+- [Phase 05-seo-verification]: No manual images array in generateMetadata openGraph — Next.js auto-injects OG image from opengraph-image.tsx file convention
 
 ### Pending Todos
 
@@ -118,6 +122,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:33:11.861Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-04-02T10:37:01.445Z
+Stopped at: Completed 05-01-PLAN.md - Organization JSON-LD migration and dynamic OG images
 Resume file: None
